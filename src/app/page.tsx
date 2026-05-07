@@ -604,9 +604,11 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col relative z-10">
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-violet-700/12 blur-[130px]" />
-      </div>
+      {/* Noise overlay */}
+      <div className="noise-overlay" aria-hidden="true" />
+      {/* Ambient orbs — animated, replaces static blur */}
+      <div className="orb orb-1" style={{ background: 'radial-gradient(circle, rgba(124,58,237,0.15), transparent 70%)' }} aria-hidden="true" />
+      <div className="orb orb-2" style={{ background: 'radial-gradient(circle, rgba(167,139,250,0.10), transparent 70%)', animationDelay: '-9s' }} aria-hidden="true" />
 
       {showCards && <FlashcardDeck cards={langCards.length > 0 ? langCards : flashcards} onClose={() => setShowCards(false)} onAdd={addCardManually} />}
       {showGrammar && <GrammarReport errors={grammarErrors} onClose={() => setShowGrammar(false)} />}
