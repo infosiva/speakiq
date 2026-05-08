@@ -1,23 +1,7 @@
 'use client'
 import { useState, useRef, useEffect, useCallback } from 'react'
-
-function useRateLimit(key: string, limit: number) {
-  const getUsage = useCallback(() => {
-    if (typeof window === 'undefined') return { count: 0, date: '' }
-    try { return JSON.parse(localStorage.getItem(key) || '{"count":0,"date":""}') } catch { return { count: 0, date: '' } }
-  }, [key])
-  const today = new Date().toISOString().split('T')[0]
-  const usage = getUsage()
-  const count = usage.date === today ? usage.count : 0
-  const remaining = Math.max(0, limit - count)
-  const increment = useCallback(() => {
-    const d = new Date().toISOString().split('T')[0]
-    const u = getUsage()
-    const c = u.date === d ? u.count + 1 : 1
-    localStorage.setItem(key, JSON.stringify({ count: c, date: d }))
-  }, [key, getUsage])
-  return { remaining, increment, isLimited: remaining === 0 }
-}
+import { useGate } from '@/lib/shared/useGate'
+import RegisterGate from '@/lib/shared/RegisterGate'
 
 // ── Streak helpers ────────────────────────────────────────────
 function useStreak() {
@@ -319,7 +303,9 @@ function LanguagePicker({ selected, onSelect }: { selected: string; onSelect: (l
 }
 
 export default function Home() {
-  const { remaining, increment, isLimited } = useRateLimit('speakfast-usage', 20)
+  const { count: gateCount, showGate, increment: gateIncrement, onRegistered, dismissGate, isRegistered } = useGate('speakfast', 20)
+  const remaining = Math.max(0, 20 - gateCount)
+  const isLimited = !isRegistered && gateCount >= 20
   const { streak, todayDone, bump } = useStreak()
   const [setup, setSetup] = useState(true)
   const [language, setLanguage] = useState('Spanish')
@@ -407,8 +393,9 @@ export default function Home() {
   }
 
   async function send() {
-    if (!input.trim() || loading || isLimited) return
-    increment()
+    if (!input.trim() || loading) return
+    const allowed = await gateIncrement()
+    if (!allowed) return
     const userMsg = input.trim()
     setInput('')
     const newMsgs: Message[] = [...messages, { role: 'user', content: userMsg }]
@@ -432,6 +419,19 @@ export default function Home() {
   const langCards = flashcards.filter(c => c.language === language)
 
   if (setup) return (
+    <>
+    {showGate && (
+      <RegisterGate
+        freeUsed={gateCount}
+        freeLimit={20}
+        freeFeature="messages"
+        lockedFeature="unlimited messages"
+        accentColor="#7c3aed"
+        site="speakfast"
+        onSuccess={onRegistered}
+        onDismiss={dismissGate}
+      />
+    )}
     <main className="min-h-screen relative z-10 overflow-x-hidden">
       {/* Background blobs */}
       <div className="noise-overlay" aria-hidden="true" />
@@ -670,9 +670,23 @@ export default function Home() {
         </div>
       </section>
     </main>
+    </>
   )
 
   return (
+    <>
+    {showGate && (
+      <RegisterGate
+        freeUsed={gateCount}
+        freeLimit={20}
+        freeFeature="messages"
+        lockedFeature="unlimited messages"
+        accentColor="#7c3aed"
+        site="speakfast"
+        onSuccess={onRegistered}
+        onDismiss={dismissGate}
+      />
+    )}
     <main className="min-h-screen flex flex-col relative z-10">
       {/* Noise overlay */}
       <div className="noise-overlay" aria-hidden="true" />
@@ -808,5 +822,6 @@ export default function Home() {
         </div>
       </div>
     </main>
+    </>
   )
 }
