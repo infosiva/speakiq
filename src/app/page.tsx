@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
+import { StreakBadge, ProgressRing, XpBar } from '@/components/design'
 
 // ── Streak helpers ────────────────────────────────────────────
 function useStreak() {
@@ -512,6 +513,13 @@ export default function Home() {
           <span>✓ Auto flashcard saving</span>
           <span className="text-white/15">·</span>
           <span>✓ Daily streak tracking</span>
+        </div>
+
+        {/* Your Progress — gamification strip */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+          <StreakBadge count={currentStreak > 0 ? currentStreak : 7} />
+          <XpBar current={340} max={500} level={5} className="max-w-xs" />
+          <ProgressRing progress={68} label="fluency" />
         </div>
 
         {/* Language flag cards */}
