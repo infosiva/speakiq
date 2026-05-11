@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { CelebrationOverlay } from '@/components/gamification'
 import { ArrowLeft, BookOpen, Volume2, MessageSquare, ChevronDown, ChevronUp, Loader2, Sparkles, Copy, CheckCircle } from 'lucide-react'
 
 interface VocabItem {
@@ -47,6 +48,7 @@ export default function LessonPage() {
   const [copied, setCopied]     = useState(false)
   const [openVocab, setOpenVocab] = useState<number | null>(null)
   const [knownWords, setKnownWords] = useState<Set<string>>(new Set())
+  const [celebrate, setCelebrate] = useState(false)
 
   // Load saved lang/level from localStorage
   useEffect(() => {
@@ -72,6 +74,7 @@ export default function LessonPage() {
       const data = await r.json()
       if (!r.ok) throw new Error(data.error ?? 'Failed')
       setLesson(data.lesson)
+      setCelebrate(true)
       // Save progress
       const today = new Date().toISOString().split('T')[0]
       const history = JSON.parse(localStorage.getItem('speakfast-lessons') ?? '[]')
@@ -105,6 +108,7 @@ export default function LessonPage() {
 
   return (
     <div style={{ minHeight: '100vh', padding: '24px 16px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
+      <CelebrationOverlay trigger={celebrate} message="🎉 Lesson ready!" onDone={() => setCelebrate(false)} />
 
       {/* Nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
