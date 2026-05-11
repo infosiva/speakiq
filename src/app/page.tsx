@@ -3,6 +3,14 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
 import { StreakBadge, ProgressRing, XpBar } from '@/components/design'
+import { HeartsDisplay, WeeklyReport } from '@/components/gamification'
+import { hasStreakFreeze, activateStreakFreeze } from '@/lib/gamification/hearts'
+import GuidedTour, { type TourStep } from '@/components/GuidedTour'
+
+const SPEAKIQ_TOUR: TourStep[] = [
+  { target: '#hero-start-btn', title: 'Start learning free', icon: '🌍', body: 'Pick a language, set your level, and start chatting with your AI tutor instantly. No account needed.', placement: 'bottom' },
+  { target: '#pricing', title: 'Go unlimited', icon: '⚡', body: 'Pro unlocks unlimited sessions, grammar reports, and progress saved forever.', placement: 'top' },
+]
 
 // ── Streak helpers ────────────────────────────────────────────
 function useStreak() {
@@ -476,6 +484,7 @@ export default function Home() {
           <span className="pill-glass text-xs font-semibold px-3 py-1 rounded-full hidden sm:inline-flex">AI Language Coach</span>
         </div>
         <button
+          id="hero-start-btn"
           onClick={startChat}
           className="btn-liquid px-4 py-2 rounded-full text-sm font-bold text-white"
           style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', boxShadow: '0 0 18px rgba(124,58,237,0.4)' }}
@@ -516,10 +525,21 @@ export default function Home() {
         </div>
 
         {/* Your Progress — gamification strip */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
           <StreakBadge count={currentStreak > 0 ? currentStreak : 7} />
+          <HeartsDisplay />
           <XpBar current={340} max={500} level={5} className="max-w-xs" />
           <ProgressRing progress={68} label="fluency" />
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+          <WeeklyReport />
+          <button
+            onClick={() => { if (!hasStreakFreeze()) activateStreakFreeze() }}
+            className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm hover:bg-white/10 transition-all"
+            title="Spend 50 XP to protect your streak for one missed day"
+          >
+            🧊 Streak Freeze
+          </button>
         </div>
 
         {/* Language flag cards */}
@@ -907,6 +927,7 @@ export default function Home() {
           )}
         </div>
       </div>
+      <GuidedTour steps={SPEAKIQ_TOUR} storageKey="speakiq_tour_v1" accentColor="#7c3aed" />
     </main>
     </>
   )
