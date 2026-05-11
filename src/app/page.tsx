@@ -2,9 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
-import { StreakBadge, ProgressRing, XpBar } from '@/components/design'
-import { HeartsDisplay, WeeklyReport } from '@/components/gamification'
-import { hasStreakFreeze, activateStreakFreeze } from '@/lib/gamification/hearts'
+import { StreakBadge } from '@/components/design'
 import GuidedTour, { type TourStep } from '@/components/GuidedTour'
 
 const SPEAKIQ_TOUR: TourStep[] = [
@@ -464,7 +462,7 @@ export default function Home() {
         freeFeature="messages"
         lockedFeature="unlimited messages"
         accentColor="#7c3aed"
-        site="speakfast"
+        site="speakiq"
         onSuccess={onRegistered}
         onDismiss={dismissGate}
       />
@@ -475,23 +473,6 @@ export default function Home() {
       <div className="aurora-orb-2" aria-hidden="true" />
       <div className="aurora-orb-3" aria-hidden="true" />
       <div className="noise-overlay" aria-hidden="true" />
-
-      {/* ── Nav ── */}
-      <nav className="h-14 flex items-center justify-between px-6 relative z-20 border-b border-white/[0.06] backdrop-blur-xl bg-black/20">
-        <div className="flex items-center gap-2.5">
-          <span className="text-xl">🌍</span>
-          <span className="font-black text-lg tracking-tight text-white">SpeakIQ</span>
-          <span className="pill-glass text-xs font-semibold px-3 py-1 rounded-full hidden sm:inline-flex">AI Language Coach</span>
-        </div>
-        <button
-          id="hero-start-btn"
-          onClick={startChat}
-          className="btn-liquid px-4 py-2 rounded-full text-sm font-bold text-white"
-          style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', boxShadow: '0 0 18px rgba(124,58,237,0.4)' }}
-        >
-          Start learning free
-        </button>
-      </nav>
 
       {/* ── Hero ── */}
       <section className="min-h-[90vh] flex flex-col items-center justify-center text-center px-4 relative">
@@ -524,23 +505,12 @@ export default function Home() {
           <span>✓ Daily streak tracking</span>
         </div>
 
-        {/* Your Progress — gamification strip */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
-          <StreakBadge count={currentStreak > 0 ? currentStreak : 7} />
-          <HeartsDisplay />
-          <XpBar current={340} max={500} level={5} className="max-w-xs" />
-          <ProgressRing progress={68} label="fluency" />
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-          <WeeklyReport />
-          <button
-            onClick={() => { if (!hasStreakFreeze()) activateStreakFreeze() }}
-            className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm hover:bg-white/10 transition-all"
-            title="Spend 50 XP to protect your streak for one missed day"
-          >
-            🧊 Streak Freeze
-          </button>
-        </div>
+        {/* Streak badge — only shown after user has started */}
+        {currentStreak > 0 && (
+          <div className="flex items-center justify-center mb-4">
+            <StreakBadge count={currentStreak} />
+          </div>
+        )}
 
         {/* Language flag cards */}
         <div className="flex gap-3 flex-wrap justify-center mb-8">
@@ -608,10 +578,10 @@ export default function Home() {
       <section className="px-6 pb-16 max-w-4xl mx-auto">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { target: 50000, suffix: '', label: 'Learners active' },
-            { target: 94, suffix: '%', label: 'Retention rate' },
-            { target: 7, suffix: 'x', label: 'Faster than classes' },
-            { target: 30, suffix: ' langs', label: 'Languages' },
+            { target: 50, suffix: '+', label: 'Languages supported' },
+            { target: 6, suffix: '', label: 'Practice modes' },
+            { target: 7, suffix: '/mo', label: 'Pro plan price' },
+            { target: 20, suffix: ' free', label: 'Messages per day' },
           ].map(stat => (
             <div key={stat.label} className="glass-liquid rounded-xl p-5 text-center">
               <div
@@ -783,7 +753,7 @@ export default function Home() {
         freeFeature="messages"
         lockedFeature="unlimited messages"
         accentColor="#7c3aed"
-        site="speakfast"
+        site="speakiq"
         onSuccess={onRegistered}
         onDismiss={dismissGate}
       />
