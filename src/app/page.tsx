@@ -310,7 +310,7 @@ function LanguagePicker({ selected, onSelect }: { selected: string; onSelect: (l
 }
 
 export default function Home() {
-  const { count: gateCount, showGate, increment: gateIncrement, onRegistered, dismissGate, isRegistered } = useGate('speakfast', 20)
+  const { count: gateCount, showGate, increment: gateIncrement, onRegistered, dismissGate, isRegistered } = useGate('speakiq', 20)
   const remaining = Math.max(0, 20 - gateCount)
   const [isPro, setIsPro] = useState(false)
   const isLimited = !isRegistered && !isPro && gateCount >= 20
@@ -805,6 +805,12 @@ export default function Home() {
               className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/50 hover:text-white/80 transition-all">
               📇 {langCards.length > 0 ? langCards.length : flashcards.length}
             </button>
+            {/* Badges link */}
+            <a href="/badges"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/5 text-xs text-yellow-400/60 hover:text-yellow-400 hover:bg-yellow-500/10 transition-all"
+              title="View badges">
+              🏅
+            </a>
             <select value={mode} onChange={e => setMode(e.target.value)}
               className="bg-white/[0.05] border border-white/10 rounded-lg px-2 py-1 text-xs text-white/60 focus:outline-none">
               {MODES.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
@@ -847,7 +853,7 @@ export default function Home() {
       </div>
 
       {/* Quick prompts */}
-      {messages.length > 0 && messages.length < 4 && (
+      {messages.length > 0 && messages.length < 10 && (
         <div className="border-t border-white/5 bg-black/10 px-4 py-2">
           <div className="max-w-3xl mx-auto flex gap-2 overflow-x-auto pb-1">
             {(mode === 'vocabulary'
@@ -883,6 +889,7 @@ export default function Home() {
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
                 placeholder={mode === 'quiz' ? 'Type your answer...' : mode === 'translate' ? 'Type to translate...' : `Reply in ${language} or ask anything...`}
+                autoFocus
                 className="flex-1 bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-violet-500/50 transition-all"
               />
               <button onClick={send} disabled={!input.trim() || loading}
