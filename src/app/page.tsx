@@ -3,7 +3,8 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
 import { StreakBadge, ProgressRing, XpBar } from '@/components/design'
-import { HeartsDisplay } from '@/components/gamification'
+import { HeartsDisplay, WeeklyReport } from '@/components/gamification'
+import { hasStreakFreeze, activateStreakFreeze } from '@/lib/gamification/hearts'
 import GuidedTour, { type TourStep } from '@/components/GuidedTour'
 
 const SPEAKIQ_TOUR: TourStep[] = [
@@ -524,11 +525,21 @@ export default function Home() {
         </div>
 
         {/* Your Progress — gamification strip */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
           <StreakBadge count={currentStreak > 0 ? currentStreak : 7} />
           <HeartsDisplay />
           <XpBar current={340} max={500} level={5} className="max-w-xs" />
           <ProgressRing progress={68} label="fluency" />
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+          <WeeklyReport />
+          <button
+            onClick={() => { if (!hasStreakFreeze()) activateStreakFreeze() }}
+            className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm hover:bg-white/10 transition-all"
+            title="Spend 50 XP to protect your streak for one missed day"
+          >
+            🧊 Streak Freeze
+          </button>
         </div>
 
         {/* Language flag cards */}
