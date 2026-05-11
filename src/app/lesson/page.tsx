@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { CelebrationOverlay } from '@/components/gamification'
+import { CelebrationOverlay, PronunciationScorer } from '@/components/gamification'
 import { ArrowLeft, BookOpen, Volume2, MessageSquare, ChevronDown, ChevronUp, Loader2, Sparkles, Copy, CheckCircle } from 'lucide-react'
 
 interface VocabItem {
@@ -229,7 +229,8 @@ export default function LessonPage() {
                   {openVocab === i && (
                     <div style={{ padding: '0 16px 14px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                       <p style={{ fontSize: 14, color: '#a5b4fc', margin: '10px 0 2px', fontStyle: 'italic' }}>{v.example}</p>
-                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: 0 }}>{v.exampleTranslation}</p>
+                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '0 0 12px' }}>{v.exampleTranslation}</p>
+                      <PronunciationScorer targetText={v.word} language={language} />
                     </div>
                   )}
                 </div>
