@@ -1,5 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
+import { getTutorName, getTutorContext } from '@/lib/gamification/tutor-memory'
 
 interface Correction { original: string; fixed: string; explanation: string }
 interface Turn {
@@ -28,10 +29,11 @@ export function ConversationMode({ language, level, tutorName = 'Luna' }: Props)
     setLoading(true)
     try {
       const messages = [...turns, userTurn].map(t => ({ role: t.role, content: t.content }))
+      const resolvedName = getTutorName()
       const r = await fetch('/api/converse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages, language, level, tutorName }),
+        body: JSON.stringify({ messages, language, level, tutorName: resolvedName, weakSpotContext: getTutorContext() }),
       })
       const data = await r.json()
       setTurns(prev => [...prev, {

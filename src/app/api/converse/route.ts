@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { callAI } from '@/lib/ai'
 
 export async function POST(req: NextRequest) {
-  const { messages, language, level, tutorName } = await req.json()
+  const { messages, language, level, tutorName, weakSpotContext } = await req.json()
 
   const system = `You are ${tutorName ?? 'Luna'}, a warm and encouraging ${language} language tutor.
-The student is at ${level} level. Respond ONLY in ${language}, then add corrections.
+The student is at ${level} level. Respond ONLY in ${language}, then add corrections.${weakSpotContext ? '\n' + weakSpotContext : ''}
 
 Format your response as JSON:
 {
