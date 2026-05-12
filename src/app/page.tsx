@@ -487,354 +487,277 @@ export default function Home() {
       />
     )}
     <main className="min-h-screen relative z-10 overflow-x-hidden">
-      {/* Aurora background — unique to SpeakIQ */}
       <div className="aurora-orb-1" aria-hidden="true" />
       <div className="aurora-orb-2" aria-hidden="true" />
       <div className="aurora-orb-3" aria-hidden="true" />
       <div className="noise-overlay" aria-hidden="true" />
 
-      {/* ── Hero ── */}
-      <section className="min-h-[90vh] flex flex-col items-center justify-center text-center px-4 relative">
-        {/* Value badge */}
-        <div className="badge-3d inline-flex items-center gap-2 px-4 py-2 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-bold mb-6 backdrop-blur-sm streak-pulse">
-          🌍 50+ Languages · AI Native Speaker Tutor · $7/mo
-        </div>
+      {showCards && <FlashcardDeck cards={flashcards} onClose={() => setShowCards(false)} onAdd={addCardManually} />}
 
-        {/* Headline */}
-        <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-5">
-          Your AI<br />
-          <span className="text-iridescent">language tutor</span><br />
-          <span className="text-white/40">available 24/7</span>
-        </h1>
-
-        {/* Value prop */}
-        <p className="text-white/55 text-base md:text-xl max-w-xl mx-auto mb-4 leading-relaxed">
-          Real conversations, instant corrections, automatic flashcards, grammar tracking.<br/>
-          <span className="text-violet-300 font-semibold">Less than a cup of coffee per week.</span>
-        </p>
-
-        {/* Social proof */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-white/35 mb-8">
-          <span>✓ No boring drills</span>
-          <span className="text-white/15">·</span>
-          <span>✓ 6 practice modes</span>
-          <span className="text-white/15">·</span>
-          <span>✓ Auto flashcard saving</span>
-          <span className="text-white/15">·</span>
-          <span>✓ Daily streak tracking</span>
-        </div>
-
-        {/* Streak badge — only shown after user has started */}
-        {currentStreak > 0 && (
-          <div className="flex items-center justify-center mb-4">
-            <StreakBadge count={currentStreak} />
+      {/* ── Nav ── */}
+      <nav className="sticky top-0 z-50 border-b border-white/[0.06] backdrop-blur-xl bg-black/20">
+        <div className="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-base shadow-lg shadow-violet-500/30">🗣️</div>
+            <span className="font-black text-sm tracking-tight">SpeakIQ</span>
           </div>
-        )}
-
-        {/* Language flag cards */}
-        <div className="flex gap-3 flex-wrap justify-center mb-8">
-          {[
-            { flag: '🇪🇸', name: 'Spanish' },
-            { flag: '🇫🇷', name: 'French' },
-            { flag: '🇩🇪', name: 'German' },
-            { flag: '🇯🇵', name: 'Japanese' },
-            { flag: '🇮🇹', name: 'Italian' },
-            { flag: '🇧🇷', name: 'Portuguese' },
-          ].map(lang => (
-            <button
-              key={lang.name}
-              onClick={() => setLanguage(lang.name)}
-              className={`pill-glass flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 ${language === lang.name ? 'border-violet-500/60 bg-violet-500/20 text-violet-200' : 'text-white/70 hover:text-white'}`}
-            >
-              <span className="text-base">{lang.flag}</span>
-              {lang.name}
-            </button>
-          ))}
-        </div>
-
-        {/* CTA group */}
-        <div className="flex flex-col sm:flex-row gap-3 items-center mb-4">
-          <button
-            onClick={startChat}
-            className="btn-liquid px-8 py-4 rounded-2xl font-black text-lg text-white"
-            style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', boxShadow: '0 0 40px rgba(124,58,237,0.5)' }}
-          >
-            Start free now →
-          </button>
-          <button
-            onClick={handleUpgrade}
-            disabled={isPro || checkoutLoading}
-            className="px-8 py-4 rounded-2xl font-bold text-base border border-violet-400/30 bg-violet-950/30 text-violet-300 hover:bg-violet-900/40 transition-all disabled:opacity-50"
-          >
-            {isPro ? '✓ Pro active' : 'Go Pro — $7/mo'}
-          </button>
-        </div>
-
-        <p className="text-white/20 text-xs">20 free messages/day · No credit card needed for free plan</p>
-      </section>
-
-      {/* ── How it works ── */}
-      <section className="px-6 py-16 max-w-4xl mx-auto">
-        <h2 className="text-center text-2xl font-black mb-10 text-white/90">How it works</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            { n: '1', title: 'Pick a language', desc: 'Choose from 50+ languages or AI/tech topics. Any level welcome.' },
-            { n: '2', title: 'Chat with AI tutor', desc: 'Practice real conversations. Get instant corrections and feedback.' },
-            { n: '3', title: 'Track your streak', desc: 'Build daily habits. Watch your fluency grow session by session.' },
-          ].map(step => (
-            <div key={step.n} className="glass-liquid rounded-2xl p-6 reveal-3d text-center">
-              <div className="badge-3d inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 text-white font-black text-lg mb-4 mx-auto">
-                {step.n}
-              </div>
-              <h3 className="font-bold text-white mb-2">{step.title}</h3>
-              <p className="text-white/45 text-sm leading-relaxed">{step.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Streak stats ── */}
-      <section className="px-6 pb-16 max-w-4xl mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { target: 50, suffix: '+', label: 'Languages supported' },
-            { target: 6, suffix: '', label: 'Practice modes' },
-            { target: 7, suffix: '/mo', label: 'Pro plan price' },
-            { target: 20, suffix: ' free', label: 'Messages per day' },
-          ].map(stat => (
-            <div key={stat.label} className="glass-liquid rounded-xl p-5 text-center">
-              <div
-                className="count-up text-3xl font-black text-white mb-1"
-                data-target={stat.target}
-                data-suffix={stat.suffix}
-              >
-                {stat.target.toLocaleString()}{stat.suffix}
-              </div>
-              <p className="text-white/40 text-xs">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Setup panel ── */}
-      <section className="px-6 pb-20 max-w-2xl mx-auto">
-        {showCards && <FlashcardDeck cards={flashcards} onClose={() => setShowCards(false)} onAdd={addCardManually} />}
-
-        <div className="glass-liquid rounded-2xl p-7 space-y-6" style={{ boxShadow: '0 0 60px rgba(139,92,246,0.15)' }}>
-          <div className="flex items-center justify-between">
-            <h2 className="font-black text-lg text-white">Configure your session</h2>
+          <div className="flex items-center gap-2">
             {flashcards.length > 0 && (
-              <button onClick={() => setShowCards(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full pill-glass text-xs font-semibold text-violet-300 hover:bg-violet-500/20 transition-all">
-                📇 {flashcards.length} cards
+              <button onClick={() => setShowCards(true)} className="pill-glass text-xs text-violet-300 px-3 py-1.5 rounded-full hover:bg-violet-500/20 transition-all">
+                📇 {flashcards.length}
               </button>
             )}
-          </div>
-
-          <div>
-            <label className="text-xs text-white/40 uppercase tracking-wider mb-3 block">
-              What do you want to learn?
-              <span className="ml-2 text-violet-400 normal-case">50+ languages + AI/Tech</span>
-            </label>
-            <LanguagePicker selected={language} onSelect={setLanguage} />
-          </div>
-
-          {language && (
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-500/15 border border-violet-500/25">
-              <span className="text-violet-300 font-semibold">{language}</span>
-              <span className="text-white/30 text-xs">selected</span>
-              {langCards.length > 0 && (
-                <span className="ml-auto text-xs text-violet-400/70">📇 {langCards.length} cards</span>
-              )}
-            </div>
-          )}
-
-          <div>
-            <label className="text-xs text-white/40 uppercase tracking-wider mb-3 block">My level</label>
-            <div className="flex gap-3">
-              {LEVELS.map(l => (
-                <button key={l} onClick={() => setLevel(l)}
-                  className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${level === l ? 'bg-violet-500/20 border border-violet-500/40 text-violet-300' : 'bg-white/[0.04] border border-white/10 text-white/40 hover:text-white/70'}`}>
-                  {l === 'Beginner' ? '🌱 ' : l === 'Intermediate' ? '🌿 ' : '🌳 '}{l}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs text-white/40 uppercase tracking-wider mb-3 block">Session type</label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {MODES.map(m => (
-                <button key={m.id} onClick={() => setMode(m.id)}
-                  className={`p-3 rounded-xl text-left transition-all relative ${mode === m.id ? 'bg-violet-500/20 border border-violet-500/40' : m.id === 'interview' ? 'bg-amber-500/5 border border-amber-500/20 hover:bg-amber-500/10' : 'bg-white/[0.04] border border-white/10 hover:bg-white/[0.06]'}`}>
-                  {m.id === 'interview' && (
-                    <span className="absolute top-1.5 right-1.5 text-[8px] font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-full">NEW</span>
-                  )}
-                  <div className={`text-xs font-semibold mb-0.5 ${mode === m.id ? 'text-violet-300' : m.id === 'interview' ? 'text-amber-300/80' : 'text-white/70'}`}>{m.label}</div>
-                  <div className="text-[10px] text-white/30">{m.desc}</div>
-                  {m.id === 'vocabulary' && <div className="text-[10px] text-violet-400/60 mt-0.5">Auto-saves flashcards</div>}
-                  {m.id === 'interview' && <div className="text-[10px] text-amber-400/50 mt-0.5">Score per answer · final report</div>}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Interview profile form ── */}
-          {mode === 'interview' && (
-            <div className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-5 space-y-4">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-amber-300 text-sm font-bold">🎤 Interview Setup</span>
-                <span className="text-[10px] text-white/30">More context = more realistic questions</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Job title / role</label>
-                  <input
-                    value={interviewProfile.jobTitle}
-                    onChange={e => setInterviewProfile(p => ({ ...p, jobTitle: e.target.value }))}
-                    placeholder="e.g. Senior Frontend Engineer"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
-                </div>
-                <div>
-                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Target company (optional)</label>
-                  <input
-                    value={interviewProfile.targetCompany}
-                    onChange={e => setInterviewProfile(p => ({ ...p, targetCompany: e.target.value }))}
-                    placeholder="e.g. Google, startup, NHS"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Years of experience</label>
-                  <input
-                    value={interviewProfile.yearsExp}
-                    onChange={e => setInterviewProfile(p => ({ ...p, yearsExp: e.target.value }))}
-                    placeholder="e.g. 2, 5, 10+"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
-                </div>
-                <div>
-                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Interview type</label>
-                  <select
-                    value={interviewProfile.interviewType}
-                    onChange={e => setInterviewProfile(p => ({ ...p, interviewType: e.target.value }))}
-                    className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all">
-                    <option value="technical">💻 Technical / Coding</option>
-                    <option value="behavioural">🧠 Behavioural (STAR method)</option>
-                    <option value="mixed">⚡ Mixed — both</option>
-                    <option value="system-design">🏗️ System Design</option>
-                    <option value="language-proficiency">🌍 Language Proficiency</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Key skills / technologies to focus on</label>
-                <input
-                  value={interviewProfile.skills}
-                  onChange={e => setInterviewProfile(p => ({ ...p, skills: e.target.value }))}
-                  placeholder="e.g. React, TypeScript, REST APIs, Agile, SQL"
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
-              </div>
-
-              <div>
-                <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Job description / key requirements (optional — paste for ultra-precise questions)</label>
-                <textarea
-                  value={interviewProfile.jobDescription}
-                  onChange={e => setInterviewProfile(p => ({ ...p, jobDescription: e.target.value }))}
-                  placeholder="Paste the job description or key bullet points here..."
-                  rows={3}
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20 resize-none" />
-              </div>
-            </div>
-          )}
-
-          <div>
-            <label className="text-xs text-white/40 uppercase tracking-wider mb-2 block">Your native language (for explanations)</label>
-            <input value={native} onChange={e => setNative(e.target.value)}
-              placeholder="English, Tamil, Hindi, Arabic..."
-              className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-violet-500/50 transition-all placeholder-white/25" />
-          </div>
-
-          <button onClick={startChat}
-            className="btn-liquid w-full py-4 rounded-xl font-black text-base text-white transition-all"
-            style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', boxShadow: '0 0 30px rgba(124,58,237,0.35)' }}>
-            Start {modeObj?.label || '💬 Conversation'} in {language} →
-          </button>
-        </div>
-      </section>
-
-      {/* ── Why upgrade ── */}
-      <section className="px-6 pb-16 max-w-4xl mx-auto">
-        <div className="glass-liquid rounded-2xl p-7 border border-violet-500/10">
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-black text-white mb-1">Why upgrade to Pro?</h2>
-            <p className="text-white/35 text-sm">Language tutors cost $30–80/hr. SpeakIQ Pro = $7/mo unlimited.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {[
-              { icon: '♾️', title: 'Unlimited practice', desc: 'No daily cap. Practice as much as you want, whenever you want — morning commute or midnight session.', pro: true },
-              { icon: '📊', title: 'Grammar reports', desc: 'See every error you made, corrections explained, with a running score of your improvement over time.', pro: true },
-              { icon: '💾', title: 'Progress saved forever', desc: 'Your streak, flashcards, and grammar history persist across devices. Never lose your progress.', pro: true },
-            ].map(f => (
-              <div key={f.title} className="bg-violet-950/30 border border-violet-500/20 rounded-xl p-5">
-                <div className="flex items-start justify-between mb-2">
-                  <span className="text-2xl">{f.icon}</span>
-                  <span className="text-[9px] bg-violet-500/20 text-violet-400 px-2 py-0.5 rounded font-bold">PRO</span>
-                </div>
-                <h3 className="font-bold text-white text-sm mb-1.5">{f.title}</h3>
-                <p className="text-white/40 text-xs leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-6">
             <button onClick={handleUpgrade} disabled={isPro || checkoutLoading}
-              className="px-8 py-3 rounded-xl font-bold text-white transition-all disabled:opacity-50"
-              style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', boxShadow: '0 0 20px rgba(124,58,237,0.3)' }}>
-              {isPro ? '✓ You are on Pro' : (checkoutLoading ? 'Redirecting...' : 'Upgrade to Pro — $7/mo →')}
+              className="px-4 py-1.5 rounded-full text-xs font-bold border border-violet-400/30 bg-violet-950/40 text-violet-300 hover:bg-violet-900/50 transition-all disabled:opacity-50">
+              {isPro ? '✓ Pro' : 'Go Pro — $7/mo'}
             </button>
-            <p className="text-white/20 text-xs mt-2">Cancel anytime · Secure payment via Stripe</p>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── Hero + Setup — single viewport ── */}
+      <section className="max-w-5xl mx-auto px-5 pt-10 pb-8 relative">
+        <div className="depth-grid" aria-hidden="true" />
+        {/* Two-column layout: hero left, setup right */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+          {/* Left: hero copy */}
+          <div className="lg:pt-4">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-bold mb-5 backdrop-blur-sm">
+              🌍 50+ Languages · AI Native Speaker Tutor · $7/mo
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-[1.1] mb-4">
+              Your AI<br />
+              <span className="text-iridescent">language tutor</span><br />
+              <span className="text-white/35">available 24/7</span>
+            </h1>
+
+            <p className="text-white/50 text-sm md:text-base max-w-sm leading-relaxed mb-5">
+              Real conversations, instant corrections, automatic flashcards, grammar tracking.{' '}
+              <span className="text-violet-300 font-semibold">Less than a cup of coffee per week.</span>
+            </p>
+
+            {/* Streak badge */}
+            {currentStreak > 0 && (
+              <div className="mb-5">
+                <StreakBadge count={currentStreak} />
+              </div>
+            )}
+
+            {/* Stats row */}
+            <div className="grid grid-cols-4 gap-2 mb-6">
+              {[
+                { val: '50+', label: 'Languages' },
+                { val: '7', label: 'Modes' },
+                { val: '$7', label: 'Pro/mo' },
+                { val: '20', label: 'Free/day' },
+              ].map(s => (
+                <div key={s.label} className="glass-liquid rounded-xl py-3 text-center">
+                  <div className="text-xl font-black text-white">{s.val}</div>
+                  <div className="text-[10px] text-white/35 mt-0.5">{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* How it works — 3-step compact row */}
+            <div className="mt-1 mb-1">
+              <div className="text-[10px] text-white/25 uppercase tracking-widest mb-3">How it works</div>
+              <div className="flex items-start gap-0">
+                {[
+                  { n: '1', icon: '🌍', title: 'Pick language & mode', sub: 'Choose from 50+ languages or AI skills' },
+                  { n: '2', icon: '💬', title: 'Chat with AI tutor', sub: 'Real conversations, instant corrections' },
+                  { n: '3', icon: '📊', title: 'Track your progress', sub: 'Streak, flashcards, grammar report' },
+                ].map((step, i) => (
+                  <div key={i} className="flex-1 relative">
+                    <div className="flex flex-col items-center text-center px-2">
+                      <div className="w-8 h-8 rounded-full border border-violet-500/30 bg-violet-500/10 flex items-center justify-center text-base mb-2 relative z-10">
+                        {step.icon}
+                      </div>
+                      <div className="text-[11px] font-semibold text-white/70 leading-tight mb-0.5">{step.title}</div>
+                      <div className="text-[9px] text-white/30 leading-tight">{step.sub}</div>
+                    </div>
+                    {i < 2 && (
+                      <div className="absolute top-4 left-[calc(50%+20px)] right-0 h-px bg-gradient-to-r from-violet-500/30 to-violet-500/10" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Live demo preview */}
+            <div className="rounded-xl border border-white/[0.07] bg-black/30 overflow-hidden">
+              <div className="flex items-center gap-2 px-3 py-2 border-b border-white/[0.05] bg-white/[0.02]">
+                <div className="w-2 h-2 rounded-full bg-violet-500/60" />
+                <span className="text-[10px] text-white/25 font-mono">speakiq · live session</span>
+                <span className="ml-auto flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[9px] text-emerald-400/60">AI ready</span>
+                </span>
+              </div>
+              <div className="p-3 space-y-2 font-mono text-[10px]">
+                <div className="flex gap-2">
+                  <span className="text-violet-400/50 shrink-0">tutor</span>
+                  <span className="text-white/50">Hola! ¿Cómo te llamas? 👋</span>
+                </div>
+                <div className="flex gap-2 justify-end">
+                  <span className="text-white/40">Me llamo Alex.</span>
+                  <span className="text-cyan-400/50 shrink-0">you</span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-violet-400/50 shrink-0">tutor</span>
+                  <span className="text-white/50">¡Perfecto! <span className="text-emerald-400/70">✓ Great pronunciation!</span></span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-violet-400/50 shrink-0">tutor</span>
+                  <span className="text-amber-400/50">📇 &quot;llamo&quot; → &quot;I am called&quot; saved to flashcards</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Pricing quick toggle */}
+            <div id="pricing" className="mt-6 p-4 rounded-2xl border border-white/[0.08] bg-white/[0.02] grid grid-cols-2 gap-px overflow-hidden">
+              {[
+                { name: 'Free', price: '$0', sub: 'forever', features: ['20 messages/day', '50+ languages', '7 session modes', 'Auto flashcards'], highlight: false },
+                { name: 'Pro', price: '$7', sub: '/month', features: ['Unlimited messages', 'Grammar reports', 'Progress saved forever', 'Priority AI speed'], highlight: true },
+              ].map(plan => (
+                <div key={plan.name} className={`p-4 ${plan.highlight ? 'bg-violet-950/50' : 'bg-white/[0.01]'}`}>
+                  <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${plan.highlight ? 'text-violet-400' : 'text-white/25'}`}>{plan.name}</div>
+                  <div className={`text-2xl font-black mb-0.5 ${plan.highlight ? 'text-white' : 'text-white/40'}`}>{plan.price}</div>
+                  <div className={`text-[10px] mb-3 ${plan.highlight ? 'text-violet-500' : 'text-white/20'}`}>{plan.sub}</div>
+                  <ul className="space-y-1 mb-4">
+                    {plan.features.map(f => (
+                      <li key={f} className={`flex items-start gap-1.5 text-[11px] ${plan.highlight ? 'text-white/60' : 'text-white/25'}`}>
+                        <span className={plan.highlight ? 'text-violet-400' : 'text-white/15'}>✓</span>{f}
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.highlight && (
+                    <button onClick={!isPro ? handleUpgrade : undefined} disabled={isPro || checkoutLoading}
+                      className="w-full py-2 rounded-lg text-xs font-bold text-white transition-all disabled:opacity-50 bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400">
+                      {isPro ? '✓ Active' : checkoutLoading ? 'Redirecting...' : 'Upgrade →'}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: setup panel */}
+          <div>
+            <div className="glass-liquid rounded-2xl p-6 space-y-5" style={{ boxShadow: '0 0 60px rgba(139,92,246,0.15)' }}>
+              <div className="flex items-center justify-between">
+                <h2 className="font-black text-base text-white">Configure your session</h2>
+                {isPro && <span className="text-[10px] bg-violet-500/20 text-violet-400 px-2 py-0.5 rounded font-bold">⚡ PRO</span>}
+              </div>
+
+              {/* Language picker */}
+              <div>
+                <label className="text-[10px] text-white/35 uppercase tracking-wider mb-2.5 block">
+                  What do you want to learn?
+                  <span className="ml-2 text-violet-400 normal-case">50+ languages + AI/Tech</span>
+                </label>
+                <LanguagePicker selected={language} onSelect={setLanguage} />
+              </div>
+
+              {language && (
+                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-violet-500/12 border border-violet-500/20 text-sm">
+                  <span className="text-violet-300 font-semibold">{language}</span>
+                  <span className="text-white/25 text-xs">selected</span>
+                  {langCards.length > 0 && <span className="ml-auto text-xs text-violet-400/60">📇 {langCards.length}</span>}
+                </div>
+              )}
+
+              {/* Level */}
+              <div>
+                <label className="text-[10px] text-white/35 uppercase tracking-wider mb-2 block">My level</label>
+                <div className="flex gap-2">
+                  {LEVELS.map(l => (
+                    <button key={l} onClick={() => setLevel(l)}
+                      className={`flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all ${level === l ? 'bg-violet-500/20 border border-violet-500/40 text-violet-300' : 'bg-white/[0.04] border border-white/8 text-white/35 hover:text-white/60'}`}>
+                      {l === 'Beginner' ? '🌱 ' : l === 'Intermediate' ? '🌿 ' : '🌳 '}{l}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mode grid */}
+              <div>
+                <label className="text-[10px] text-white/35 uppercase tracking-wider mb-2 block">Session type</label>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {MODES.map(m => (
+                    <button key={m.id} onClick={() => setMode(m.id)}
+                      className={`p-2.5 rounded-xl text-left transition-all relative ${mode === m.id ? 'bg-violet-500/20 border border-violet-500/40' : m.id === 'interview' ? 'bg-amber-500/5 border border-amber-500/20 hover:bg-amber-500/8' : 'bg-white/[0.03] border border-white/8 hover:bg-white/[0.05]'}`}>
+                      {m.id === 'interview' && (
+                        <span className="absolute top-1 right-1 text-[7px] font-bold bg-amber-500/25 text-amber-300 px-1 py-0.5 rounded-full">NEW</span>
+                      )}
+                      <div className={`text-[11px] font-semibold leading-tight ${mode === m.id ? 'text-violet-300' : m.id === 'interview' ? 'text-amber-300/80' : 'text-white/60'}`}>{m.label}</div>
+                      <div className="text-[9px] text-white/25 mt-0.5 leading-tight">{m.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Interview profile — collapsed form */}
+              {mode === 'interview' && (
+                <div className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-4 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-amber-300 text-xs font-bold">🎤 Interview Setup</span>
+                    <span className="text-[9px] text-white/25">more context = more realistic</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input value={interviewProfile.jobTitle} onChange={e => setInterviewProfile(p => ({ ...p, jobTitle: e.target.value }))}
+                      placeholder="Job title / role"
+                      className="w-full bg-white/[0.03] border border-white/8 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+                    <input value={interviewProfile.targetCompany} onChange={e => setInterviewProfile(p => ({ ...p, targetCompany: e.target.value }))}
+                      placeholder="Target company"
+                      className="w-full bg-white/[0.03] border border-white/8 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+                    <input value={interviewProfile.yearsExp} onChange={e => setInterviewProfile(p => ({ ...p, yearsExp: e.target.value }))}
+                      placeholder="Years of experience"
+                      className="w-full bg-white/[0.03] border border-white/8 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+                    <select value={interviewProfile.interviewType} onChange={e => setInterviewProfile(p => ({ ...p, interviewType: e.target.value }))}
+                      className="w-full bg-black/40 border border-white/8 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40 transition-all">
+                      <option value="technical">💻 Technical</option>
+                      <option value="behavioural">🧠 Behavioural (STAR)</option>
+                      <option value="mixed">⚡ Mixed</option>
+                      <option value="system-design">🏗️ System Design</option>
+                      <option value="language-proficiency">🌍 Language Proficiency</option>
+                    </select>
+                  </div>
+                  <input value={interviewProfile.skills} onChange={e => setInterviewProfile(p => ({ ...p, skills: e.target.value }))}
+                    placeholder="Key skills: React, TypeScript, SQL..."
+                    className="w-full bg-white/[0.03] border border-white/8 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+                  <textarea value={interviewProfile.jobDescription} onChange={e => setInterviewProfile(p => ({ ...p, jobDescription: e.target.value }))}
+                    placeholder="Paste job description for ultra-precise questions (optional)..."
+                    rows={2}
+                    className="w-full bg-white/[0.03] border border-white/8 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20 resize-none" />
+                </div>
+              )}
+
+              {/* Native language */}
+              <input value={native} onChange={e => setNative(e.target.value)}
+                placeholder="Your native language (e.g. English, Tamil, Hindi...)"
+                className="w-full bg-white/[0.04] border border-white/8 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500/40 transition-all placeholder-white/20" />
+
+              {/* CTA */}
+              <button id="hero-start-btn" onClick={startChat}
+                className="btn-liquid w-full py-3.5 rounded-xl font-black text-sm text-white transition-all"
+                style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', boxShadow: '0 0 30px rgba(124,58,237,0.35)' }}>
+                Start {modeObj?.label || '💬 Conversation'} in {language} →
+              </button>
+
+              <p className="text-center text-[10px] text-white/20">20 free messages/day · No credit card needed</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Pricing ── */}
-      <section id="pricing" className="px-6 py-20 border-t border-white/5">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-black mb-2">Simple pricing</h2>
-            <p className="text-white/35 text-sm">20 messages free every day · No credit card needed</p>
-            {isPro && <div className="mt-3 inline-block px-4 py-1.5 bg-violet-950/60 border border-violet-500/40 rounded-full text-sm text-violet-300 font-semibold">⚡ Pro active — unlimited messages</div>}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px border border-white/10 rounded-2xl overflow-hidden">
-            {[
-              { name: 'Free', price: '$0', sub: 'forever', features: ['20 messages / day', '50+ languages', '6 session modes', 'Auto flashcard saving', 'Custom vocab lists', 'Daily streak tracking'], cta: 'Start free', highlight: false },
-              { name: 'Pro', price: '$7', sub: '/month', features: ['Unlimited messages', 'Save study progress', 'Grammar report cards', 'Pronunciation feedback', 'Offline flashcards', 'Priority AI speed'], cta: isPro ? '✓ Active Plan' : (checkoutLoading ? 'Redirecting...' : 'Go Pro — $7/mo →'), highlight: true },
-            ].map(plan => (
-              <div key={plan.name} className={`p-7 ${plan.highlight ? 'bg-violet-950/40' : 'bg-white/[0.02]'}`}>
-                <div className={`text-xs font-bold uppercase tracking-widest mb-1 ${plan.highlight ? 'text-violet-400' : 'text-white/30'}`}>{plan.name}</div>
-                <div className={`text-4xl font-black mb-0.5 ${plan.highlight ? 'text-white' : 'text-white/50'}`}>{plan.price}</div>
-                <div className={`text-sm mb-5 ${plan.highlight ? 'text-violet-600' : 'text-white/25'}`}>{plan.sub}</div>
-                <ul className="space-y-2 mb-6">
-                  {plan.features.map(f => (
-                    <li key={f} className={`flex items-start gap-2 text-sm ${plan.highlight ? 'text-white/70' : 'text-white/30'}`}>
-                      <span className={plan.highlight ? 'text-violet-400 mt-0.5' : 'text-white/20 mt-0.5'}>✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={plan.highlight && !isPro ? handleUpgrade : undefined}
-                  disabled={plan.highlight && (isPro || checkoutLoading)}
-                  className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all ${plan.highlight ? (isPro ? 'bg-violet-950/60 border border-violet-500/30 text-violet-400 cursor-default' : 'bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 cursor-pointer') : 'border border-white/10 text-white/30 cursor-default'}`}>
-                  {plan.cta}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── Minimal footer ── */}
+      <footer className="border-t border-white/[0.05] px-5 py-6 text-center text-[11px] text-white/20">
+        SpeakIQ · AI language & interview coaching · <button onClick={handleUpgrade} disabled={isPro} className="text-violet-400/50 hover:text-violet-400 transition-colors disabled:opacity-50">Upgrade to Pro $7/mo</button>
+      </footer>
     </main>
     </>
   )
