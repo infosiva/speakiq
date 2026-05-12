@@ -487,9 +487,22 @@ export default function Home() {
       />
     )}
     <main className="min-h-screen relative z-10 overflow-x-hidden">
-      <div className="aurora-orb-1" aria-hidden="true" />
-      <div className="aurora-orb-2" aria-hidden="true" />
-      <div className="aurora-orb-3" aria-hidden="true" />
+      {/* ── Background system ── */}
+      {/* Fixed dot-grid pattern */}
+      <div className="fixed inset-0 pointer-events-none z-0" style={{
+        backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)`,
+        backgroundSize: '28px 28px',
+      }} aria-hidden="true" />
+      {/* Radial gradient vignette over grid */}
+      <div className="fixed inset-0 pointer-events-none z-0" style={{
+        background: `radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124,58,237,0.12) 0%, transparent 60%),
+                     radial-gradient(ellipse 60% 50% at 80% 70%, rgba(6,182,212,0.08) 0%, transparent 55%),
+                     radial-gradient(ellipse 50% 40% at 60% 10%, rgba(168,85,247,0.07) 0%, transparent 50%)`,
+      }} aria-hidden="true" />
+      {/* Edge fade so grid fades to black at corners */}
+      <div className="fixed inset-0 pointer-events-none z-0" style={{
+        background: `radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(6,6,16,0.85) 100%)`,
+      }} aria-hidden="true" />
       <div className="noise-overlay" aria-hidden="true" />
 
       {showCards && <FlashcardDeck cards={flashcards} onClose={() => setShowCards(false)} onAdd={addCardManually} />}
@@ -517,7 +530,6 @@ export default function Home() {
 
       {/* ── Hero + Setup — single viewport ── */}
       <section className="max-w-5xl mx-auto px-5 pt-10 pb-8 relative">
-        <div className="depth-grid" aria-hidden="true" />
         {/* Two-column layout: hero left, setup right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
