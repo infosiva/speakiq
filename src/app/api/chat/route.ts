@@ -74,18 +74,54 @@ const LANG_INTERVIEW_SPEC: Record<string, Record<string, string>> = {
   },
 }
 
-function buildInterviewSystem(language: string, native: string, level: string): string {
+interface InterviewProfile {
+  jobTitle?: string
+  jobDescription?: string
+  targetCompany?: string
+  yearsExp?: string
+  skills?: string
+  interviewType?: string
+}
+
+function buildInterviewSystem(language: string, native: string, level: string, profile: InterviewProfile | null): string {
   const isTech = TECH_LANGS.includes(language)
+
+  // Build profile context strings
+  const roleCtx = profile?.jobTitle ? `The candidate is applying for a **${profile.jobTitle}** role` : 'The candidate has not specified a target role'
+  const companyCtx = profile?.targetCompany ? ` at **${profile.targetCompany}**` : ''
+  const expCtx = profile?.yearsExp ? ` with **${profile.yearsExp} years** of experience` : ''
+  const skillsCtx = profile?.skills ? `\nCANDIDATE SKILLS CLAIMED: ${profile.skills} — probe these directly, challenge depth.` : ''
+  const jdCtx = profile?.jobDescription
+    ? `\nJOB DESCRIPTION (extract real requirements from this and ask about them directly):\n${profile.jobDescription}`
+    : ''
+  const interviewTypeCtx = profile?.interviewType ?? 'technical'
+
+  const profileBlock = `
+CANDIDATE PROFILE:
+${roleCtx}${companyCtx}${expCtx}.${skillsCtx}${jdCtx}
+INTERVIEW TYPE: ${interviewTypeCtx}
+
+Calibrate every question to this profile. If they listed React in skills, probe React. If the JD mentions microservices, ask about microservices. If they claim 5 years, hold them to senior-level precision.`
 
   if (isTech) {
     const spec = TECH_INTERVIEW_SPEC[level] ?? TECH_INTERVIEW_SPEC.Intermediate
     const topicList = (spec.topics as Record<string, string>)[language] ?? 'core concepts'
 
-    return `You are a senior ${language} technical interviewer at a top tech company. You are conducting a REAL ${level}-level ${language} interview.
+    // Behavioural/mixed override for question style
+    const effectiveStyle = interviewTypeCtx === 'behavioural'
+      ? 'Tell me about a time you… What would you do if… Describe a challenge where… How do you handle…'
+      : interviewTypeCtx === 'system-design'
+      ? 'Design X for Y scale. How would you architect…? What are the trade-offs between A and B? Walk me through your data model for…'
+      : interviewTypeCtx === 'mixed'
+      ? `Mix of: ${spec.questionStyle} AND behavioural (STAR-format) questions.`
+      : spec.questionStyle
+
+    return `You are a senior ${language} technical interviewer${profile?.targetCompany ? ` at ${profile.targetCompany}` : ' at a top tech company'}. You are conducting a REAL ${level}-level ${language} ${interviewTypeCtx} interview.
+${profileBlock}
 
 INTERVIEW DEPTH: ${spec.depth}
 TOPIC SCOPE: ${topicList}
-QUESTION STYLE: ${spec.questionStyle}
+QUESTION STYLE: ${effectiveStyle}
 
 STRICT RULES:
 1. Ask exactly ONE question per turn. Never multiple.
@@ -117,6 +153,7 @@ IMPORTANT: Format all code in backtick blocks. Stay in interviewer mode — neve
   const spec = LANG_INTERVIEW_SPEC[level] ?? LANG_INTERVIEW_SPEC.Intermediate
 
   return `You are a certified ${language} language examiner (${level === 'Beginner' ? 'A1–A2' : level === 'Intermediate' ? 'B1–B2' : 'C1–C2'} CEFR). The candidate's native language is ${native}.
+${profileBlock}
 
 EXAM DEPTH: ${spec.depth}
 TOPIC SCOPE: ${spec.topics}
@@ -151,14 +188,14 @@ IMPORTANT: Use proper unicode for ${language} script. Maintain examiner persona 
 }
 
 export async function POST(req: NextRequest) {
-  const { message, language, native, level, mode, history } = await req.json()
+  const { message, language, native, level, mode, history, interviewProfile } = await req.json()
 
   const isTech = TECH_LANGS.includes(language)
 
   let system: string
 
   if (mode === 'interview') {
-    system = buildInterviewSystem(language, native, level)
+    system = buildInterviewSystem(language, native, level, interviewProfile ?? null)
   } else if (isTech) {
     system = `You are SpeakFast AI, an expert ${language} tutor. The student's background is ${level} level and their native language is ${native}.
 

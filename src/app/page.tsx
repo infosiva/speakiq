@@ -335,6 +335,14 @@ export default function Home() {
   const [showGrammar, setShowGrammar] = useState(false)
   const [savedFlash, setSavedFlash] = useState(false)
   const [currentStreak, setCurrentStreak] = useState(streak)
+  const [interviewProfile, setInterviewProfile] = useState({
+    jobTitle: '',
+    jobDescription: '',
+    targetCompany: '',
+    yearsExp: '',
+    skills: '',
+    interviewType: 'technical', // technical | behavioural | language-proficiency | mixed
+  })
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
@@ -412,17 +420,23 @@ export default function Home() {
     // Bump streak on first message of session
     const newStreak = bump()
     setCurrentStreak(newStreak)
-    const greeting = mode === 'interview'
-      ? isTechLang
-        ? `I'm ready for my ${level}-level ${language} technical interview. Please begin.`
-        : `I am ready for my ${level}-level ${language} proficiency interview. Please begin.`
-      : isTechLang
-        ? `Hi! I want to learn ${language}. Start with a friendly introduction and give me my first lesson.`
-        : `Hello! Please greet me warmly in ${language}, introduce yourself as my tutor, and start our first ${mode} session at ${level} level.`
+    let greeting: string
+    if (mode === 'interview') {
+      const { jobTitle, targetCompany, yearsExp, interviewType } = interviewProfile
+      const roleContext = jobTitle ? `I am applying for a ${jobTitle}${targetCompany ? ` role at ${targetCompany}` : ''}` : ''
+      const expContext = yearsExp ? `, with ${yearsExp} years of experience` : ''
+      greeting = isTechLang
+        ? `${roleContext}${expContext}. Start my ${level}-level ${language} ${interviewType} interview now.`
+        : `I am ready for my ${level}-level ${language} language proficiency interview${roleContext ? ` (${roleContext})` : ''}. Please begin.`
+    } else if (isTechLang) {
+      greeting = `Hi! I want to learn ${language}. Start with a friendly introduction and give me my first lesson.`
+    } else {
+      greeting = `Hello! Please greet me warmly in ${language}, introduce yourself as my tutor, and start our first ${mode} session at ${level} level.`
+    }
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: greeting, language, native, level, mode, history: [] }),
+      body: JSON.stringify({ message: greeting, language, native, level, mode, history: [], interviewProfile: mode === 'interview' ? interviewProfile : null }),
     })
     const data = await res.json()
     const reply = data.reply
@@ -444,7 +458,7 @@ export default function Home() {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: userMsg, language, native, level, mode, history: messages }),
+      body: JSON.stringify({ message: userMsg, language, native, level, mode, history: messages, interviewProfile: mode === 'interview' ? interviewProfile : null }),
     })
     const data = await res.json()
     const reply = data.reply
@@ -664,6 +678,78 @@ export default function Home() {
               ))}
             </div>
           </div>
+
+          {/* ── Interview profile form ── */}
+          {mode === 'interview' && (
+            <div className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-5 space-y-4">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-amber-300 text-sm font-bold">🎤 Interview Setup</span>
+                <span className="text-[10px] text-white/30">More context = more realistic questions</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Job title / role</label>
+                  <input
+                    value={interviewProfile.jobTitle}
+                    onChange={e => setInterviewProfile(p => ({ ...p, jobTitle: e.target.value }))}
+                    placeholder="e.g. Senior Frontend Engineer"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+                </div>
+                <div>
+                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Target company (optional)</label>
+                  <input
+                    value={interviewProfile.targetCompany}
+                    onChange={e => setInterviewProfile(p => ({ ...p, targetCompany: e.target.value }))}
+                    placeholder="e.g. Google, startup, NHS"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Years of experience</label>
+                  <input
+                    value={interviewProfile.yearsExp}
+                    onChange={e => setInterviewProfile(p => ({ ...p, yearsExp: e.target.value }))}
+                    placeholder="e.g. 2, 5, 10+"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+                </div>
+                <div>
+                  <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Interview type</label>
+                  <select
+                    value={interviewProfile.interviewType}
+                    onChange={e => setInterviewProfile(p => ({ ...p, interviewType: e.target.value }))}
+                    className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all">
+                    <option value="technical">💻 Technical / Coding</option>
+                    <option value="behavioural">🧠 Behavioural (STAR method)</option>
+                    <option value="mixed">⚡ Mixed — both</option>
+                    <option value="system-design">🏗️ System Design</option>
+                    <option value="language-proficiency">🌍 Language Proficiency</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Key skills / technologies to focus on</label>
+                <input
+                  value={interviewProfile.skills}
+                  onChange={e => setInterviewProfile(p => ({ ...p, skills: e.target.value }))}
+                  placeholder="e.g. React, TypeScript, REST APIs, Agile, SQL"
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20" />
+              </div>
+
+              <div>
+                <label className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5 block">Job description / key requirements (optional — paste for ultra-precise questions)</label>
+                <textarea
+                  value={interviewProfile.jobDescription}
+                  onChange={e => setInterviewProfile(p => ({ ...p, jobDescription: e.target.value }))}
+                  placeholder="Paste the job description or key bullet points here..."
+                  rows={3}
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500/40 transition-all placeholder-white/20 resize-none" />
+              </div>
+            </div>
+          )}
 
           <div>
             <label className="text-xs text-white/40 uppercase tracking-wider mb-2 block">Your native language (for explanations)</label>
