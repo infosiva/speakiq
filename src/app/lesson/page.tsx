@@ -182,6 +182,12 @@ export default function LessonPage() {
         </button>
       </div>
 
+      {(!language || !level) && (
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: -8, marginBottom: 12, textAlign: 'center' }}>
+          Enter a language and select a level above to generate a lesson
+        </p>
+      )}
+
       {error && (
         <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#fca5a5', fontSize: 14, marginBottom: 20 }}>{error}</div>
       )}

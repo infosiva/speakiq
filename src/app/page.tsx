@@ -833,6 +833,7 @@ export default function Home() {
             <div className="hidden sm:flex items-center gap-3 text-xs text-white/30">
               <span>💬 {messages.length}</span>
               {wordCount > 0 && <span>📝 {wordCount}w</span>}
+              {!isPro && <span className={remaining <= 5 ? 'text-orange-400 font-semibold' : ''}>⚡ {remaining}/20</span>}
             </div>
             {/* Grammar report button */}
             <button onClick={() => setShowGrammar(true)}

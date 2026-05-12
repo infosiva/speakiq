@@ -43,7 +43,7 @@ export default function GuidedTour({
   steps,
   storageKey,
   accentColor = '#34d399',
-  delay = 1200,
+  delay = 3000,
 }: Props) {
   const [active, setActive]   = useState(false)
   const [idx, setIdx]         = useState(0)
