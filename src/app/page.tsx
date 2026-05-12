@@ -652,10 +652,14 @@ export default function Home() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {MODES.map(m => (
                 <button key={m.id} onClick={() => setMode(m.id)}
-                  className={`p-3 rounded-xl text-left transition-all ${mode === m.id ? 'bg-violet-500/20 border border-violet-500/40' : 'bg-white/[0.04] border border-white/10 hover:bg-white/[0.06]'}`}>
-                  <div className={`text-xs font-semibold mb-0.5 ${mode === m.id ? 'text-violet-300' : 'text-white/70'}`}>{m.label}</div>
+                  className={`p-3 rounded-xl text-left transition-all relative ${mode === m.id ? 'bg-violet-500/20 border border-violet-500/40' : m.id === 'interview' ? 'bg-amber-500/5 border border-amber-500/20 hover:bg-amber-500/10' : 'bg-white/[0.04] border border-white/10 hover:bg-white/[0.06]'}`}>
+                  {m.id === 'interview' && (
+                    <span className="absolute top-1.5 right-1.5 text-[8px] font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-full">NEW</span>
+                  )}
+                  <div className={`text-xs font-semibold mb-0.5 ${mode === m.id ? 'text-violet-300' : m.id === 'interview' ? 'text-amber-300/80' : 'text-white/70'}`}>{m.label}</div>
                   <div className="text-[10px] text-white/30">{m.desc}</div>
                   {m.id === 'vocabulary' && <div className="text-[10px] text-violet-400/60 mt-0.5">Auto-saves flashcards</div>}
+                  {m.id === 'interview' && <div className="text-[10px] text-amber-400/50 mt-0.5">Score per answer · final report</div>}
                 </button>
               ))}
             </div>

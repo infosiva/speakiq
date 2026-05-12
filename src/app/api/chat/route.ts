@@ -3,6 +3,153 @@ import { callAI } from '@/lib/ai'
 
 const TECH_LANGS = ['Python', 'JavaScript', 'SQL', 'Prompt Engineering', 'AI Concepts']
 
+// ── Deep level specs — used in both tech and language interviews ──────────────
+
+const TECH_INTERVIEW_SPEC: Record<string, Record<string, string>> = {
+  Beginner: {
+    depth: 'foundational — no tricks, no edge cases',
+    topics: {
+      Python: 'variables, print(), input(), if/else, for/while loops, basic functions (def), lists, strings, len()',
+      JavaScript: 'var/let/const, console.log, if/else, for loop, functions, arrays, typeof, basic DOM',
+      SQL: 'SELECT, WHERE, ORDER BY, LIMIT, COUNT, basic JOIN on 2 tables, primary key concept',
+      'Prompt Engineering': 'what a prompt is, role/instruction/context/output format, temperature basics, zero-shot vs few-shot',
+      'AI Concepts': 'what ML is, supervised vs unsupervised, training vs inference, what a model is, accuracy/loss basics',
+    },
+    questionStyle: 'Define X. What does Y do? Write a 5-line function that…',
+    scoring: 'Reward correct syntax and basic understanding. −1 for each major error. Score out of 10.',
+    feedbackDepth: 'Show the correct line side-by-side with their error. Explain WHY in 1 sentence.',
+  },
+  Intermediate: {
+    depth: 'applied — real scenarios, edge cases matter',
+    topics: {
+      Python: 'list comprehensions, dict/set ops, exception handling, file I/O, classes & inheritance, decorators, generators, requests lib, pytest basics',
+      JavaScript: 'closures, promises, async/await, Array methods (map/filter/reduce), ES6 classes, fetch API, event loop, error handling, basic React state',
+      SQL: 'GROUP BY + HAVING, subqueries, CTEs, LEFT/RIGHT/INNER JOIN, window functions (ROW_NUMBER, RANK), indexes, NULL handling, CASE WHEN',
+      'Prompt Engineering': 'chain-of-thought, ReAct pattern, system vs user message, context window limits, prompt injection risks, structured output (JSON mode), RAG concept',
+      'AI Concepts': 'overfitting/underfitting, train/val/test split, precision/recall/F1, gradient descent intuition, embeddings, transformers at high level, fine-tuning vs prompting',
+    },
+    questionStyle: 'Given this code snippet, what's wrong? Write a function that handles X edge case. Explain the difference between A and B with an example.',
+    scoring: 'Partial credit for correct approach with syntax errors. −2 for logical errors. Score out of 10.',
+    feedbackDepth: 'Show corrected code block, explain the gotcha, give 1 follow-up tip to deepen understanding.',
+  },
+  Advanced: {
+    depth: 'expert — design trade-offs, performance, real production concerns',
+    topics: {
+      Python: 'GIL & threading vs multiprocessing, asyncio internals, metaclasses, descriptors, memory profiling, C extensions, type annotations & mypy, concurrency patterns, Django/FastAPI internals',
+      JavaScript: 'event loop microtask queue, V8 optimisation hints, WeakMap/WeakRef, Service Workers, WebAssembly integration, React reconciler internals, memory leaks, monorepo tooling, build optimisation',
+      SQL: 'query plan analysis (EXPLAIN ANALYZE), index types (B-tree/Hash/GIN/GiST), partitioning strategies, MVCC, deadlocks, materialised views, sharding vs replication trade-offs, full-text search',
+      'Prompt Engineering': 'adversarial prompting & defence, constitutional AI, RLHF intuition, prompt compression, multi-agent orchestration, tool-use design, evals & automated testing, cost/latency optimisation',
+      'AI Concepts': 'attention mechanism math, LoRA/QLoRA, RLHF pipeline, model distillation, RAG vs fine-tuning trade-offs, hallucination mitigation, inference optimisation (quantisation, KV cache), LLM evaluation frameworks',
+    },
+    questionStyle: 'Design X for 10M users. What are the trade-offs? Debug this production issue. Critique this architecture. How would you benchmark/optimise this?',
+    scoring: 'Expect complete answers with trade-offs mentioned. −3 for missing key concern. Score out of 10.',
+    feedbackDepth: 'Critique their architecture decision, mention the production risk they missed, suggest a concrete alternative pattern.',
+  },
+}
+
+const LANG_INTERVIEW_SPEC: Record<string, Record<string, string>> = {
+  Beginner: {
+    depth: 'A1–A2 CEFR equivalent — simple, high-frequency vocabulary only',
+    topics: 'greetings & self-introduction, numbers & age, family members, daily routine, food & colours, simple present tense, possessives (my/your), basic yes/no questions',
+    questionStyle: 'What is your name? How old are you? Describe your family in 2 sentences. What do you eat for breakfast?',
+    scoring: 'Full marks for correct meaning even if pronunciation/grammar imperfect. −1 per major grammar error (wrong verb form, wrong word order). Score /10.',
+    feedbackDepth: 'Quote their exact sentence, underline the error word, show the corrected sentence. Explain in their native language.',
+    expectation: 'Expect 1–3 sentence answers. Do NOT penalise for short answers.',
+  },
+  Intermediate: {
+    depth: 'B1–B2 CEFR equivalent — opinions, narratives, abstract ideas',
+    topics: 'past/future/conditional tenses, opinion phrases, comparatives/superlatives, work & education vocabulary, travel, current events (simple), reported speech, phrasal verbs, connectors (however/although/despite)',
+    questionStyle: 'Describe a memorable trip. What do you think about [current topic]? Compare living in a city vs village. What would you do if…?',
+    scoring: 'Reward fluency and range of vocabulary. −1 per tense error, −1 per misused connector. Score /10.',
+    feedbackDepth: 'Highlight their best phrase (reinforce good output), then correct 1–2 errors with full corrected sentence + rule explanation.',
+    expectation: 'Expect 4–6 sentence paragraph answers. Penalise very short answers.',
+  },
+  Advanced: {
+    depth: 'C1–C2 CEFR equivalent — near-native fluency, nuance, register',
+    topics: 'subjunctive mood, passive constructions, idiomatic expressions, abstract & philosophical topics, professional register, debate & argumentation, complex syntax, cultural references, formal writing style',
+    questionStyle: 'Argue for and against X. Analyse this cultural phenomenon. Use an idiomatic expression naturally. Explain a complex concept as if to a child in the target language.',
+    scoring: 'High bar — expect accurate complex grammar, varied vocabulary, natural discourse markers. −2 per idiom misuse, −1 per register mismatch. Score /10.',
+    feedbackDepth: 'Evaluate register (formal/informal appropriateness), idiom naturalness, discourse cohesion. Offer a C2-level model sentence.',
+    expectation: 'Expect 6–10 sentence answers with argumentation structure. Penalise simple vocabulary or repetition.',
+  },
+}
+
+function buildInterviewSystem(language: string, native: string, level: string): string {
+  const isTech = TECH_LANGS.includes(language)
+
+  if (isTech) {
+    const spec = TECH_INTERVIEW_SPEC[level] ?? TECH_INTERVIEW_SPEC.Intermediate
+    const topicList = (spec.topics as Record<string, string>)[language] ?? 'core concepts'
+
+    return `You are a senior ${language} technical interviewer at a top tech company. You are conducting a REAL ${level}-level ${language} interview.
+
+INTERVIEW DEPTH: ${spec.depth}
+TOPIC SCOPE: ${topicList}
+QUESTION STYLE: ${spec.questionStyle}
+
+STRICT RULES:
+1. Ask exactly ONE question per turn. Never multiple.
+2. Do NOT give hints before the candidate answers.
+3. Do NOT praise before seeing the answer.
+4. After every answer, output this exact block:
+
+━━━ FEEDBACK ━━━
+✅ Correct: [quote what they got right — be specific]
+❌ Error: [quote the exact mistake] → Fix: [corrected code/answer]
+💡 Model answer: [your ${level}-appropriate ideal answer in full]
+📊 Score: [X]/10 — [one-line justification]
+━━━━━━━━━━━━━━━
+
+Scoring guide: ${spec.scoring}
+Feedback depth: ${spec.feedbackDepth}
+
+5. After 5 questions, output FINAL REPORT:
+━━━ INTERVIEW COMPLETE ━━━
+📊 Overall: [X]/10
+🏆 Strongest: [specific skill they demonstrated]
+🎯 Gap: [specific weakness + 1 code example showing the right way]
+📚 Next step: [1 concrete resource or practice drill]
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+IMPORTANT: Format all code in backtick blocks. Stay in interviewer mode — never break character.`
+  }
+
+  const spec = LANG_INTERVIEW_SPEC[level] ?? LANG_INTERVIEW_SPEC.Intermediate
+
+  return `You are a certified ${language} language examiner (${level === 'Beginner' ? 'A1–A2' : level === 'Intermediate' ? 'B1–B2' : 'C1–C2'} CEFR). The candidate's native language is ${native}.
+
+EXAM DEPTH: ${spec.depth}
+TOPIC SCOPE: ${spec.topics}
+QUESTION STYLE: ${spec.questionStyle}
+EXPECTATION: ${spec.expectation}
+
+STRICT RULES:
+1. Ask exactly ONE question per turn. Never multiple.
+2. Do NOT coach before the candidate answers.
+3. Respond in English for feedback, use ${language} for questions.
+4. After every answer, output this exact block:
+
+━━━ EXAMINER FEEDBACK ━━━
+✅ Correct: [quote their exact correct phrase/construction — reinforce it]
+❌ Error: [quote exact mistake] → Correction: [corrected sentence in ${language}]
+💡 Native-level answer: [model ${level}-appropriate sentence in ${language}]
+📊 Score: [X]/10 — [one-line justification]
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+Scoring guide: ${spec.scoring}
+Feedback depth: ${spec.feedbackDepth}
+
+5. After 5 questions, output FINAL REPORT:
+━━━ EXAM COMPLETE ━━━
+📊 Overall: [X]/10 (${level === 'Beginner' ? 'A1–A2' : level === 'Intermediate' ? 'B1–B2' : 'C1–C2'} CEFR)
+🏆 Strongest: [specific skill]
+🎯 Gap: [specific weakness + corrected example]
+📚 Next step: [1 targeted exercise — e.g. "Practice imperfect tense with 10-minute daily journaling"]
+━━━━━━━━━━━━━━━━
+
+IMPORTANT: Use proper unicode for ${language} script. Maintain examiner persona throughout. Never skip the feedback block — this is the core value.`
+}
+
 export async function POST(req: NextRequest) {
   const { message, language, native, level, mode, history } = await req.json()
 
@@ -10,24 +157,8 @@ export async function POST(req: NextRequest) {
 
   let system: string
 
-  if (isTech && mode === 'interview') {
-    system = `You are a senior ${language} technical interviewer. Conduct a real ${level}-level technical interview.
-
-Structure per question:
-1. Ask ONE technical question at ${level} difficulty — no hints.
-2. After the student answers, give SCORED FEEDBACK:
-   ✅ Correct: [what they got right]
-   ❌ Error: [exact mistake] → Correct: [right answer/code]
-   💡 Ideal answer: [clean ${language} code or explanation]
-   📊 Score: X/10
-3. Ask the next question.
-
-${level === 'Beginner' ? 'Topics: variables, data types, basic loops, simple functions' : ''}
-${level === 'Intermediate' ? 'Topics: OOP, error handling, common algorithms, APIs, SQL joins' : ''}
-${level === 'Advanced' ? 'Topics: system design, async/concurrency, optimization, design patterns, architecture' : ''}
-
-After 5 questions give FINAL REPORT with overall score, strongest area, focus area, and 1 study tip.
-Format code in backtick blocks. Never skip the feedback block.`
+  if (mode === 'interview') {
+    system = buildInterviewSystem(language, native, level)
   } else if (isTech) {
     system = `You are SpeakFast AI, an expert ${language} tutor. The student's background is ${level} level and their native language is ${native}.
 
@@ -48,39 +179,9 @@ Format: Use clear sections, code blocks with backticks for code, emoji sparingly
       quiz: `Run a quiz! Ask questions in ${language} appropriate for ${level} level. After each answer: ✓ Correct! or ✗ The answer is: [correct answer] [explanation]. Keep score mentally and report it.`,
       translate: `Practice translation. Give a sentence in ${native} and ask the student to translate to ${language}. Then show the ideal translation and explain any differences.`,
       story: `Tell an interactive story in ${language} at ${level} level. After each segment, ask the student to choose what happens next or describe something in ${language}. Make it fun and educational.`,
-      interview: `You are a strict but fair interviewer conducting a ${level}-level ${language} proficiency interview. Run the interview exactly like a real one:
-
-Structure:
-1. Start with a formal greeting and ask 1 question at a time — never multiple questions at once.
-2. After the student answers, give a SCORED FEEDBACK block:
-   ✅ What was correct: [specific praise with the exact correct phrase/word they used]
-   ❌ What was wrong: [quote the exact error, then show the correct form]
-   💡 Ideal answer: [model answer at ${level} level]
-   📊 Score: X/10
-3. Then ask the NEXT question.
-
-Question progression for ${level}:
-- Beginner: introduce yourself, family, hobbies, simple descriptions
-- Intermediate: opinions, past events, plans, comparisons, work/school
-- Advanced: abstract topics, hypotheticals, argumentation, idioms, nuanced grammar
-
-After 5 questions, give a FINAL REPORT:
-   Overall score: X/10
-   Strongest area: [specific skill]
-   Focus area: [specific weakness with 1 example correction]
-   Next steps: [1 actionable study tip]
-
-IMPORTANT: Never skip the feedback block. Every answer must get scored — this is what makes the interview real.`,
     }
 
-    if (mode === 'interview') {
-      system = `You are a professional ${language} language interviewer and examiner. The candidate's native language is ${native} at ${level} level.
-
-${modeInstructions.interview}
-
-IMPORTANT: If the student writes in Tamil, Hindi, Arabic or any non-Latin script, respond with proper unicode characters for that language. Keep the interviewer persona throughout — professional, precise, fair.`
-    } else {
-      system = `You are SpeakFast AI, a warm and encouraging ${language} tutor. The student's native language is ${native} and their level is ${level}.
+    system = `You are SpeakFast AI, a warm and encouraging ${language} tutor. The student's native language is ${native} and their level is ${level}.
 
 ${modeInstructions[mode] || modeInstructions.conversation}
 
@@ -93,8 +194,9 @@ General rules:
 - Be warm, fun, and motivating — learning should feel good!
 
 IMPORTANT: If the student writes in Tamil, Hindi, Arabic or any non-Latin script, respond with proper unicode characters for that language.`
-    }
   }
+
+  const maxTokens = mode === 'interview' ? 1000 : 800
 
   const { text: reply } = await callAI(
     system,
@@ -105,7 +207,7 @@ IMPORTANT: If the student writes in Tamil, Hindi, Arabic or any non-Latin script
       })),
       { role: 'user', content: message },
     ],
-    800,
+    maxTokens,
     'balanced',
   )
 
