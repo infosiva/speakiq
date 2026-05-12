@@ -4,6 +4,7 @@ import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
 import { StreakBadge } from '@/components/design'
 import { HeartsDisplay } from '@/components/gamification'
+import { loseHeart } from '@/lib/gamification/hearts'
 import GuidedTour, { type TourStep } from '@/components/GuidedTour'
 
 const SPEAKIQ_TOUR: TourStep[] = [
@@ -418,6 +419,10 @@ export default function Home() {
   async function startChat() {
     setSetup(false)
     setLoading(true)
+    // Save prefs for daily challenge + other pages
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('speakfast-prefs', JSON.stringify({ language, level }))
+    }
     // Bump streak on first message of session
     const newStreak = bump()
     setCurrentStreak(newStreak)
@@ -467,6 +472,10 @@ export default function Home() {
     setWordCount(w => w + userMsg.split(' ').length)
     addWordsFromMessage(reply)
     addGrammarFromMessage(reply)
+    // Deduct heart on wrong quiz answers
+    if ((mode === 'quiz' || mode === 'interview') && /incorrect|wrong|❌/i.test(reply)) {
+      loseHeart()
+    }
     setLoading(false)
   }
 
@@ -805,7 +814,7 @@ export default function Home() {
         </div>
       )}
 
-      <nav className="border-b border-white/8 backdrop-blur-xl bg-white/[0.02] sticky top-0 z-50">
+      <nav className="border-b border-white/8 backdrop-blur-xl bg-white/[0.02] sticky top-14 z-40">
         <div className="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-lg shadow-lg shadow-violet-500/30">🗣️</div>

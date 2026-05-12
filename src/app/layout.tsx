@@ -15,6 +15,7 @@ const brand: BrandConfig = {
   navLinks: [
     { label: 'Learn', href: '/' },
     { label: 'Lesson', href: '/lesson' },
+    { label: 'Converse', href: '/converse' },
     { label: 'My Path', href: '/path' },
     { label: 'Daily', href: '/daily' },
     { label: 'Badges', href: '/badges' },
