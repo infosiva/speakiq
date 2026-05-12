@@ -50,6 +50,7 @@ const MODES = [
   { id: 'quiz', label: '🎯 Quiz me', desc: 'Test what you know' },
   { id: 'translate', label: '🔄 Translate', desc: 'Back-and-forth translation' },
   { id: 'story', label: '📖 Story', desc: 'Learn through interactive stories' },
+  { id: 'interview', label: '🎤 Mock Interview', desc: 'Real interview — AI grades every answer' },
 ]
 
 interface Message { role: 'user' | 'assistant'; content: string }
@@ -411,9 +412,13 @@ export default function Home() {
     // Bump streak on first message of session
     const newStreak = bump()
     setCurrentStreak(newStreak)
-    const greeting = isTechLang
-      ? `Hi! I want to learn ${language}. Start with a friendly introduction and give me my first lesson.`
-      : `Hello! Please greet me warmly in ${language}, introduce yourself as my tutor, and start our first ${mode} session at ${level} level.`
+    const greeting = mode === 'interview'
+      ? isTechLang
+        ? `I'm ready for my ${level}-level ${language} technical interview. Please begin.`
+        : `I am ready for my ${level}-level ${language} proficiency interview. Please begin.`
+      : isTechLang
+        ? `Hi! I want to learn ${language}. Start with a friendly introduction and give me my first lesson.`
+        : `Hello! Please greet me warmly in ${language}, introduce yourself as my tutor, and start our first ${mode} session at ${level} level.`
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -888,7 +893,7 @@ export default function Home() {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
-                placeholder={mode === 'quiz' ? 'Type your answer...' : mode === 'translate' ? 'Type to translate...' : `Reply in ${language} or ask anything...`}
+                placeholder={mode === 'interview' ? 'Give your answer...' : mode === 'quiz' ? 'Type your answer...' : mode === 'translate' ? 'Type to translate...' : `Reply in ${language} or ask anything...`}
                 autoFocus
                 className="flex-1 bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-violet-500/50 transition-all"
               />
