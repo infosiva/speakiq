@@ -3,10 +3,13 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ConversationMode } from '@/components/gamification'
 
+const LANGUAGES = ['Spanish', 'French', 'German', 'Italian', 'Japanese', 'Korean', 'Mandarin Chinese', 'Portuguese', 'Hindi', 'Arabic']
+const LEVELS = ['Beginner', 'Intermediate', 'Advanced']
+
 export default function ConversePage() {
   const [language, setLanguage] = useState('Spanish')
   const [level, setLevel] = useState('Beginner')
-  const [started, setStarted] = useState(false)
+  const [key, setKey] = useState(0) // remount ConversationMode on language/level change
 
   useEffect(() => {
     const prefs = localStorage.getItem('speakfast-prefs')
@@ -17,47 +20,43 @@ export default function ConversePage() {
     }
   }, [])
 
+  function changeLanguage(lang: string) {
+    setLanguage(lang)
+    setKey(k => k + 1)
+  }
+
+  function changeLevel(lvl: string) {
+    setLevel(lvl)
+    setKey(k => k + 1)
+  }
+
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-4 sm:p-6">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <Link href="/" className="text-[var(--text-2)] hover:text-white transition-colors">← Back</Link>
-          <h1 className="text-2xl font-bold">AI Conversation Tutor</h1>
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]" style={{ paddingTop: '0' }}>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4">
+        {/* Compact top bar */}
+        <div className="flex items-center gap-3 mb-4">
+          <Link href="/" className="text-[var(--text-2)] hover:text-white transition-colors text-sm">← Back</Link>
+          <h1 className="text-lg font-bold">AI Conversation</h1>
+          <div className="ml-auto flex gap-2">
+            <select
+              value={language}
+              onChange={e => changeLanguage(e.target.value)}
+              className="bg-white/10 border border-white/10 rounded-lg px-2 py-1.5 text-xs outline-none focus:border-[var(--theme-primary)] cursor-pointer"
+            >
+              {LANGUAGES.map(l => <option key={l} value={l}>{l}</option>)}
+            </select>
+            <select
+              value={level}
+              onChange={e => changeLevel(e.target.value)}
+              className="bg-white/10 border border-white/10 rounded-lg px-2 py-1.5 text-xs outline-none focus:border-[var(--theme-primary)] cursor-pointer"
+            >
+              {LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
+            </select>
+          </div>
         </div>
 
-        {!started ? (
-          <div className="glass-liquid rounded-2xl p-8 space-y-6">
-            <p className="text-[var(--text-2)]">Chat with Luna, your personal tutor. Get inline corrections as you write.</p>
-            <div className="flex gap-3 flex-wrap">
-              <select
-                value={language}
-                onChange={e => setLanguage(e.target.value)}
-                className="bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--theme-primary)]"
-              >
-                {['Spanish', 'French', 'German', 'Italian', 'Japanese', 'Korean', 'Mandarin Chinese', 'Portuguese', 'Hindi', 'Arabic'].map(l => (
-                  <option key={l} value={l}>{l}</option>
-                ))}
-              </select>
-              <select
-                value={level}
-                onChange={e => setLevel(e.target.value)}
-                className="bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--theme-primary)]"
-              >
-                {['Beginner', 'Intermediate', 'Advanced'].map(l => (
-                  <option key={l} value={l}>{l}</option>
-                ))}
-              </select>
-            </div>
-            <button
-              onClick={() => setStarted(true)}
-              className="px-6 py-3 bg-[var(--theme-primary)] rounded-xl font-semibold hover:opacity-90 transition-opacity"
-            >
-              Start Conversation →
-            </button>
-          </div>
-        ) : (
-          <ConversationMode language={language} level={level} tutorName="Luna" />
-        )}
+        {/* Chat — always shown, auto-greeted */}
+        <ConversationMode key={key} language={language} level={level} tutorName="Luna" />
       </div>
     </div>
   )

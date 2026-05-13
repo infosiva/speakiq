@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { SKILL_TREE, getCompletedNodes, isNodeUnlocked, type SkillNode } from '@/lib/gamification/skill-tree'
 
 export default function PathPage() {
@@ -16,11 +15,9 @@ export default function PathPage() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-6">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <Link href="/" className="text-[var(--text-2)] hover:text-white transition-colors">← Back</Link>
-          <h1 className="text-2xl font-bold">Learning Path</h1>
-        </div>
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-2xl font-bold mb-1">Learning Path</h1>
+        <p className="text-sm text-[var(--text-2)] mb-8">Complete lessons to unlock new skills and earn XP.</p>
 
         {(Object.entries(grouped) as [string, SkillNode[]][]).map(([level, nodes]) => (
           <div key={level} className="mb-10">
@@ -37,8 +34,8 @@ export default function PathPage() {
                       done
                         ? 'bg-green-500/10 border-green-500/30'
                         : unlocked
-                        ? 'bg-white/5 border-white/10 cursor-pointer hover:bg-white/8'
-                        : 'bg-white/2 border-white/5 opacity-40 cursor-not-allowed',
+                        ? 'glass-liquid border-white/10 cursor-pointer hover:border-white/20'
+                        : 'bg-white/[0.02] border-white/5 opacity-40 cursor-not-allowed',
                     ].join(' ')}
                   >
                     <span className="text-3xl">{node.icon}</span>

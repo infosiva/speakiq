@@ -116,7 +116,7 @@ export default function LessonPage() {
           <ArrowLeft size={16} /> Back
         </Link>
         <div style={{ flex: 1 }} />
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 99, background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)', color: '#a5b4fc', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+        <Link href="/converse" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 99, background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)', color: '#a5b4fc', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
           <MessageSquare size={14} /> Practice in Chat
         </Link>
       </div>
@@ -308,7 +308,7 @@ export default function LessonPage() {
                 style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', borderRadius: 10, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: 14, background: 'rgba(16,185,129,0.2)', color: '#6ee7b7' }}>
                 {copied ? <><CheckCircle size={14} /> Copied!</> : <><Copy size={14} /> Copy prompt</>}
               </button>
-              <Link href="/"
+              <Link href="/converse"
                 style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', borderRadius: 10, textDecoration: 'none', fontWeight: 700, fontSize: 14, background: 'rgba(99,102,241,0.2)', color: '#a5b4fc' }}>
                 <MessageSquare size={14} /> Open chat
               </Link>

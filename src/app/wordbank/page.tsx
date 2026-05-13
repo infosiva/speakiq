@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { getAllCards, getDueCards, reviewCard, WordCard } from '@/lib/gamification/sm2'
 
 export default function WordBankPage() {
@@ -63,11 +62,10 @@ export default function WordBankPage() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-6">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <Link href="/" className="text-[var(--text-2)] hover:text-white transition-colors">← Back</Link>
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-end gap-4 mb-6">
           <h1 className="text-2xl font-bold">Word Bank</h1>
-          <span className="ml-auto text-sm text-[var(--text-2)]">{cards.length} words</span>
+          <span className="text-sm text-[var(--text-2)] pb-0.5">{cards.length} words</span>
         </div>
 
         {dueCards.length > 0 && (
