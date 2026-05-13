@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import NewsletterForm from '@/components/NewsletterForm'
 
 export const metadata: Metadata = {
   title: 'Pricing — SpeakIQ | AI Language Tutor',
@@ -154,6 +155,13 @@ export default function PricingPage() {
           <Link href="/" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 transition text-white">
             Start learning free →
           </Link>
+        </div>
+
+        {/* Newsletter */}
+        <div className="border-t border-white/[0.06] mt-20 pt-12 text-center">
+          <p className="text-white/50 text-sm font-medium mb-1">Get weekly language learning tips</p>
+          <p className="text-white/25 text-xs mb-6">No spam. Unsubscribe anytime.</p>
+          <NewsletterForm accentClass="from-violet-600 to-cyan-500" />
         </div>
       </div>
     </main>
