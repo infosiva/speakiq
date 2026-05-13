@@ -54,7 +54,7 @@ export function ConversationMode({ language, level, tutorName = 'Luna' }: Props)
         <span className="text-xs text-[var(--text-2)] ml-auto">{language} · {level}</span>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
+      <div className="flex-1 overflow-y-auto p-4 space-y-2 scroll-smooth">
         {turns.length === 0 && (
           <p className="text-center text-[var(--text-2)] text-sm mt-8">
             Start chatting with {tutorName} in {language}!<br/>
@@ -62,7 +62,7 @@ export function ConversationMode({ language, level, tutorName = 'Luna' }: Props)
           </p>
         )}
         {turns.map((t, i) => (
-          <div key={i} className={`flex flex-col gap-1 ${t.role === 'user' ? 'items-end' : 'items-start'}`}>
+          <div key={i} className={`flex flex-col gap-0.5 ${t.role === 'user' ? 'items-end' : 'items-start'}`}>
             <div className={`max-w-[75%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
               t.role === 'user' ? 'bg-[var(--theme-primary)] text-white' : 'bg-white/10 text-white'
             }`}>
