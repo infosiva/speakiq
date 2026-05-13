@@ -800,11 +800,9 @@ export default function Home() {
 
               {/* Trust bar */}
               <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] text-white/30 pt-1">
-                <span className="flex items-center gap-1"><span className="text-yellow-400">★★★★★</span> 4.8/5</span>
-                <span>·</span>
-                <span>2,400+ learners</span>
-                <span>·</span>
                 <span>50+ languages</span>
+                <span>·</span>
+                <span>Free to start</span>
                 <span>·</span>
                 <a href="/pricing" className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition">See pricing</a>
               </div>
