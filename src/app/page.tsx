@@ -746,12 +746,18 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-1.5">
                   {MODES.map(m => (
                     <button key={m.id} onClick={() => setMode(m.id)}
-                      className={`p-2.5 rounded-xl text-left transition-all relative ${mode === m.id ? 'bg-violet-500/20 border border-violet-500/40' : m.id === 'interview' ? 'bg-amber-500/5 border border-amber-500/20 hover:bg-amber-500/8' : 'bg-white/[0.03] border border-white/8 hover:bg-white/[0.05]'}`}>
-                      {m.id === 'interview' && (
+                      className={`p-2.5 rounded-xl text-left transition-all relative ${mode === m.id ? 'bg-violet-600/30 border-2 border-violet-400/70 shadow-[0_0_12px_rgba(139,92,246,0.3)]' : m.id === 'interview' ? 'bg-amber-500/5 border border-amber-500/20 hover:bg-amber-500/8' : 'bg-white/[0.03] border border-white/8 hover:bg-white/[0.06] hover:border-white/15'}`}>
+                      {/* Selected checkmark */}
+                      {mode === m.id && (
+                        <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-violet-500 flex items-center justify-center">
+                          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.2 5.8L6.5 2" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </span>
+                      )}
+                      {m.id === 'interview' && mode !== m.id && (
                         <span className="absolute top-1 right-1 text-[7px] font-bold bg-amber-500/25 text-amber-300 px-1 py-0.5 rounded-full">NEW</span>
                       )}
-                      <div className={`text-[11px] font-semibold leading-tight ${mode === m.id ? 'text-violet-300' : m.id === 'interview' ? 'text-amber-300/80' : 'text-white/60'}`}>{m.label}</div>
-                      <div className="text-[9px] text-white/25 mt-0.5 leading-tight">{m.desc}</div>
+                      <div className={`text-[11px] font-semibold leading-tight ${mode === m.id ? 'text-white' : m.id === 'interview' ? 'text-amber-300/80' : 'text-white/60'}`}>{m.label}</div>
+                      <div className={`text-[9px] mt-0.5 leading-tight ${mode === m.id ? 'text-violet-200/60' : 'text-white/25'}`}>{m.desc}</div>
                     </button>
                   ))}
                 </div>
