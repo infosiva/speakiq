@@ -553,9 +553,9 @@ export default function Home() {
       }} aria-hidden="true" />
       {/* Radial gradient vignette over grid */}
       <div className="fixed inset-0 pointer-events-none z-0" style={{
-        background: `radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124,58,237,0.12) 0%, transparent 60%),
-                     radial-gradient(ellipse 60% 50% at 80% 70%, rgba(6,182,212,0.08) 0%, transparent 55%),
-                     radial-gradient(ellipse 50% 40% at 60% 10%, rgba(168,85,247,0.07) 0%, transparent 50%)`,
+        background: `radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124,58,237,0.40) 0%, transparent 60%),
+                     radial-gradient(ellipse 60% 50% at 80% 70%, rgba(6,182,212,0.28) 0%, transparent 55%),
+                     radial-gradient(ellipse 50% 40% at 60% 10%, rgba(168,85,247,0.25) 0%, transparent 50%)`,
       }} aria-hidden="true" />
       {/* Edge fade so grid fades to black at corners */}
       <div className="fixed inset-0 pointer-events-none z-0" style={{
