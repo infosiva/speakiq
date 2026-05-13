@@ -9,11 +9,24 @@ export async function POST(req: NextRequest) {
     if (!email || !email.includes('@')) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
     }
-    const audienceId = process.env.RESEND_AUDIENCE_ID
-    if (!audienceId) {
-      return NextResponse.json({ error: 'Audience not configured' }, { status: 500 })
+
+    if (process.env.RESEND_AUDIENCE_ID) {
+      // Optional: save to a named audience if configured
+      await resend.contacts.create({
+        email,
+        audienceId: process.env.RESEND_AUDIENCE_ID,
+        unsubscribed: false,
+      })
+    } else {
+      // Fallback: forward signup to your own inbox
+      await resend.emails.send({
+        from: 'noreply@speakiq.app',
+        to: process.env.NOTIFY_EMAIL ?? 'info.siva@gmail.com',
+        subject: `New newsletter signup — SpeakIQ`,
+        text: `New subscriber: ${email}`,
+      })
     }
-    await resend.contacts.create({ email, audienceId, unsubscribed: false })
+
     return NextResponse.json({ ok: true })
   } catch {
     return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 })
