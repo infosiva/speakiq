@@ -18,8 +18,8 @@ export default function ConversePage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-6">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-4 sm:p-6">
+      <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-8">
           <Link href="/" className="text-[var(--text-2)] hover:text-white transition-colors">← Back</Link>
           <h1 className="text-2xl font-bold">AI Conversation Tutor</h1>

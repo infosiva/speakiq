@@ -22,7 +22,7 @@ const brand: BrandConfig = {
     { label: 'Badges', href: '/badges' },
     { label: 'Word Bank', href: '/wordbank' },
   ],
-  cta: { label: 'Learn free →', href: '/' },
+  cta: { label: 'Learn free →', href: '/converse' },
 }
 
 export const metadata: Metadata = {
