@@ -10,7 +10,7 @@ interface Turn {
   corrections?: Correction[]
 }
 
-interface Props { language: string; level: string; tutorName?: string }
+interface Props { language: string; level: string; tutorName?: string; className?: string }
 
 const STARTER_PROMPTS: Record<string, string[]> = {
   Beginner: ['Hello! How are you?', 'What is your name?', 'I like coffee.'],
@@ -18,7 +18,7 @@ const STARTER_PROMPTS: Record<string, string[]> = {
   Advanced: ['Let\'s discuss current events.', 'What\'s your opinion on travel?', 'Tell me a short story.'],
 }
 
-export function ConversationMode({ language, level, tutorName = 'Luna' }: Props) {
+export function ConversationMode({ language, level, tutorName = 'Luna', className = '' }: Props) {
   const [turns,   setTurns]   = useState<Turn[]>([])
   const [input,   setInput]   = useState('')
   const [loading, setLoading] = useState(false)
@@ -86,7 +86,7 @@ export function ConversationMode({ language, level, tutorName = 'Luna' }: Props)
   const showStarters = turns.length <= 1 && !loading
 
   return (
-    <div className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden" style={{ height: 'calc(100dvh - 130px)', minHeight: '520px' }}>
+    <div className={`flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden ${className}`} style={className ? undefined : { height: 'calc(100dvh - 130px)', minHeight: '520px' }}>
       {/* Header */}
       <div className="px-4 py-3 border-b border-white/10 flex items-center gap-2 shrink-0">
         <div className="w-8 h-8 rounded-full bg-[var(--theme-primary)]/20 flex items-center justify-center text-sm">🤖</div>

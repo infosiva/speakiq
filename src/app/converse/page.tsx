@@ -31,10 +31,10 @@ export default function ConversePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]" style={{ paddingTop: '0' }}>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4">
+    <div className="flex flex-col text-[var(--foreground)]" style={{ height: 'calc(100vh - 4rem)' }}>
+      <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 flex flex-col flex-1 min-h-0">
         {/* Compact top bar */}
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3 py-3 shrink-0">
           <Link href="/" className="text-[var(--text-2)] hover:text-white transition-colors text-sm">← Back</Link>
           <h1 className="text-lg font-bold">AI Conversation</h1>
           <div className="ml-auto flex gap-2">
@@ -55,8 +55,8 @@ export default function ConversePage() {
           </div>
         </div>
 
-        {/* Chat — always shown, auto-greeted */}
-        <ConversationMode key={key} language={language} level={level} tutorName="Luna" />
+        {/* Chat — fills remaining height */}
+        <ConversationMode key={key} language={language} level={level} tutorName="Luna" className="flex-1 min-h-0" />
       </div>
     </div>
   )

@@ -890,7 +890,7 @@ export default function Home() {
         onDismiss={dismissGate}
       />
     )}
-    <main className="min-h-screen flex flex-col relative z-10">
+    <main className="flex flex-col relative z-10" style={{ height: 'calc(100vh - 4rem)' }}>
       {/* Aurora background — unique to SpeakIQ */}
       <div className="aurora-orb-1" aria-hidden="true" />
       <div className="aurora-orb-2" aria-hidden="true" />
