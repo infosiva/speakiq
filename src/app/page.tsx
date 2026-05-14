@@ -422,6 +422,12 @@ export default function Home() {
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [streamingContent])
 
+  // Lock body scroll in chat mode so footer doesn't bleed through
+  useEffect(() => {
+    document.body.style.overflow = setup ? '' : 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [setup])
+
   useEffect(() => {
     if (typeof window === 'undefined') return
     if (localStorage.getItem('speakiq-pro') === '1') setIsPro(true)
@@ -648,12 +654,12 @@ export default function Home() {
       )}
 
       {/* ── Hero + Setup — single viewport ── */}
-      <section className="max-w-5xl mx-auto px-5 pt-10 pb-8 relative">
-        {/* Two-column layout: hero left, setup right */}
+      <section className="max-w-5xl mx-auto px-5 pt-4 sm:pt-10 pb-8 relative">
+        {/* Two-column layout: setup first on mobile, hero left on desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
-          {/* Left: hero copy */}
-          <div className="lg:pt-4">
+          {/* Left: hero copy — shown second on mobile, first on desktop */}
+          <div className="order-2 lg:order-1">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-bold mb-4 backdrop-blur-sm">
               🌍 50+ Languages · AI Native Speaker Tutor · $7/mo
@@ -747,8 +753,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right: setup panel */}
-          <div>
+          {/* Right: setup panel — shown first on mobile */}
+          <div className="order-1 lg:order-2">
             <div className="glass-liquid rounded-2xl p-6 space-y-5" style={{ boxShadow: '0 0 60px rgba(139,92,246,0.15)' }}>
               <div className="flex items-center justify-between">
                 <h2 className="font-black text-base text-white">Configure your session</h2>
@@ -890,7 +896,7 @@ export default function Home() {
         onDismiss={dismissGate}
       />
     )}
-    <main className="flex flex-col relative z-10" style={{ height: 'calc(100vh - 4rem)' }}>
+    <main className="flex flex-col z-10 overflow-hidden" style={{ position: 'fixed', top: '4rem', left: 0, right: 0, bottom: 0 }}>
       {/* Aurora background — unique to SpeakIQ */}
       <div className="aurora-orb-1" aria-hidden="true" />
       <div className="aurora-orb-2" aria-hidden="true" />
@@ -907,49 +913,48 @@ export default function Home() {
         </div>
       )}
 
-      <nav className="border-b border-white/8 backdrop-blur-xl bg-white/[0.02] sticky top-14 z-40">
-        <div className="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-lg shadow-lg shadow-violet-500/30">🗣️</div>
-            <div>
-              <div className="font-bold text-sm">{language} <span className="text-white/30">·</span> {modeObj?.label}</div>
-              <div className="text-[10px] text-white/35">{level} level · {native} speaker</div>
+      <nav className="border-b border-white/8 backdrop-blur-xl bg-white/[0.02] sticky top-14 z-40 shrink-0">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between gap-2">
+          {/* Left: language + mode info */}
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-xs shadow-md shadow-violet-500/30 shrink-0">✦</div>
+            <div className="font-semibold text-xs sm:text-sm truncate text-white/80">
+              {language} <span className="text-white/25">·</span> <span className="text-white/50">{modeObj?.label}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            {/* Streak badge */}
+
+          {/* Right: actions */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Streak — desktop only */}
             {currentStreak > 0 && (
               <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg border border-orange-500/30 bg-orange-500/10 text-orange-300 text-xs font-semibold">
                 🔥 {currentStreak}
               </div>
             )}
-            <div className="hidden sm:flex items-center gap-3 text-xs text-white/30">
-              <span>💬 {messages.length}</span>
-              {wordCount > 0 && <span>📝 {wordCount}w</span>}
-              {!isPro && <span className={remaining <= 5 ? 'text-orange-400 font-semibold' : ''}>⚡ {remaining}/20</span>}
-            </div>
-            {/* Grammar report button */}
+            {/* Msg + quota — desktop only */}
+            {!isPro && (
+              <div className="hidden sm:flex items-center gap-2 text-xs text-white/30">
+                <span className={remaining <= 5 ? 'text-orange-400 font-semibold' : ''}>⚡ {remaining}/20</span>
+              </div>
+            )}
+            {/* Grammar — always visible */}
             <button onClick={() => setShowGrammar(true)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/50 hover:text-white/80 transition-all">
-              📊 {grammarErrors.length}
+              className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/50 hover:text-white/80 transition-all">
+              📊<span className="hidden xs:inline ml-0.5">{grammarErrors.length}</span>
             </button>
-            {/* Flashcard button */}
+            {/* Flashcards — always visible */}
             <button onClick={() => setShowCards(true)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/50 hover:text-white/80 transition-all">
-              📇 {langCards.length > 0 ? langCards.length : flashcards.length}
+              className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/50 hover:text-white/80 transition-all">
+              📇<span className="hidden xs:inline ml-0.5">{langCards.length > 0 ? langCards.length : flashcards.length}</span>
             </button>
-            {/* Badges link */}
-            <a href="/badges"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/5 text-xs text-yellow-400/60 hover:text-yellow-400 hover:bg-yellow-500/10 transition-all"
-              title="View badges">
-              🏅
-            </a>
+            {/* Mode selector — desktop only */}
             <select value={mode} onChange={e => setMode(e.target.value)}
-              className="bg-white/[0.05] border border-white/10 rounded-lg px-2 py-1 text-xs text-white/60 focus:outline-none">
+              className="hidden sm:block bg-white/[0.05] border border-white/10 rounded-lg px-2 py-1 text-xs text-white/60 focus:outline-none">
               {MODES.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
             </select>
+            {/* Back — always visible */}
             <button onClick={() => { setSetup(true); setMessages([]); setWordCount(0); setGrammarErrors([]) }}
-              className="text-xs text-white/30 hover:text-white/60 transition-colors">
+              className="px-2 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/40 hover:text-white/70 transition-colors">
               ↩
             </button>
           </div>
@@ -995,14 +1000,14 @@ export default function Home() {
 
       {/* Quick prompts */}
       {messages.length > 0 && messages.length < 10 && (
-        <div className="border-t border-white/5 bg-black/10 px-4 py-2">
-          <div className="max-w-3xl mx-auto flex gap-2 overflow-x-auto pb-1">
+        <div className="border-t border-white/5 bg-black/10 shrink-0 py-2">
+          <div className="flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-none" style={{ scrollbarWidth: 'none' }}>
             {(mode === 'vocabulary'
               ? ['Teach me 5 more words', 'Give me example sentences', 'Quiz me on these words', 'Teach me numbers 1-10']
               : ['How do I say "thank you"?', 'Correct my last message', 'Give me a quiz', 'Tell me something interesting']
             ).map(q => (
               <button key={q} onClick={() => setInput(q)}
-                className="flex-shrink-0 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-xs text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-all">
+                className="shrink-0 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-xs text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-all whitespace-nowrap">
                 {q}
               </button>
             ))}

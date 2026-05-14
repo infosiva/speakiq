@@ -11,14 +11,18 @@ export default function Icon() {
           width: 32,
           height: 32,
           borderRadius: 8,
-          background: 'linear-gradient(135deg, #f97316, #ea580c)',
+          background: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 20,
+          fontSize: 18,
+          fontWeight: 900,
+          color: 'white',
+          fontFamily: 'system-ui, sans-serif',
+          letterSpacing: '-1px',
         }}
       >
-        🗣️
+        SQ
       </div>
     ),
     { ...size }
