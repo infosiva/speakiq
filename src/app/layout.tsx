@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import SharedNavbar from '@/components/SharedNavbar'
@@ -76,6 +77,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         })}} />
       </head>
       <body className="flex flex-col min-h-screen">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <AnimatedBackground />
         <DesignEffects />
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
