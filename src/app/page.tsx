@@ -422,11 +422,31 @@ export default function Home() {
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [streamingContent])
 
-  // Lock body scroll in chat mode so footer doesn't bleed through
+  // Lock body scroll + hide global footer/navbar in chat mode
   useEffect(() => {
-    document.body.style.overflow = setup ? '' : 'hidden'
-    return () => { document.body.style.overflow = '' }
+    if (!setup) {
+      document.body.style.overflow = 'hidden'
+      document.documentElement.classList.add('chat-active')
+    } else {
+      document.body.style.overflow = ''
+      document.documentElement.classList.remove('chat-active')
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.documentElement.classList.remove('chat-active')
+    }
   }, [setup])
+
+  // Escape key closes open modals
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      if (showCards) { setShowCards(false); return }
+      if (showGrammar) { setShowGrammar(false); return }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [showCards, showGrammar])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -919,9 +939,17 @@ export default function Home() {
 
       <nav className="border-b border-white/8 backdrop-blur-xl bg-white/[0.02] shrink-0">
         <div className="max-w-3xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between gap-2 overflow-hidden">
-          {/* Left: language + mode info */}
+          {/* Left: SpeakIQ home link + session info */}
           <div className="flex items-center gap-2 min-w-0">
-            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-xs shadow-md shadow-violet-500/30 shrink-0">✦</div>
+            <button
+              onClick={() => { setSetup(true); setMessages([]); setWordCount(0); setGrammarErrors([]) }}
+              className="flex items-center gap-1.5 shrink-0 group"
+              aria-label="Back to home"
+            >
+              <div className="w-6 h-6 rounded-md bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-xs shadow-md shadow-violet-500/30 group-hover:scale-110 transition-transform">✦</div>
+              <span className="hidden sm:block text-xs font-bold text-white/40 group-hover:text-white/70 transition-colors">SpeakIQ</span>
+            </button>
+            <span className="text-white/15 shrink-0">·</span>
             <div className="font-semibold text-xs sm:text-sm truncate text-white/80">
               {language} <span className="text-white/25">·</span> <span className="text-white/50">{modeObj?.label}</span>
             </div>
