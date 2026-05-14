@@ -13,6 +13,7 @@ const brand: BrandConfig = {
   icon: 'SQ',
   color: '#7c3aed',
   url: 'https://speakiq.app',
+  logoSrc: '/logo.svg',
   navLinks: [
     { label: 'Learn', href: '/' },
     { label: 'Dashboard', href: '/dashboard' },
@@ -38,6 +39,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org", "@type": "SoftwareApplication",
           "name": "SpeakIQ", "url": brand.url, "description": brand.tagline,

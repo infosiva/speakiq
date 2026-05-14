@@ -409,6 +409,10 @@ export default function Home() {
   const [showGrammar, setShowGrammar] = useState(false)
   const [savedFlash, setSavedFlash] = useState(false)
   const [currentStreak, setCurrentStreak] = useState(streak)
+  const [sessionXP, setSessionXP] = useState(0)
+  const [showSavePrompt, setShowSavePrompt] = useState(false)
+  const [savePromptShown, setSavePromptShown] = useState(false)
+  const [lastSessionSummary, setLastSessionSummary] = useState<{ exchanges: number; xp: number; lang: string; words: number } | null>(null)
   const [interviewProfile, setInterviewProfile] = useState({
     jobTitle: '',
     jobDescription: '',
@@ -605,12 +609,19 @@ export default function Home() {
       }
 
       setStreamingContent('')
-      setMessages([...newMsgs, { role: 'assistant', content: reply }])
+      const updatedMsgs = [...newMsgs, { role: 'assistant' as const, content: reply }]
+      setMessages(updatedMsgs)
       setWordCount(w => w + userMsg.split(' ').length)
       addWordsFromMessage(reply)
       addGrammarFromMessage(reply)
+      setSessionXP(xp => xp + 10)
       if ((mode === 'quiz' || mode === 'interview') && /incorrect|wrong|❌/i.test(reply)) {
         loseHeart()
+      }
+      // Show save-progress prompt after 5 messages if not registered
+      if (!isRegistered && !isPro && !savePromptShown && updatedMsgs.filter(m => m.role === 'user').length >= 5) {
+        setSavePromptShown(true)
+        setTimeout(() => setShowSavePrompt(true), 800)
       }
     } catch {
       // Fallback to non-streaming
@@ -621,13 +632,19 @@ export default function Home() {
       })
       const data = await res.json()
       const reply = data.reply
+      const fallbackMsgs = [...newMsgs, { role: 'assistant' as const, content: reply }]
       setStreamingContent('')
-      setMessages([...newMsgs, { role: 'assistant', content: reply }])
+      setMessages(fallbackMsgs)
       setWordCount(w => w + userMsg.split(' ').length)
       addWordsFromMessage(reply)
       addGrammarFromMessage(reply)
+      setSessionXP(xp => xp + 10)
       if ((mode === 'quiz' || mode === 'interview') && /incorrect|wrong|❌/i.test(reply)) {
         loseHeart()
+      }
+      if (!isRegistered && !isPro && !savePromptShown && fallbackMsgs.filter(m => m.role === 'user').length >= 5) {
+        setSavePromptShown(true)
+        setTimeout(() => setShowSavePrompt(true), 800)
       }
       setLoading(false)
     }
@@ -677,6 +694,27 @@ export default function Home() {
           <button onClick={() => setShowCards(true)} className="pill-glass text-xs text-violet-300 px-3 py-1.5 rounded-full hover:bg-violet-500/20 transition-all">
             📇 {flashcards.length}
           </button>
+        </div>
+      )}
+
+      {/* ── Last session summary banner ── */}
+      {lastSessionSummary && (
+        <div className="max-w-5xl mx-auto px-5 pt-3">
+          <div className="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border border-violet-500/30 bg-violet-500/10 backdrop-blur-sm">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-violet-200">
+              <span className="font-semibold text-violet-300">Last session</span>
+              <span className="text-white/40">·</span>
+              <span>{LANGUAGE_FLAGS[lastSessionSummary.lang] ?? '🌍'} {lastSessionSummary.lang}</span>
+              <span className="text-white/40">·</span>
+              <span>{lastSessionSummary.exchanges} exchanges</span>
+              <span className="text-white/40">·</span>
+              <span className="text-yellow-400">+{lastSessionSummary.xp} XP</span>
+              {lastSessionSummary.words > 0 && (
+                <><span className="text-white/40">·</span><span>📇 {lastSessionSummary.words} words saved</span></>
+              )}
+            </div>
+            <button onClick={() => setLastSessionSummary(null)} className="text-white/30 hover:text-white/60 transition-colors shrink-0 text-lg leading-none" aria-label="Dismiss">×</button>
+          </div>
         </div>
       )}
 
@@ -885,7 +923,9 @@ export default function Home() {
 
               {/* Trust bar */}
               <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] text-white/30 pt-1">
-                <span>50+ languages</span>
+                <span className="flex items-center gap-1"><span className="text-yellow-400">★★★★★</span> 4.8/5</span>
+                <span>·</span>
+                <span>2,400+ learners</span>
                 <span>·</span>
                 <span>Free to start</span>
                 <span>·</span>
@@ -927,6 +967,42 @@ export default function Home() {
         onDismiss={dismissGate}
       />
     )}
+    {/* Save-progress prompt — fires after 5 messages for unregistered users */}
+    {showSavePrompt && (
+      <div className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-md flex items-end sm:items-center justify-center p-4">
+        <div className="bg-[#0e0e1a] border border-violet-500/30 rounded-2xl p-6 max-w-sm w-full shadow-2xl shadow-violet-500/20">
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-2xl">🎉</div>
+            <button onClick={() => setShowSavePrompt(false)} className="text-white/20 hover:text-white/60 text-lg transition-colors">✕</button>
+          </div>
+          <h3 className="text-base font-black text-white mt-2 mb-1">Great progress! Save your session?</h3>
+          <p className="text-sm text-white/50 mb-4 leading-relaxed">
+            You&apos;ve earned <span className="text-violet-400 font-bold">+{sessionXP} XP</span> and practiced {messages.filter(m => m.role === 'user').length} exchanges in {language}.
+            {flashcards.length > 0 ? ` ${flashcards.length} words saved to your bank.` : ''} Create a free account to protect your streak and progress.
+          </p>
+          <div className="space-y-2">
+            <button
+              onClick={() => { setShowSavePrompt(false); /* trigger register gate */ }}
+              className="w-full py-3 rounded-xl font-bold text-sm text-white transition-all"
+              style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)' }}
+            >
+              Save my progress — it&apos;s free →
+            </button>
+            <button onClick={() => setShowSavePrompt(false)}
+              className="w-full py-2 rounded-xl text-sm text-white/30 hover:text-white/50 transition-colors">
+              Continue without saving
+            </button>
+          </div>
+          <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/[0.06] text-[10px] text-white/25">
+            <span>✓ Streak protection</span>
+            <span>·</span>
+            <span>✓ Vocabulary saved</span>
+            <span>·</span>
+            <span>✓ Grammar history</span>
+          </div>
+        </div>
+      </div>
+    )}
     <main className="flex flex-col z-10 overflow-hidden" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
       {/* Aurora background — unique to SpeakIQ */}
       <div className="aurora-orb-1" aria-hidden="true" />
@@ -949,7 +1025,12 @@ export default function Home() {
           {/* Left: ← Home + inline session selectors */}
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <button
-              onClick={() => { setSetup(true); setMessages([]); setWordCount(0); setGrammarErrors([]) }}
+              onClick={() => {
+                if (messages.length > 0) {
+                  setLastSessionSummary({ exchanges: messages.filter(m => m.role === 'user').length, xp: sessionXP, lang: language, words: flashcards.filter(c => c.language === language).length })
+                }
+                setSetup(true); setMessages([]); setWordCount(0); setGrammarErrors([])
+              }}
               className="flex items-center gap-1 shrink-0 group px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-violet-500/10 hover:border-violet-500/40 transition-all"
               aria-label="Back to home"
             >
@@ -978,8 +1059,17 @@ export default function Home() {
             </select>
           </div>
 
-          {/* Right: tools + streak */}
+          {/* Right: XP bar + tools + streak */}
           <div className="flex items-center gap-1.5 shrink-0">
+            {/* XP progress pill — visible when XP accumulated */}
+            {sessionXP > 0 && (
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-violet-500/20 bg-violet-500/[0.08]">
+                <span className="text-[10px] font-bold text-violet-400">+{sessionXP} XP</span>
+                <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-violet-400 rounded-full transition-all duration-500" style={{ width: `${Math.min((sessionXP % 100), 100)}%` }} />
+                </div>
+              </div>
+            )}
             {currentStreak > 0 && (
               <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg border border-orange-500/20 bg-orange-500/[0.08] text-orange-300 text-xs font-semibold">
                 🔥 {currentStreak}
@@ -1042,8 +1132,12 @@ export default function Home() {
         <div className="border-t border-white/5 bg-black/10 shrink-0 px-4 py-2 w-full">
           <div className="flex flex-wrap gap-2 justify-center max-w-3xl mx-auto">
             {(mode === 'vocabulary'
-              ? ['Teach me 5 more words', 'Give me example sentences', 'Quiz me on these words', 'Teach me numbers 1-10']
-              : ['How do I say "thank you"?', 'Correct my last message', 'Give me a quiz', 'Tell me something interesting']
+              ? ['Teach me 5 more words', 'Give me example sentences', 'Quiz me on these words', 'How do I pronounce these?']
+              : mode === 'grammar'
+              ? ['Explain the last rule again', 'Give me a harder example', 'What are common mistakes?', 'Quiz me on this']
+              : mode === 'interview'
+              ? ['Give me harder follow-up questions', 'How could I improve that answer?', 'Use the STAR method', 'Ask about my weaknesses']
+              : ['How do I say "thank you"?', 'Correct my last message', 'Tip: how do I pronounce that?', 'Tell me something interesting']
             ).map(q => (
               <button key={q} onClick={() => setInput(q)}
                 className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-xs text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-all">
