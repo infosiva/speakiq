@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { ClerkProvider } from '@clerk/nextjs'
 import SharedNavbar from '@/components/SharedNavbar'
 import Footer from '../../components/Footer'
 import DesignEffects from '@/components/DesignEffects'
@@ -37,6 +38,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
+    <ClerkProvider
+      appearance={{
+        variables: { colorPrimary: '#7c3aed', colorBackground: '#030305', colorText: '#ffffff' },
+        elements: {
+          formButtonPrimary: 'bg-violet-600 hover:bg-violet-700 text-white',
+          card: 'bg-[#0d0d1a] border border-white/10 shadow-2xl',
+          headerTitle: 'text-white',
+          headerSubtitle: 'text-white/60',
+          socialButtonsBlockButton: 'border-white/10 bg-white/5 hover:bg-white/10 text-white',
+          formFieldInput: 'bg-white/5 border-white/10 text-white',
+          footerActionLink: 'text-violet-400 hover:text-violet-300',
+        },
+      }}
+    >
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -57,5 +72,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <CookieConsent />
       </body>
     </html>
+    </ClerkProvider>
   )
 }
