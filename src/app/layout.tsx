@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   title: 'SpeakIQ — AI Language Learning',
   description: 'Learn any language with a personalised AI tutor. Conversational lessons, streak tracking and adaptive difficulty for rapid progress.',
   keywords: ['language learning', 'AI tutor', 'learn Spanish', 'learn French', 'language app'],
-  openGraph: { title: 'SpeakIQ — AI Language Learning', description: 'Conversational AI language tutor for rapid progress.', type: 'website', locale: 'en_GB', siteName: 'SpeakIQ' },
-  twitter: { card: 'summary_large_image', title: 'SpeakIQ — AI Language Learning', description: 'Learn any language with a conversational AI tutor. 50+ languages, 6 practice modes, free to start.' },
+  openGraph: { title: 'SpeakIQ — AI Language Learning', description: 'Conversational AI language tutor for rapid progress.', type: 'website', locale: 'en_GB', siteName: 'SpeakIQ', images: [{ url: '/og.svg', width: 1200, height: 630, alt: 'SpeakIQ — AI Language Learning' }] },
+  twitter: { card: 'summary_large_image', title: 'SpeakIQ — AI Language Learning', description: 'Learn any language with a conversational AI tutor. 50+ languages, 6 practice modes, free to start.', images: ['/og.svg'] },
   robots: { index: true, follow: true },
 }
 
