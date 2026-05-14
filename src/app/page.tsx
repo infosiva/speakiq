@@ -655,70 +655,46 @@ export default function Home() {
           {/* Left: hero copy */}
           <div className="lg:pt-4">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-bold mb-5 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-bold mb-4 backdrop-blur-sm">
               🌍 50+ Languages · AI Native Speaker Tutor · $7/mo
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-[1.1] mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-[1.1] mb-3">
               Your AI<br />
               <span className="text-iridescent">language tutor</span><br />
               <span className="text-white/35">available 24/7</span>
             </h1>
 
-            <p className="text-white/50 text-sm md:text-base max-w-sm leading-relaxed mb-5">
-              Real conversations, instant corrections, automatic flashcards, grammar tracking.{' '}
-              <span className="text-violet-300 font-semibold">Less than a cup of coffee per week.</span>
+            <p className="text-white/50 text-sm max-w-sm leading-relaxed mb-4">
+              Real conversations · instant corrections · automatic flashcards
             </p>
 
             {/* Gamification strip */}
-            <div className="flex items-center gap-3 mb-5">
-              {currentStreak > 0 && <StreakBadge count={currentStreak} />}
-              <HeartsDisplay />
-            </div>
+            {(currentStreak > 0) && (
+              <div className="flex items-center gap-3 mb-4">
+                <StreakBadge count={currentStreak} />
+                <HeartsDisplay />
+              </div>
+            )}
 
-            {/* Stats row */}
-            <div className="grid grid-cols-4 gap-2 mb-6">
+            {/* Stats row — compact */}
+            <div className="grid grid-cols-4 gap-2 mb-5">
               {[
                 { val: '50+', label: 'Languages' },
                 { val: '7', label: 'Modes' },
                 { val: '$7', label: 'Pro/mo' },
                 { val: '20', label: 'Free/day' },
               ].map(s => (
-                <div key={s.label} className="glass-liquid rounded-xl py-3 text-center">
-                  <div className="text-xl font-black text-white">{s.val}</div>
-                  <div className="text-[10px] text-white/35 mt-0.5">{s.label}</div>
+                <div key={s.label} className="glass-liquid rounded-xl py-2.5 text-center">
+                  <div className="text-lg font-black text-white">{s.val}</div>
+                  <div className="text-[9px] text-white/35 mt-0.5">{s.label}</div>
                 </div>
               ))}
             </div>
 
-            {/* How it works — 3-step compact row */}
-            <div className="mt-1 mb-1">
-              <div className="text-[10px] text-white/25 uppercase tracking-widest mb-3">How it works</div>
-              <div className="flex items-start gap-0">
-                {[
-                  { n: '1', icon: '🌍', title: 'Pick language & mode', sub: 'Choose from 50+ languages or AI skills' },
-                  { n: '2', icon: '💬', title: 'Chat with AI tutor', sub: 'Real conversations, instant corrections' },
-                  { n: '3', icon: '📊', title: 'Track your progress', sub: 'Streak, flashcards, grammar report' },
-                ].map((step, i) => (
-                  <div key={i} className="flex-1 relative">
-                    <div className="flex flex-col items-center text-center px-2">
-                      <div className="w-8 h-8 rounded-full border border-violet-500/30 bg-violet-500/10 flex items-center justify-center text-base mb-2 relative z-10">
-                        {step.icon}
-                      </div>
-                      <div className="text-[11px] font-semibold text-white/70 leading-tight mb-0.5">{step.title}</div>
-                      <div className="text-[9px] text-white/30 leading-tight">{step.sub}</div>
-                    </div>
-                    {i < 2 && (
-                      <div className="absolute top-4 left-[calc(50%+20px)] right-0 h-px bg-gradient-to-r from-violet-500/30 to-violet-500/10" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Live demo preview */}
-            <div className="rounded-xl border border-white/[0.07] bg-black/30 overflow-hidden">
+            {/* Live demo preview — desktop only */}
+            <div className="hidden lg:block rounded-xl border border-white/[0.07] bg-black/30 overflow-hidden">
               <div className="flex items-center gap-2 px-3 py-2 border-b border-white/[0.05] bg-white/[0.02]">
                 <div className="w-2 h-2 rounded-full bg-violet-500/60" />
                 <span className="text-[10px] text-white/25 font-mono">speakiq · live session</span>
@@ -738,11 +714,7 @@ export default function Home() {
                 </div>
                 <div className="flex gap-2">
                   <span className="text-violet-400/50 shrink-0">tutor</span>
-                  <span className="text-white/50">¡Perfecto! <span className="text-emerald-400/70">✓ Great pronunciation!</span></span>
-                </div>
-                <div className="flex gap-2">
-                  <span className="text-violet-400/50 shrink-0">tutor</span>
-                  <span className="text-amber-400/50">📇 &quot;llamo&quot; → &quot;I am called&quot; saved to flashcards</span>
+                  <span className="text-white/50">¡Perfecto! <span className="text-emerald-400/70">✓ Great!</span></span>
                 </div>
               </div>
             </div>
