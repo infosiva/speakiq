@@ -964,14 +964,14 @@ export default function Home() {
               className="bg-transparent border-0 text-xs font-semibold text-white/70 focus:outline-none cursor-pointer hover:text-white transition-colors max-w-[90px] truncate">
               {ALL_LANGUAGES.map(l => <option key={l} value={l} className="bg-gray-900">{l}</option>)}
             </select>
-            <span className="text-white/10 shrink-0 hidden sm:block">·</span>
-            {/* Level selector */}
+            <span className="text-white/10 shrink-0">·</span>
+            {/* Level selector — always visible */}
             <select value={level} onChange={e => setLevel(e.target.value)}
-              className="hidden sm:block bg-transparent border-0 text-xs text-white/40 focus:outline-none cursor-pointer hover:text-white/70 transition-colors">
+              className="bg-transparent border-0 text-xs text-white/40 focus:outline-none cursor-pointer hover:text-white/70 transition-colors">
               {LEVELS.map(l => <option key={l} value={l} className="bg-gray-900">{l}</option>)}
             </select>
             <span className="text-white/10 shrink-0 hidden sm:block">·</span>
-            {/* Mode selector */}
+            {/* Mode selector — desktop only (too wide for mobile) */}
             <select value={mode} onChange={e => setMode(e.target.value)}
               className="hidden sm:block bg-transparent border-0 text-xs text-white/40 focus:outline-none cursor-pointer hover:text-white/70 transition-colors max-w-[110px] truncate">
               {MODES.map(m => <option key={m.id} value={m.id} className="bg-gray-900">{m.label}</option>)}
