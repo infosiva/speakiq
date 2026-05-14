@@ -927,7 +927,7 @@ export default function Home() {
         onDismiss={dismissGate}
       />
     )}
-    <main className="flex flex-col z-10 overflow-hidden" style={{ position: 'fixed', top: '4rem', left: 0, right: 0, bottom: 0 }}>
+    <main className="flex flex-col z-10 overflow-hidden" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
       {/* Aurora background — unique to SpeakIQ */}
       <div className="aurora-orb-1" aria-hidden="true" />
       <div className="aurora-orb-2" aria-hidden="true" />
@@ -944,55 +944,58 @@ export default function Home() {
         </div>
       )}
 
-      <nav className="border-b border-white/8 backdrop-blur-xl bg-white/[0.02] shrink-0">
-        <div className="max-w-3xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between gap-2 overflow-hidden">
-          {/* Left: back home button + session info */}
-          <div className="flex items-center gap-2 min-w-0">
+      <nav className="border-b border-white/[0.06] backdrop-blur-xl bg-black/30 shrink-0">
+        <div className="max-w-3xl mx-auto px-3 sm:px-5 h-14 flex items-center justify-between gap-2">
+          {/* Left: ← Home + inline session selectors */}
+          <div className="flex items-center gap-2 min-w-0 flex-1">
             <button
               onClick={() => { setSetup(true); setMessages([]); setWordCount(0); setGrammarErrors([]) }}
-              className="flex items-center gap-1.5 shrink-0 group px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-violet-500/40 transition-all"
+              className="flex items-center gap-1 shrink-0 group px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-violet-500/10 hover:border-violet-500/40 transition-all"
               aria-label="Back to home"
             >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-white/50 group-hover:text-violet-400 transition-colors shrink-0">
-                <path d="M8 10L4 6l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" className="text-white/40 group-hover:text-violet-400 transition-colors">
+                <path d="M8 10L4 6l4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span className="text-xs font-semibold text-white/50 group-hover:text-violet-400 transition-colors leading-none">Home</span>
+              <span className="text-[11px] font-semibold text-white/40 group-hover:text-violet-400 transition-colors">Home</span>
             </button>
-            <span className="text-white/15 shrink-0 hidden sm:block">·</span>
-            <div className="font-semibold text-xs sm:text-sm truncate text-white/70 hidden sm:block">
-              {language} <span className="text-white/25">·</span> <span className="text-white/40">{modeObj?.label}</span>
-            </div>
+            <span className="text-white/10 shrink-0">|</span>
+            {/* Language selector */}
+            <select value={language} onChange={e => setLanguage(e.target.value)}
+              className="bg-transparent border-0 text-xs font-semibold text-white/70 focus:outline-none cursor-pointer hover:text-white transition-colors max-w-[90px] truncate">
+              {ALL_LANGUAGES.map(l => <option key={l} value={l} className="bg-gray-900">{l}</option>)}
+            </select>
+            <span className="text-white/10 shrink-0 hidden sm:block">·</span>
+            {/* Level selector */}
+            <select value={level} onChange={e => setLevel(e.target.value)}
+              className="hidden sm:block bg-transparent border-0 text-xs text-white/40 focus:outline-none cursor-pointer hover:text-white/70 transition-colors">
+              {LEVELS.map(l => <option key={l} value={l} className="bg-gray-900">{l}</option>)}
+            </select>
+            <span className="text-white/10 shrink-0 hidden sm:block">·</span>
+            {/* Mode selector */}
+            <select value={mode} onChange={e => setMode(e.target.value)}
+              className="hidden sm:block bg-transparent border-0 text-xs text-white/40 focus:outline-none cursor-pointer hover:text-white/70 transition-colors max-w-[110px] truncate">
+              {MODES.map(m => <option key={m.id} value={m.id} className="bg-gray-900">{m.label}</option>)}
+            </select>
           </div>
 
-          {/* Right: actions */}
+          {/* Right: tools + streak */}
           <div className="flex items-center gap-1.5 shrink-0">
-            {/* Streak — desktop only */}
             {currentStreak > 0 && (
-              <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg border border-orange-500/30 bg-orange-500/10 text-orange-300 text-xs font-semibold">
+              <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg border border-orange-500/20 bg-orange-500/[0.08] text-orange-300 text-xs font-semibold">
                 🔥 {currentStreak}
               </div>
             )}
-            {/* Msg + quota — desktop only */}
             {!isPro && (
-              <div className="hidden sm:flex items-center gap-2 text-xs text-white/30">
-                <span className={remaining <= 5 ? 'text-orange-400 font-semibold' : ''}>⚡ {remaining}/20</span>
-              </div>
+              <span className={`hidden sm:block text-xs px-2 ${remaining <= 5 ? 'text-orange-400 font-semibold' : 'text-white/25'}`}>⚡ {remaining}/20</span>
             )}
-            {/* Grammar — always visible */}
             <button onClick={() => setShowGrammar(true)}
-              className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/50 hover:text-white/80 transition-all">
-              📊<span className="hidden xs:inline ml-0.5">{grammarErrors.length}</span>
+              className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] text-xs text-white/40 hover:text-white/80 hover:bg-white/[0.06] transition-all">
+              📊 <span className="text-[10px]">{grammarErrors.length}</span>
             </button>
-            {/* Flashcards — always visible */}
             <button onClick={() => setShowCards(true)}
-              className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-white/50 hover:text-white/80 transition-all">
-              📇<span className="hidden xs:inline ml-0.5">{langCards.length > 0 ? langCards.length : flashcards.length}</span>
+              className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] text-xs text-white/40 hover:text-white/80 hover:bg-white/[0.06] transition-all">
+              📇 <span className="text-[10px]">{langCards.length > 0 ? langCards.length : flashcards.length}</span>
             </button>
-            {/* Mode selector — desktop only */}
-            <select value={mode} onChange={e => setMode(e.target.value)}
-              className="hidden sm:block bg-white/[0.05] border border-white/10 rounded-lg px-2 py-1 text-xs text-white/60 focus:outline-none">
-              {MODES.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
-            </select>
           </div>
         </div>
       </nav>
