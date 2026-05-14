@@ -43,6 +43,17 @@ const LANGUAGE_GROUPS = {
   'Other': ['Latin', 'Esperanto', 'Sign Language (ASL)', 'Old English', 'Sanskrit'],
 }
 
+const LANGUAGE_FLAGS: Record<string, string> = {
+  Spanish: '🇪🇸', French: '🇫🇷', German: '🇩🇪', Italian: '🇮🇹', Portuguese: '🇵🇹',
+  Dutch: '🇳🇱', Swedish: '🇸🇪', Polish: '🇵🇱', Greek: '🇬🇷', Ukrainian: '🇺🇦',
+  Japanese: '🇯🇵', 'Mandarin Chinese': '🇨🇳', Korean: '🇰🇷', Hindi: '🇮🇳', Tamil: '🇮🇳',
+  Bengali: '🇧🇩', Vietnamese: '🇻🇳', Thai: '🇹🇭', Indonesian: '🇮🇩', Malay: '🇲🇾',
+  Arabic: '🇸🇦', Hebrew: '🇮🇱', Turkish: '🇹🇷', Persian: '🇮🇷', Swahili: '🇰🇪',
+  Yoruba: '🇳🇬', Amharic: '🇪🇹', Python: '🐍', JavaScript: '⚡', SQL: '🗄️',
+  'Prompt Engineering': '🤖', 'AI Concepts': '🧠', Latin: '🏛️', Esperanto: '🌍',
+  'Sign Language (ASL)': '🤟', 'Old English': '📜', Sanskrit: '🕉️',
+}
+
 const ALL_LANGUAGES = Object.values(LANGUAGE_GROUPS).flat()
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced']
 const MODES = [
@@ -265,50 +276,110 @@ function GrammarReport({ errors, onClose }: { errors: GrammarError[]; onClose: (
 }
 
 function LanguagePicker({ selected, onSelect }: { selected: string; onSelect: (l: string) => void }) {
+  const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
-  const filtered = search
+  const inputRef = useRef<HTMLInputElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const [dropPos, setDropPos] = useState<{ top: number; left: number; width: number } | null>(null)
+
+  const filtered = search.trim()
     ? ALL_LANGUAGES.filter(l => l.toLowerCase().includes(search.toLowerCase()))
     : null
 
+  function pick(l: string) { onSelect(l); setOpen(false); setSearch('') }
+
+  function openDrop() {
+    if (triggerRef.current) {
+      const r = triggerRef.current.getBoundingClientRect()
+      setDropPos({ top: r.bottom + 6, left: r.left, width: r.width })
+    }
+    setOpen(true)
+  }
+
+  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 50) }, [open])
+
+  const flag = LANGUAGE_FLAGS[selected] || '🌍'
+  const groupName = Object.entries(LANGUAGE_GROUPS).find(([, langs]) => langs.includes(selected))?.[0] ?? 'Custom'
+
   return (
-    <div className="space-y-3">
-      <input
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        placeholder="Search any language or type your own..."
-        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-violet-500/50 transition-all"
-      />
-      {filtered ? (
-        <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
-          {filtered.map(l => (
-            <button key={l} onClick={() => { onSelect(l); setSearch('') }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${selected === l ? 'bg-violet-500/25 border border-violet-500/50 text-violet-300' : 'bg-white/[0.04] border border-white/10 text-white/50 hover:text-white/80'}`}>
-              {l}
-            </button>
-          ))}
-          {filtered.length === 0 && search.length > 1 && (
-            <button onClick={() => { onSelect(search); setSearch('') }}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium bg-violet-500/20 border border-violet-500/40 text-violet-300">
-              + Use &quot;{search}&quot;
-            </button>
-          )}
+    <>
+      {/* Trigger button */}
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={openDrop}
+        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all text-left ${
+          open ? 'border-violet-500/60 bg-violet-500/10' : 'border-white/10 bg-white/[0.04] hover:border-white/20 hover:bg-white/[0.07]'
+        }`}
+      >
+        <span className="text-2xl leading-none">{flag}</span>
+        <div className="flex-1 min-w-0">
+          <div className="text-sm font-semibold text-white truncate">{selected}</div>
+          <div className="text-[10px] text-white/30 mt-0.5">{groupName}</div>
         </div>
-      ) : (
-        Object.entries(LANGUAGE_GROUPS).map(([group, langs]) => (
-          <div key={group}>
-            <div className="text-[10px] text-white/30 uppercase tracking-wider mb-1.5">{group}</div>
-            <div className="flex flex-wrap gap-1.5">
-              {langs.map(l => (
-                <button key={l} onClick={() => onSelect(l)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${selected === l ? 'bg-violet-500/25 border border-violet-500/50 text-violet-300' : 'bg-white/[0.04] border border-white/10 text-white/40 hover:text-white/70'}`}>
-                  {l}
-                </button>
-              ))}
-            </div>
+        <span className={`text-white/30 text-xs transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>▼</span>
+      </button>
+
+      {/* Portal-style fixed dropdown */}
+      {open && dropPos && (
+        <div
+          className="fixed z-[200] rounded-2xl border border-white/12 bg-[#0e0e1e]/97 backdrop-blur-xl shadow-2xl shadow-black/70 overflow-hidden"
+          style={{ top: dropPos.top, left: dropPos.left, width: dropPos.width }}
+        >
+          <div className="p-3 border-b border-white/8">
+            <input
+              ref={inputRef}
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search language..."
+              className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 transition-all"
+            />
           </div>
-        ))
+          <div className="max-h-60 overflow-y-auto">
+            {filtered ? (
+              <div className="p-2">
+                {filtered.map(l => (
+                  <button key={l} onClick={() => pick(l)}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all ${
+                      selected === l ? 'bg-violet-500/20 text-violet-300' : 'text-white/70 hover:bg-white/[0.06] hover:text-white'
+                    }`}>
+                    <span className="text-xl w-7 text-center shrink-0">{LANGUAGE_FLAGS[l] || '🌍'}</span>
+                    <span className="text-sm font-medium">{l}</span>
+                    {selected === l && <span className="ml-auto text-violet-400 text-xs">✓</span>}
+                  </button>
+                ))}
+                {filtered.length === 0 && search.length > 1 && (
+                  <button onClick={() => pick(search)}
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 transition-all">
+                    <span className="text-xl w-7 text-center shrink-0">🌍</span>
+                    <span className="text-sm font-medium">Use &quot;{search}&quot;</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              Object.entries(LANGUAGE_GROUPS).map(([group, langs]) => (
+                <div key={group}>
+                  <div className="px-4 pt-3 pb-1 text-[9px] font-bold uppercase tracking-widest text-white/25">{group}</div>
+                  {langs.map(l => (
+                    <button key={l} onClick={() => pick(l)}
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-all ${
+                        selected === l ? 'bg-violet-500/20 text-violet-300' : 'text-white/60 hover:bg-white/[0.05] hover:text-white'
+                      }`}>
+                      <span className="text-xl w-7 text-center shrink-0">{LANGUAGE_FLAGS[l] || '🌍'}</span>
+                      <span className="text-sm">{l}</span>
+                      {selected === l && <span className="ml-auto text-violet-400 text-xs">✓</span>}
+                    </button>
+                  ))}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       )}
-    </div>
+
+      {/* Backdrop to close */}
+      {open && <div className="fixed inset-0 z-[199]" onClick={() => { setOpen(false); setSearch('') }} />}
+    </>
   )
 }
 
@@ -420,6 +491,8 @@ export default function Home() {
 
   async function startChat() {
     setSetup(false)
+    // Scroll to top so chat nav is visible immediately
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'instant' })
     setLoading(true)
     // Save prefs for daily challenge + other pages
     if (typeof window !== 'undefined') {
@@ -719,11 +792,9 @@ export default function Home() {
                 <LanguagePicker selected={language} onSelect={setLanguage} />
               </div>
 
-              {language && (
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-violet-500/12 border border-violet-500/20 text-sm">
-                  <span className="text-violet-300 font-semibold">{language}</span>
-                  <span className="text-white/25 text-xs">selected</span>
-                  {langCards.length > 0 && <span className="ml-auto text-xs text-violet-400/60">📇 {langCards.length}</span>}
+              {langCards.length > 0 && (
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-violet-500/8 border border-violet-500/15 text-xs text-violet-400/60">
+                  📇 {langCards.length} {language} flashcard{langCards.length !== 1 ? 's' : ''} saved
                 </div>
               )}
 
