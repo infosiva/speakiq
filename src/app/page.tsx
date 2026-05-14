@@ -1039,14 +1039,14 @@ export default function Home() {
 
       {/* Quick prompts */}
       {messages.length > 0 && messages.length < 10 && (
-        <div className="border-t border-white/5 bg-black/10 shrink-0 py-2 overflow-hidden w-full">
-          <div className="flex gap-2 overflow-x-auto px-4 pb-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
+        <div className="border-t border-white/5 bg-black/10 shrink-0 px-4 py-2 w-full">
+          <div className="flex flex-wrap gap-2">
             {(mode === 'vocabulary'
               ? ['Teach me 5 more words', 'Give me example sentences', 'Quiz me on these words', 'Teach me numbers 1-10']
               : ['How do I say "thank you"?', 'Correct my last message', 'Give me a quiz', 'Tell me something interesting']
             ).map(q => (
               <button key={q} onClick={() => setInput(q)}
-                className="shrink-0 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-xs text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-all whitespace-nowrap">
+                className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-xs text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-all">
                 {q}
               </button>
             ))}
