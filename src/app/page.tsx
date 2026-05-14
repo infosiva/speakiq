@@ -424,16 +424,23 @@ export default function Home() {
 
   // Lock body scroll + hide global footer/navbar in chat mode
   useEffect(() => {
+    const nav = document.getElementById('layout-nav')
+    const footer = document.getElementById('layout-footer')
     if (!setup) {
       document.body.style.overflow = 'hidden'
-      document.documentElement.classList.add('chat-active')
+      if (nav) nav.style.display = 'none'
+      if (footer) footer.style.display = 'none'
     } else {
       document.body.style.overflow = ''
-      document.documentElement.classList.remove('chat-active')
+      if (nav) nav.style.display = ''
+      if (footer) footer.style.display = ''
     }
     return () => {
       document.body.style.overflow = ''
-      document.documentElement.classList.remove('chat-active')
+      const n = document.getElementById('layout-nav')
+      const f = document.getElementById('layout-footer')
+      if (n) n.style.display = ''
+      if (f) f.style.display = ''
     }
   }, [setup])
 

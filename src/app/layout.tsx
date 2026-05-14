@@ -48,9 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex flex-col min-h-screen">
         <AnimatedBackground />
         <DesignEffects />
-        <SharedNavbar brand={brand} />
+        <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16">{children}</main>
-        <Footer siteName="SpeakIQ" />
+        <div id="layout-footer"><Footer siteName="SpeakIQ" /></div>
       <CookieConsent />
       </body>
     </html>
