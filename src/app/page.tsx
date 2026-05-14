@@ -887,7 +887,7 @@ export default function Home() {
 
               {/* CTA */}
               <button id="hero-start-btn" onClick={startChat}
-                className="btn-liquid w-full py-3.5 rounded-xl font-black text-sm text-white transition-all"
+                className="btn-liquid w-full py-3.5 rounded-xl font-black text-sm text-white transition-all justify-center"
                 style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', boxShadow: '0 0 30px rgba(124,58,237,0.35)' }}>
                 Start {modeObj?.label || '💬 Conversation'} in {language} →
               </button>
