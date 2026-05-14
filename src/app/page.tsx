@@ -921,15 +921,9 @@ export default function Home() {
                 placeholder="Your native language (e.g. English, Tamil, Hindi...)"
                 className="w-full bg-white/[0.04] border border-white/8 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500/40 transition-all placeholder-white/20" />
 
-              {/* Trust bar */}
-              <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] text-white/30 pt-1">
-                <span className="flex items-center gap-1"><span className="text-yellow-400">★★★★★</span> 4.8/5</span>
-                <span>·</span>
-                <span>2,400+ learners</span>
-                <span>·</span>
-                <span>Free to start</span>
-                <span>·</span>
-                <a href="/pricing" className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition">See pricing</a>
+              {/* Pricing link */}
+              <div className="flex justify-center pt-1">
+                <a href="/pricing" className="text-[10px] text-violet-400 hover:text-violet-300 underline underline-offset-2 transition">See pricing</a>
               </div>
 
               {/* CTA */}
