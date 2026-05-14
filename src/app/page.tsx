@@ -326,14 +326,17 @@ function LanguagePicker({ selected, onSelect }: { selected: string; onSelect: (l
           className="fixed z-[200] rounded-2xl border border-white/12 bg-[#0e0e1e]/97 backdrop-blur-xl shadow-2xl shadow-black/70 overflow-hidden"
           style={{ top: dropPos.top, left: dropPos.left, width: dropPos.width }}
         >
-          <div className="p-3 border-b border-white/8">
+          <div className="p-3 border-b border-white/8 flex items-center gap-2">
             <input
               ref={inputRef}
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search language..."
-              className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 transition-all"
+              className="flex-1 bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 transition-all"
             />
+            <button onClick={() => { setOpen(false); setSearch('') }}
+              className="shrink-0 text-white/40 hover:text-white text-xl px-2 py-1 rounded-lg hover:bg-white/10 transition-all"
+              aria-label="Close">✕</button>
           </div>
           <div className="max-h-60 overflow-y-auto">
             {filtered ? (
@@ -543,9 +546,7 @@ export default function Home() {
       const { jobTitle, targetCompany, yearsExp, interviewType } = interviewProfile
       const roleContext = jobTitle ? `I am applying for a ${jobTitle}${targetCompany ? ` role at ${targetCompany}` : ''}` : ''
       const expContext = yearsExp ? `, with ${yearsExp} years of experience` : ''
-      greeting = isTechLang
-        ? `${roleContext}${expContext}. Start my ${level}-level ${language} ${interviewType} interview now.`
-        : `I am ready for my ${level}-level ${language} language proficiency interview${roleContext ? ` (${roleContext})` : ''}. Please begin.`
+      greeting = `${roleContext}${expContext}. Start my ${level}-level ${interviewType} interview now. Conduct the entire interview in English only.`
     } else if (isTechLang) {
       greeting = `Hi! I want to learn ${language}. Start with a friendly introduction and give me my first lesson.`
     } else {
@@ -554,7 +555,7 @@ export default function Home() {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: greeting, language, native, level, mode, history: [], interviewProfile: mode === 'interview' ? interviewProfile : null }),
+      body: JSON.stringify({ message: greeting, language: mode === 'interview' ? 'English' : language, native, level, mode, history: [], interviewProfile: mode === 'interview' ? interviewProfile : null }),
     })
     const data = await res.json()
     const reply = data.reply
@@ -579,7 +580,7 @@ export default function Home() {
       const res = await fetch('/api/chat-stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg, language, native, level, mode, history: messages, interviewProfile: mode === 'interview' ? interviewProfile : null }),
+        body: JSON.stringify({ message: userMsg, language: mode === 'interview' ? 'English' : language, native, level, mode, history: messages, interviewProfile: mode === 'interview' ? interviewProfile : null }),
       })
 
       if (!res.ok || !res.body) throw new Error('stream failed')
@@ -628,7 +629,7 @@ export default function Home() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg, language, native, level, mode, history: messages, interviewProfile: mode === 'interview' ? interviewProfile : null }),
+        body: JSON.stringify({ message: userMsg, language: mode === 'interview' ? 'English' : language, native, level, mode, history: messages, interviewProfile: mode === 'interview' ? interviewProfile : null }),
       })
       const data = await res.json()
       const reply = data.reply
@@ -930,7 +931,7 @@ export default function Home() {
               <button id="hero-start-btn" onClick={startChat}
                 className="btn-liquid w-full py-3.5 rounded-xl font-black text-sm text-white transition-all justify-center"
                 style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', boxShadow: '0 0 30px rgba(124,58,237,0.35)' }}>
-                Start {modeObj?.label || '💬 Conversation'} in {language} →
+                Start {modeObj?.label || '💬 Conversation'} {mode === 'interview' ? 'in English' : `in ${language}`} →
               </button>
 
               <p className="text-center text-[10px] text-white/20">20 free messages/day · No credit card needed</p>
