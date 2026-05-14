@@ -755,14 +755,9 @@ export default function Home() {
 
           {/* Right: setup panel — shown first on mobile */}
           <div className="order-1 lg:order-2 flex flex-col">
-            {/* Mobile-only intro header — shown above setup panel on small screens */}
+            {/* Mobile-only tagline — navbar already shows logo, just add context */}
             <div className="lg:hidden mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-white text-[11px] shrink-0"
-                  style={{ background: '#7c3aed30', boxShadow: '0 0 0 1px #7c3aed40' }}>SQ</span>
-                <span className="font-black text-white text-lg tracking-tight">SpeakIQ</span>
-              </div>
-              <p className="text-sm text-white/50 leading-snug">AI tutor for 50+ languages. Pick your language and start a conversation — free, no account needed.</p>
+              <p className="text-sm text-white/50 leading-snug">AI tutor for 50+ languages. Pick your language and start a free conversation — no account needed.</p>
             </div>
             <div className="glass-liquid rounded-2xl p-6 space-y-5 flex-1" style={{ boxShadow: '0 0 60px rgba(139,92,246,0.15)' }}>
               <div className="flex items-center justify-between">
