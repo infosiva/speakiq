@@ -425,10 +425,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [streamingContent, setStreamingContent] = useState('')
   const [wordCount, setWordCount] = useState(0)
-  const [flashcards, setFlashcards] = useState<Flashcard[]>(() => {
-    if (typeof window === 'undefined') return []
-    try { return JSON.parse(localStorage.getItem('speakfast-cards') || '[]') } catch { return [] }
-  })
+  const [flashcards, setFlashcards] = useState<Flashcard[]>([])
   const [grammarErrors, setGrammarErrors] = useState<GrammarError[]>([])
   const [showCards, setShowCards] = useState(false)
   const [showGrammar, setShowGrammar] = useState(false)
@@ -480,6 +477,8 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
+    // Load localStorage state client-side only — prevents hydration mismatch
+    try { const cards = JSON.parse(localStorage.getItem('speakfast-cards') || '[]'); if (cards.length) setFlashcards(cards) } catch { /* ignore */ }
     if (localStorage.getItem('speakiq-pro') === '1') setIsPro(true)
     const params = new URLSearchParams(window.location.search)
     if (params.get('upgraded') === '1') {
@@ -565,17 +564,49 @@ export default function Home() {
     } else {
       greeting = `Hello! Please greet me warmly in ${language}, introduce yourself as my tutor, and start our first ${mode} session at ${level} level.`
     }
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: greeting, language, native, level, mode, history: [] }),
-    })
-    const data = await res.json()
-    const reply = data.reply
-    setMessages([{ role: 'assistant', content: reply }])
-    addWordsFromMessage(reply)
-    addGrammarFromMessage(reply)
-    setLoading(false)
+    // Use streaming for initial greeting — shows first tokens immediately instead of blank wait
+    try {
+      const res = await fetch('/api/chat-stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: greeting, language, native, level, mode, history: [] }),
+      })
+      if (!res.ok || !res.body) throw new Error('stream failed')
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buf = '', reply = ''
+      setLoading(false)
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buf += decoder.decode(value, { stream: true })
+        const lines = buf.split('\n')
+        buf = lines.pop() ?? ''
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue
+          const data = line.slice(6).trim()
+          if (data === '[DONE]') continue
+          try { const token: string = JSON.parse(data); reply += token; setStreamingContent(reply) } catch { /* skip */ }
+        }
+      }
+      setStreamingContent('')
+      setMessages([{ role: 'assistant', content: reply }])
+      addWordsFromMessage(reply)
+      addGrammarFromMessage(reply)
+    } catch {
+      // Fallback to non-streaming
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: greeting, language, native, level, mode, history: [] }),
+      })
+      const data = await res.json()
+      const reply = data.reply
+      setMessages([{ role: 'assistant', content: reply }])
+      addWordsFromMessage(reply)
+      addGrammarFromMessage(reply)
+      setLoading(false)
+    }
   }
 
   async function send() {
