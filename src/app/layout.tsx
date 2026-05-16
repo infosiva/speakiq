@@ -69,6 +69,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+        <style dangerouslySetInnerHTML={{ __html: `
+          :root {
+            --theme-primary: #4f46e5;
+            --theme-secondary: #818cf8;
+            --theme-base: #0d0b1e;
+            --background: #0d0b1e;
+            --surface-1: #13112a;
+            --surface-2: #1a1840;
+            --foreground: #eef2ff;
+            --text-2: #a5b4fc;
+            --border-default: rgba(99,102,241,0.15);
+            --border-strong: rgba(99,102,241,0.25);
+            --radius: 1rem;
+            --radius-lg: 1.5rem;
+            --radius-xl: 2rem;
+          }
+          body { font-family: 'DM Sans', system-ui, sans-serif !important; }
+          h1, h2, h3, .display { font-family: 'Nunito', sans-serif !important; }
+          .glass {
+            background: rgba(13,11,30,0.65) !important;
+            border-color: rgba(99,102,241,0.12) !important;
+          }
+        `}} />
+
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org", "@type": "SoftwareApplication",
           "name": "SpeakIQ", "url": brand.url, "description": brand.tagline,
