@@ -1,5 +1,6 @@
 'use client'
 import { useState, useRef, useEffect, useCallback } from 'react'
+import AnimatedHeroGuide from '@/components/AnimatedHeroGuide'
 import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
 import { StreakBadge } from '@/components/design'
@@ -700,6 +701,7 @@ export default function Home() {
 
   if (setup) return (
     <>
+    <AnimatedHeroGuide />
     {showGate && (
       <RegisterGate
         freeUsed={gateCount}
