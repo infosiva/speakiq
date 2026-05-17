@@ -976,11 +976,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Minimal footer ── */}
-      <footer className="border-t border-white/[0.05] px-5 py-6 text-center text-[11px] text-white/20">
-        SpeakIQ · AI language tutor · 50+ languages · <button onClick={handleUpgrade} disabled={isPro} className="text-violet-400/50 hover:text-violet-400 transition-colors disabled:opacity-50">Upgrade to Pro $7/mo</button>
+      {/* Competitor comparison */}
+      <section style={{ borderTop:'1px solid rgba(124,58,237,0.15)', padding:'48px 24px' }}>
+        <div style={{ maxWidth:800, margin:'0 auto' }}>
+          <div style={{ textAlign:'center', marginBottom:32 }}>
+            <p style={{ fontSize:10, color:'rgba(124,58,237,0.5)', letterSpacing:'0.15em', textTransform:'uppercase', marginBottom:8 }}>How we compare</p>
+            <h2 style={{ fontSize:20, fontWeight:800, color:'#f5f3ff' }}>SpeakIQ vs alternatives</h2>
+          </div>
+          <div style={{ overflowX:'auto' }}>
+            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+              <thead>
+                <tr style={{ borderBottom:'1px solid rgba(124,58,237,0.2)' }}>
+                  {['Feature','SpeakIQ','Duolingo','Babbel','Rosetta Stone'].map((h,i) => (
+                    <th key={h} style={{ padding:'10px 12px', textAlign:i===0?'left':'center',
+                      color: i===1 ? '#7c3aed' : 'rgba(255,255,255,0.3)', fontWeight:700, fontSize:11, letterSpacing:'0.05em' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['AI conversation partner','✅ Claude AI','❌','❌','❌'],
+                  ['50+ languages','✅','✅ 40+','✅ 14','✅ 25+'],
+                  ['No gamification pressure','✅','❌ Streaks','❌','❌'],
+                  ['No account required','✅','❌','❌','❌'],
+                  ['Pronunciation feedback','✅ AI','❌','✅ Limited','✅'],
+                  ['Custom scenarios','✅','❌','⚠️ Fixed','❌'],
+                  ['Cost','Free / $7 mo','Free / $7 mo','$14/mo','$12/mo'],
+                ].map(row => (
+                  <tr key={row[0]} style={{ borderBottom:'1px solid rgba(124,58,237,0.07)' }}>
+                    {row.map((cell,i) => (
+                      <td key={i} style={{ padding:'9px 12px', textAlign:i===0?'left':'center',
+                        color: i===1 ? '#7c3aed' : i===0 ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.25)',
+                        background: i===1 ? 'rgba(124,58,237,0.04)' : 'transparent', fontSize:11 }}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ borderTop:'1px solid rgba(124,58,237,0.12)', padding:'24px', background:'rgba(5,3,10,0.9)' }}>
+        <div style={{ maxWidth:900, margin:'0 auto', display:'flex', flexWrap:'wrap', justifyContent:'space-between', alignItems:'center', gap:16 }}>
+          <div>
+            <span style={{ fontWeight:900, fontSize:15, color:'#7c3aed' }}>SpeakIQ</span>
+            <p style={{ fontSize:11, color:'rgba(255,255,255,0.25)', marginTop:4 }}>AI language tutor — 50+ languages, no account needed.</p>
+          </div>
+          <div style={{ display:'flex', gap:20, flexWrap:'wrap' }}>
+            {[['About','/about'],['Privacy','/privacy'],['Terms','/terms'],['Cookie Policy','/cookies']].map(([label,href]) => (
+              <a key={label} href={href} style={{ fontSize:11, color:'rgba(255,255,255,0.25)', textDecoration:'none' }}
+                onMouseOver={e=>(e.currentTarget.style.color='#7c3aed')} onMouseOut={e=>(e.currentTarget.style.color='rgba(255,255,255,0.25)')}>{label}</a>
+            ))}
+          </div>
+          <p style={{ fontSize:10, color:'rgba(255,255,255,0.15)' }}>© 2026 SpeakIQ</p>
+        </div>
       </footer>
     </main>
+    <SpeakIQCookieBanner />
     </>
   )
 
@@ -1217,5 +1271,37 @@ export default function Home() {
       <GuidedTour steps={SPEAKIQ_TOUR} storageKey="speakiq_tour_v1" accentColor="#7c3aed" />
     </main>
     </>
+  )
+}
+
+function SpeakIQCookieBanner() {
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    if (!localStorage.getItem('siq_cookies_ok')) setVisible(true)
+  }, [])
+  if (!visible) return null
+  return (
+    <div style={{ position:'fixed', bottom:0, left:0, right:0, zIndex:200, padding:'12px 24px',
+      background:'rgba(5,3,10,0.97)', borderTop:'1px solid rgba(124,58,237,0.2)',
+      backdropFilter:'blur(16px)', display:'flex', alignItems:'center', justifyContent:'space-between',
+      gap:16, flexWrap:'wrap' }}>
+      <p style={{ fontSize:12, color:'rgba(255,255,255,0.45)', maxWidth:600, lineHeight:1.5 }}>
+        SpeakIQ uses essential cookies to save your learning progress and streak locally. No tracking, no ads.{' '}
+        <a href="/privacy" style={{ color:'#7c3aed', textDecoration:'underline', cursor:'pointer' }}>Privacy policy</a>
+      </p>
+      <div style={{ display:'flex', gap:10 }}>
+        <button onClick={() => { localStorage.setItem('siq_cookies_ok','1'); setVisible(false) }}
+          style={{ fontSize:12, fontWeight:700, padding:'7px 20px', borderRadius:8,
+            background:'linear-gradient(135deg,#7c3aed,#5b21b6)', color:'#fff', border:'none', cursor:'pointer' }}>
+          Accept
+        </button>
+        <button onClick={() => setVisible(false)}
+          style={{ fontSize:12, fontWeight:500, padding:'7px 14px', borderRadius:8,
+            background:'transparent', color:'rgba(255,255,255,0.3)',
+            border:'1px solid rgba(255,255,255,0.1)', cursor:'pointer' }}>
+          Decline
+        </button>
+      </div>
+    </div>
   )
 }
