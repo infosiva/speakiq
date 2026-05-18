@@ -445,7 +445,7 @@ export default function Home() {
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [streamingContent])
 
-  // Lock body scroll + hide global footer/navbar in chat mode
+  // Lock body scroll on setup (viewport-fit) and chat mode; restore on unmount
   useEffect(() => {
     const nav = document.getElementById('layout-nav')
     const footer = document.getElementById('layout-footer')
@@ -454,9 +454,10 @@ export default function Home() {
       if (nav) nav.style.display = 'none'
       if (footer) footer.style.display = 'none'
     } else {
-      document.body.style.overflow = ''
+      // Setup screen fills one viewport — hide footer, lock body scroll
+      document.body.style.overflow = 'hidden'
+      if (footer) footer.style.display = 'none'
       if (nav) nav.style.display = ''
-      if (footer) footer.style.display = ''
     }
     return () => {
       document.body.style.overflow = ''
