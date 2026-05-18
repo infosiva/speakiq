@@ -1,14 +1,13 @@
 'use client'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import AnimatedHeroGuide from '@/components/AnimatedHeroGuide'
-import SpeakIQAffiliates from '@/components/SpeakIQAffiliates'
 import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
 import { StreakBadge } from '@/components/design'
 import { HeartsDisplay } from '@/components/gamification'
 import { loseHeart } from '@/lib/gamification/hearts'
 import GuidedTour, { type TourStep } from '@/components/GuidedTour'
-import { FloatingChat } from '@siva/shared-ui'
+import { FloatingChat } from '@/components/SmartChat'
 
 const SPEAKIQ_TOUR: TourStep[] = [
   { target: '#hero-start-btn', title: 'Start learning free', icon: '🌍', body: 'Pick a language, set your level, and start chatting with your AI tutor instantly. No account needed.', placement: 'bottom' },
