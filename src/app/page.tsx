@@ -716,7 +716,7 @@ export default function Home() {
         onDismiss={dismissGate}
       />
     )}
-    <main className="relative z-10 overflow-x-hidden flex flex-col" style={{ height: 'calc(100svh - 64px)', overflow: 'hidden' }}>
+    <main className="relative z-10 overflow-x-hidden flex flex-col lg:overflow-hidden" style={{ minHeight: 'calc(100svh - 64px)' }}>
       {/* ── Background system ── */}
       {/* Fixed dot-grid pattern */}
       <div className="fixed inset-0 pointer-events-none z-0" style={{
@@ -768,12 +768,12 @@ export default function Home() {
       )}
 
       {/* ── Hero + Setup — single viewport ── */}
-      <section className="flex-1 max-w-5xl w-full mx-auto px-5 pt-4 sm:pt-6 pb-4 relative flex flex-col min-h-0 overflow-y-auto">
+      <section className="flex-1 max-w-5xl w-full mx-auto px-5 pt-4 sm:pt-6 pb-6 relative flex flex-col lg:min-h-0 lg:overflow-y-auto">
         {/* Two-column layout: setup first on mobile, hero left on desktop */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 flex-1 min-h-0 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 flex-1 min-h-0 items-stretch [&>*:only-child]:col-span-1 lg:[&>*:only-child]:col-span-1">
 
-          {/* Left: hero copy — shown second on mobile, first on desktop */}
-          <div className="order-2 lg:order-1 flex flex-col min-h-0">
+          {/* Left: hero copy — hidden on mobile (AnimatedHeroGuide shows it above), desktop left col */}
+          <div className="hidden lg:flex order-2 lg:order-1 flex-col min-h-0">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-bold mb-4 backdrop-blur-sm">
               🌍 50+ Languages · AI Native Speaker Tutor · $7/mo
@@ -839,40 +839,54 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Pricing quick toggle — pushed to bottom of column */}
-            <div id="pricing" className="mt-auto pt-6 p-4 rounded-2xl border border-white/[0.08] bg-white/[0.02] grid grid-cols-2 gap-px overflow-hidden">
-              {[
-                { name: 'Free', price: '$0', sub: 'forever', features: ['20 messages/day', '50+ languages', '7 session modes', 'Auto flashcards'], highlight: false },
-                { name: 'Pro', price: '$7', sub: '/month', features: ['Unlimited messages', 'Grammar reports', 'Progress saved forever', 'Priority AI speed'], highlight: true },
-              ].map(plan => (
-                <div key={plan.name} className={`p-4 ${plan.highlight ? 'bg-violet-950/50' : 'bg-white/[0.01]'}`}>
-                  <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${plan.highlight ? 'text-violet-400' : 'text-white/25'}`}>{plan.name}</div>
-                  <div className={`text-2xl font-black mb-0.5 ${plan.highlight ? 'text-white' : 'text-white/40'}`}>{plan.price}</div>
-                  <div className={`text-[10px] mb-3 ${plan.highlight ? 'text-violet-500' : 'text-white/20'}`}>{plan.sub}</div>
-                  <ul className="space-y-1 mb-4">
-                    {plan.features.map(f => (
-                      <li key={f} className={`flex items-start gap-1.5 text-[11px] ${plan.highlight ? 'text-white/60' : 'text-white/25'}`}>
-                        <span className={plan.highlight ? 'text-violet-400' : 'text-white/15'}>✓</span>{f}
-                      </li>
-                    ))}
-                  </ul>
-                  {plan.highlight && (
-                    <button onClick={!isPro ? handleUpgrade : undefined} disabled={isPro || checkoutLoading}
-                      className="w-full py-2 rounded-lg text-xs font-bold text-white transition-all disabled:opacity-50 bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400">
-                      {isPro ? '✓ Active' : checkoutLoading ? 'Redirecting...' : 'Upgrade →'}
-                    </button>
-                  )}
+            {/* Pricing — compact pill on mobile, full table on desktop */}
+            <div id="pricing" className="mt-auto pt-4 lg:pt-6">
+              {/* Mobile: single-line pricing pill */}
+              <div className="lg:hidden flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border border-white/[0.08] bg-white/[0.02]">
+                <div className="flex items-center gap-3 text-xs">
+                  <span className="text-white/40">Free · 20 msgs/day</span>
+                  <span className="text-white/15">·</span>
+                  <span className="text-violet-400 font-bold">Pro $7/mo</span>
                 </div>
-              ))}
+                {!isPro && (
+                  <button onClick={handleUpgrade} disabled={checkoutLoading}
+                    className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold text-white disabled:opacity-50 bg-gradient-to-r from-violet-600 to-cyan-500">
+                    {checkoutLoading ? '...' : 'Upgrade →'}
+                  </button>
+                )}
+                {isPro && <span className="text-xs text-violet-400 font-bold">⚡ Pro active</span>}
+              </div>
+              {/* Desktop: full pricing table */}
+              <div className="hidden lg:grid grid-cols-2 gap-px p-4 rounded-2xl border border-white/[0.08] bg-white/[0.02] overflow-hidden">
+                {[
+                  { name: 'Free', price: '$0', sub: 'forever', features: ['20 messages/day', '50+ languages', '7 session modes', 'Auto flashcards'], highlight: false },
+                  { name: 'Pro', price: '$7', sub: '/month', features: ['Unlimited messages', 'Grammar reports', 'Progress saved forever', 'Priority AI speed'], highlight: true },
+                ].map(plan => (
+                  <div key={plan.name} className={`p-4 ${plan.highlight ? 'bg-violet-950/50' : 'bg-white/[0.01]'}`}>
+                    <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${plan.highlight ? 'text-violet-400' : 'text-white/25'}`}>{plan.name}</div>
+                    <div className={`text-2xl font-black mb-0.5 ${plan.highlight ? 'text-white' : 'text-white/40'}`}>{plan.price}</div>
+                    <div className={`text-[10px] mb-3 ${plan.highlight ? 'text-violet-500' : 'text-white/20'}`}>{plan.sub}</div>
+                    <ul className="space-y-1 mb-4">
+                      {plan.features.map(f => (
+                        <li key={f} className={`flex items-start gap-1.5 text-[11px] ${plan.highlight ? 'text-white/60' : 'text-white/25'}`}>
+                          <span className={plan.highlight ? 'text-violet-400' : 'text-white/15'}>✓</span>{f}
+                        </li>
+                      ))}
+                    </ul>
+                    {plan.highlight && (
+                      <button onClick={!isPro ? handleUpgrade : undefined} disabled={isPro || checkoutLoading}
+                        className="w-full py-2 rounded-lg text-xs font-bold text-white transition-all disabled:opacity-50 bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400">
+                        {isPro ? '✓ Active' : checkoutLoading ? 'Redirecting...' : 'Upgrade →'}
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Right: setup panel — shown first on mobile */}
-          <div className="order-1 lg:order-2 flex flex-col min-h-0">
-            {/* Mobile-only tagline — navbar already shows logo, just add context */}
-            <div className="lg:hidden mb-4">
-              <p className="text-sm text-white/50 leading-snug">AI tutor for 50+ languages. Pick your language and start a free conversation — no account needed.</p>
-            </div>
+          {/* Right: setup panel — full width on mobile, right col on desktop */}
+          <div className="order-1 lg:order-2 flex flex-col min-h-0 col-span-1 lg:col-auto">
             <div className="glass-liquid rounded-2xl p-6 space-y-5 flex-1 overflow-y-auto min-h-0" style={{ boxShadow: '0 0 60px rgba(139,92,246,0.15)' }}>
               <div className="flex items-center justify-between">
                 <h2 className="font-black text-base text-white">Configure your session</h2>
