@@ -104,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           "applicationCategory": "EducationApplication", "operatingSystem": "Web",
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" }
         })}} />
+              <Script async src="http://31.97.56.148:3100/script.js" data-website-id="f5f05875-37c4-47c7-afa9-834de2dd988f" strategy="afterInteractive" />
       </head>
       <body className="flex flex-col min-h-screen">
         <Script
