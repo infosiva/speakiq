@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import AnimatedHeroGuide from '@/components/AnimatedHeroGuide'
+import SpeakIQAffiliates from '@/components/SpeakIQAffiliates'
 import { useGate } from '@/lib/shared/useGate'
 import RegisterGate from '@/lib/shared/RegisterGate'
 import { StreakBadge } from '@/components/design'
@@ -976,6 +977,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ── Contextual Affiliates ── */}
+      <section className="max-w-4xl mx-auto px-6 pb-16">
+        <SpeakIQAffiliates />
       </section>
 
       {/* Competitor comparison */}
