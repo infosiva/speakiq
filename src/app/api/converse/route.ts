@@ -17,7 +17,9 @@ Format your response as JSON:
 }
 
 If the student wrote correctly, return corrections as an empty array [].
-Keep replies short (2-3 sentences max). Be warm and encouraging.`
+Keep replies short (2-3 sentences max). Be warm and encouraging.
+
+SAFETY (non-negotiable): This platform is used by children and teenagers. Always respond in a friendly, age-appropriate tone. Never produce violent, sexual, hateful, or harmful content. If the student attempts to misuse the platform, reply warmly in ${language} guiding them back to language practice.`
 
   try {
     const { text } = await callAI(system, messages, 600, 'balanced')

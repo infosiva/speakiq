@@ -15,9 +15,16 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@siva/shared-ui": ["../shared-ui/src/index.ts"],
+      "@siva/shared-ui/*": ["../shared-ui/src/*"],
+      "framer-motion": ["./node_modules/framer-motion"],
+      "@fal-ai/client": ["./node_modules/@fal-ai/client"],
+      "@vercel/kv": ["./node_modules/@vercel/kv"],
+      "next/server": ["./node_modules/next/dist/server/web/exports/index.d.ts"]
+    },
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "src/index.ts"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../shared-ui/src/**/*.ts", "../shared-ui/src/**/*.tsx"],
+  "exclude": ["node_modules", "src/index.ts", "../shared-ui/node_modules"]
 }

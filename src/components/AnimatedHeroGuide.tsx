@@ -143,15 +143,19 @@ export default function AnimatedHeroGuide() {
           </div>
 
           <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: 16, color: '#eef2ff' }}>
-            Learn{' '}
-            <span style={{ display: 'inline-block', animation: 'sq-lang 1.8s ease-in-out infinite', color: '#a78bfa', minWidth: 140 }}>
-              {LANGS[langIdx]}
-            </span>
+            Practice Any Language with AI
             <br />
-            <span className="sq-shimmer-text">with AI. Actually fluent.</span>
+            <span className="sq-shimmer-text">Like a Native Speaker in Your Pocket</span>
           </h1>
-          <p style={{ fontSize: 17, color: 'rgba(238,242,255,0.6)', lineHeight: 1.7, maxWidth: 540, margin: '0 auto 36px' }}>
-            SpeakIQ gives you a conversational AI tutor, streak tracking, and adaptive lessons — built for real progress, not just app streaks.
+          <p style={{ fontSize: 17, color: 'rgba(238,242,255,0.6)', lineHeight: 1.7, maxWidth: 540, margin: '0 auto 12px' }}>
+            Real conversations, instant grammar corrections, and automatic flashcards — free to start, no account needed.
+          </p>
+          <p style={{ fontSize: 15, color: 'rgba(238,242,255,0.4)', lineHeight: 1.5, maxWidth: 480, margin: '0 auto 36px' }}>
+            Practicing{' '}
+            <span style={{ display: 'inline-block', animation: 'sq-lang 1.8s ease-in-out infinite', color: '#a78bfa', minWidth: 120 }}>
+              {LANGS[langIdx]}
+            </span>{' '}
+            and 50+ more languages
           </p>
 
           <div className="sq-hero-btns" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

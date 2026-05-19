@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { BADGES, getUnlockedBadges } from '@/lib/gamification/badges'
+import { SKILL_TREE, getCompletedNodes, isNodeUnlocked } from '@/lib/gamification/skill-tree'
 
 interface StreakData { streak: number; lastDate: string }
 interface Flashcard { word: string; translation: string; language: string; example?: string; addedAt: string }
@@ -71,6 +72,7 @@ export default function DashboardPage() {
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>([])
   const [isPro, setIsPro] = useState(false)
   const [prefs, setPrefs] = useState<{ language: string; level: string }>({ language: 'Spanish', level: 'Beginner' })
+  const [completedNodes, setCompletedNodes] = useState<string[]>([])
 
   useEffect(() => {
     try {
@@ -90,6 +92,8 @@ export default function DashboardPage() {
       const p = JSON.parse(localStorage.getItem('speakfast-prefs') || '{}')
       if (p.language) setPrefs(p)
     } catch { /* empty */ }
+
+    setCompletedNodes(getCompletedNodes())
   }, [])
 
   // Language breakdown from flashcards
@@ -242,6 +246,30 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+
+        {/* Next lesson CTA */}
+        {(() => {
+          const nextNode = SKILL_TREE.find(n => !completedNodes.includes(n.id) && isNodeUnlocked(n, completedNodes))
+          if (!nextNode) return null
+          return (
+            <div className="mt-4 rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 to-teal-600/5 p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl">{nextNode.icon}</span>
+                  <div>
+                    <p className="text-[10px] text-emerald-400/60 font-semibold uppercase tracking-widest mb-0.5">Your next lesson</p>
+                    <p className="text-sm font-black text-white">{nextNode.title}</p>
+                    <p className="text-xs text-white/40">+{nextNode.xpReward} XP · {nextNode.level}</p>
+                  </div>
+                </div>
+                <Link href="/path"
+                  className="shrink-0 px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold hover:bg-emerald-500/30 transition-all">
+                  Start →
+                </Link>
+              </div>
+            </div>
+          )
+        })()}
 
         {/* Upgrade CTA — free users only */}
         {!isPro && (

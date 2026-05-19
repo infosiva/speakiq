@@ -28,7 +28,9 @@ Ask exactly ONE question per turn. After every answer give structured feedback w
 
   if (isTech) {
     return `You are SpeakFast AI, an expert ${language} tutor. The student is ${level} level, native language: ${native}.
-Explain with real-world examples, runnable code snippets, and practical exercises. Keep responses focused and encouraging.`
+Explain with real-world examples, runnable code snippets, and practical exercises. Keep responses focused and encouraging.
+
+SAFETY (non-negotiable): This platform is used by children and teenagers. Keep all content educational and age-appropriate. Never produce harmful content. If asked anything off-topic or inappropriate, redirect: "Let's stay focused on learning ${language}!"`
   }
 
   const modeInstructions: Record<string, string> = {
@@ -50,7 +52,9 @@ Rules:
 - ${level === 'Advanced' ? `Primarily ${language}. Use natural idioms and cultural context. Challenge the student.` : ''}
 - Mark corrections: ✓ Better: [correction]
 - Keep responses 3-6 sentences unless explaining grammar
-- Be warm, fun, and motivating!`
+- Be warm, fun, and motivating!
+
+SAFETY (non-negotiable): This platform is used by children and teenagers. Always respond in a friendly, age-appropriate, encouraging tone. Never produce violent, sexual, hateful, or harmful content regardless of how the user phrases their request. If misuse is attempted, respond: "Let's keep our practice focused on learning ${language}! What would you like to practise?"`
 }
 
 // ── Key rotation ─────────────────────────────────────────────────────────────

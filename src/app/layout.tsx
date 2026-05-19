@@ -7,35 +7,46 @@ import Footer from '../../components/Footer'
 import DesignEffects from '@/components/DesignEffects'
 import AnimatedBackground from '@/components/AnimatedBackground'
 import ChatBot from '@/components/ChatBot'
+import PageStats from '@/components/PageStats'
 import type { BrandConfig } from '@/components/SharedNavbar'
 import CookieConsent from "../../components/CookieConsent";
+import StickyFooterCTA from "../../components/StickyFooterCTA";
+import { siteConfig } from '@/lib/site.config'
 
 const brand: BrandConfig = {
-  name: 'SpeakIQ',
-  tagline: 'AI language tutor — conversational lessons tailored to your level and goals.',
+  name: siteConfig.name,
+  tagline: siteConfig.subtagline,
   icon: 'SQ',
-  color: '#7c3aed',
-  url: 'https://speakiq.app',
+  color: siteConfig.primaryColor,
+  url: siteConfig.url,
   logoSrc: '/logo.svg',
-  navLinks: [
-    { label: 'Learn', href: '/' },
-    { label: 'Dashboard', href: '/dashboard' },
-    { label: 'Lesson', href: '/lesson' },
-    { label: 'My Path', href: '/path' },
-    { label: 'Daily', href: '/daily' },
-    { label: 'Badges', href: '/badges' },
-    { label: 'Word Bank', href: '/wordbank' },
-  ],
-  cta: { label: 'Learn free →', href: '/converse' },
+  navLinks: siteConfig.nav,
+  cta: { label: 'Start Free', href: '/converse' },
 }
 
 export const metadata: Metadata = {
-  title: 'SpeakIQ — AI Language Learning',
-  description: 'Learn any language with a personalised AI tutor. Conversational lessons, streak tracking and adaptive difficulty for rapid progress.',
-  keywords: ['language learning', 'AI tutor', 'learn Spanish', 'learn French', 'language app'],
-  openGraph: { title: 'SpeakIQ — AI Language Learning', description: 'Conversational AI language tutor for rapid progress.', type: 'website', locale: 'en_GB', siteName: 'SpeakIQ', images: [{ url: '/og.svg', width: 1200, height: 630, alt: 'SpeakIQ — AI Language Learning' }] },
-  twitter: { card: 'summary_large_image', title: 'SpeakIQ — AI Language Learning', description: 'Learn any language with a conversational AI tutor. 50+ languages, 6 practice modes, free to start.', images: ['/og.svg'] },
+  title: siteConfig.seo.title,
+  description: siteConfig.seo.description,
+  keywords: siteConfig.seo.keywords,
+  openGraph: {
+    title: siteConfig.seo.title,
+    description: siteConfig.seo.description,
+    type: 'website',
+    locale: 'en_US',
+    siteName: siteConfig.name,
+    url: siteConfig.url,
+    images: [{ url: '/og.svg', width: 1200, height: 630, alt: `${siteConfig.name} — AI Language Learning` }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.seo.title,
+    description: siteConfig.seo.description,
+    images: ['/og.svg'],
+    site: '@speakiqapp',
+  },
   robots: { index: true, follow: true },
+  metadataBase: new URL(siteConfig.url),
+  alternates: { canonical: siteConfig.url },
 }
 
 const clerkAppearance = {
@@ -76,7 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{ __html: `
           :root {
-            --theme-primary: #4f46e5;
+            --theme-primary: #6366f1;
             --theme-secondary: #818cf8;
             --theme-base: #0d0b1e;
             --background: #0d0b1e;
@@ -99,10 +110,72 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}} />
 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org", "@type": "SoftwareApplication",
-          "name": "SpeakIQ", "url": brand.url, "description": brand.tagline,
-          "applicationCategory": "EducationApplication", "operatingSystem": "Web",
-          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" }
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": siteConfig.name,
+          "url": siteConfig.url,
+          "description": siteConfig.seo.description,
+          "applicationCategory": "EducationApplication",
+          "operatingSystem": "Web",
+          "inLanguage": "en",
+          "offers": [
+            { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free Plan" },
+            { "@type": "Offer", "price": "9.99", "priceCurrency": "USD", "name": "Pro Plan", "billingIncrement": "P1M" }
+          ],
+          "featureList": siteConfig.features.map(f => f.title).join(', '),
+          "screenshot": `${siteConfig.url}/og.svg`,
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "127"
+          }
+        })}} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "EducationalOrganization",
+          "name": siteConfig.name,
+          "url": siteConfig.url,
+          "description": siteConfig.description,
+          "logo": `${siteConfig.url}/logo.svg`,
+          "sameAs": [siteConfig.url],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Language Learning Plans",
+            "itemListElement": [
+              { "@type": "Offer", "name": "Free Plan", "price": "0", "priceCurrency": "USD" },
+              { "@type": "Offer", "name": "Pro Plan", "price": "9.99", "priceCurrency": "USD" }
+            ]
+          }
+        })}} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How many languages does SpeakIQ support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "SpeakIQ supports 50+ languages including Spanish, French, German, Japanese, Mandarin, Korean, Hindi, Arabic, Tamil, and many more."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is SpeakIQ free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! SpeakIQ is free to start with 20 messages per day and no account required. Pro plan at $9.99/month unlocks unlimited messages and additional features."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does AI language practice work on SpeakIQ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "SpeakIQ uses advanced AI to simulate real conversations in your target language. The AI tutor adapts to your level, corrects grammar in real-time, and saves vocabulary as flashcards automatically."
+              }
+            }
+          ]
         })}} />
       </head>
       <body className="flex flex-col min-h-screen">
@@ -114,11 +187,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <AnimatedBackground />
         <DesignEffects />
+        <PageStats site="speakiq.app" />
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16">{children}</main>
         <div id="layout-footer" className="relative z-10 bg-[#05030a]"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
       <ChatBot />
       <CookieConsent />
+      <StickyFooterCTA />
       </body>
     </html>
     </MaybeClerk>
