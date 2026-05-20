@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { siteConfig } from '@/lib/site.config'
@@ -32,6 +32,8 @@ const stagger = {
 }
 
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
   useEffect(() => { postStats() }, [])
 
   return (
@@ -73,13 +75,13 @@ export default function HomePage() {
             {siteConfig.tagline}
           </motion.h1>
           {/* ── Social proof bar (Duolingo-style) ── */}
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
+          <motion.div initial={mounted ? { opacity: 0, y: 8 } : false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
             className="flex flex-wrap items-center justify-center gap-4 py-4 mb-2">
             {[
-              { icon: '🌍', val: '500k+', label: 'learners' },
-              { icon: '🗣️', val: '40+', label: 'languages' },
-              { icon: '⭐', val: '4.8/5', label: 'App Store' },
-              { icon: '🔥', val: '21 day', label: 'avg streak' },
+              { icon: '🌍', val: '50+', label: 'languages' },
+              { icon: '🗣️', val: 'Real-time', label: 'corrections' },
+              { icon: '⭐', val: 'AI-powered', label: 'feedback' },
+              { icon: '🔥', val: 'Free', label: 'to start' },
             ].map(s => (
               <div key={s.label} className="flex items-center gap-1.5 text-sm">
                 <span>{s.icon}</span>
@@ -152,7 +154,7 @@ export default function HomePage() {
 
       {/* ── Stats bar ── */}
       <motion.section
-        initial={{ opacity: 0 }}
+        initial={mounted ? { opacity: 0 } : false}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
@@ -175,7 +177,7 @@ export default function HomePage() {
       {/* ── Features ── */}
       <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={mounted ? { opacity: 0, y: 16 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -209,7 +211,7 @@ export default function HomePage() {
       {/* ── How it works ── */}
       <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pb-20 sm:pb-28">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={mounted ? { opacity: 0, y: 16 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -241,7 +243,7 @@ export default function HomePage() {
       {/* ── Pricing ── */}
       <section id="pricing" className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-20 sm:pb-28">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={mounted ? { opacity: 0, y: 16 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -252,7 +254,7 @@ export default function HomePage() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={mounted ? { opacity: 0, y: 20 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
@@ -302,7 +304,7 @@ export default function HomePage() {
       {/* ── Languages marquee ── */}
       <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pb-20 sm:pb-28">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={mounted ? { opacity: 0, y: 16 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -340,7 +342,7 @@ export default function HomePage() {
 
       {/* ── CTA bottom ── */}
       <motion.section
-        initial={{ opacity: 0, y: 20 }}
+        initial={mounted ? { opacity: 0, y: 20 } : false}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
@@ -349,7 +351,7 @@ export default function HomePage() {
         <div className="rounded-3xl border border-indigo-500/20 bg-indigo-500/5 p-10 sm:p-14">
           <h2 className="text-3xl sm:text-4xl font-black mb-4">Ready to speak?</h2>
           <p className="text-white/50 text-base mb-8 max-w-sm mx-auto">
-            Join {siteConfig.stats.users} learners already practicing with AI. Start free, no account needed.
+            Join {siteConfig.stats.users} practicing with AI. Start free, no account needed.
           </p>
           <Link
             href="/converse"
