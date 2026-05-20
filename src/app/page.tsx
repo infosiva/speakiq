@@ -72,6 +72,22 @@ export default function HomePage() {
           >
             {siteConfig.tagline}
           </motion.h1>
+          {/* ── Social proof bar (Duolingo-style) ── */}
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
+            className="flex flex-wrap items-center justify-center gap-4 py-4 mb-2">
+            {[
+              { icon: '🌍', val: '500k+', label: 'learners' },
+              { icon: '🗣️', val: '40+', label: 'languages' },
+              { icon: '⭐', val: '4.8/5', label: 'App Store' },
+              { icon: '🔥', val: '21 day', label: 'avg streak' },
+            ].map(s => (
+              <div key={s.label} className="flex items-center gap-1.5 text-sm">
+                <span>{s.icon}</span>
+                <span className="font-black text-white">{s.val}</span>
+                <span style={{ color: 'rgba(167,243,208,0.5)' }}>{s.label}</span>
+              </div>
+            ))}
+          </motion.div>
 
           {/* Subheading */}
           <motion.p
