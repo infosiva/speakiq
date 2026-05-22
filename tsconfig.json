@@ -26,5 +26,5 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../shared-ui/src/**/*.ts", "../shared-ui/src/**/*.tsx"],
-  "exclude": ["node_modules", "src/index.ts", "../shared-ui/node_modules"]
+  "exclude": ["node_modules", "src/index.ts", "../shared-ui/node_modules", "qa"]
 }

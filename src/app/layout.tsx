@@ -11,14 +11,18 @@ import PageStats from '@/components/PageStats'
 import type { BrandConfig } from '@/components/SharedNavbar'
 import CookieConsent from "../../components/CookieConsent";
 import StickyFooterCTA from "../../components/StickyFooterCTA";
+import SchemaOrg from '@/components/SchemaOrg'
 import { siteConfig } from '@/lib/site.config'
 
+const SITE_NAME = siteConfig.name ?? siteConfig.siteName
+const SITE_URL  = siteConfig.url  ?? `https://${siteConfig.domain}`
+
 const brand: BrandConfig = {
-  name: siteConfig.name,
-  tagline: siteConfig.subtagline,
+  name: SITE_NAME,
+  tagline: siteConfig.subtagline ?? siteConfig.subheadline,
   icon: 'SQ',
-  color: siteConfig.primaryColor,
-  url: siteConfig.url,
+  color: siteConfig.primaryColor ?? '#6366f1',
+  url: SITE_URL,
   logoSrc: '/logo.svg',
   navLinks: siteConfig.nav,
   cta: { label: 'Start Free', href: '/converse' },
@@ -27,15 +31,14 @@ const brand: BrandConfig = {
 export const metadata: Metadata = {
   title: siteConfig.seo.title,
   description: siteConfig.seo.description,
-  keywords: siteConfig.seo.keywords,
   openGraph: {
     title: siteConfig.seo.title,
     description: siteConfig.seo.description,
     type: 'website',
     locale: 'en_US',
-    siteName: siteConfig.name,
-    url: siteConfig.url,
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: `${siteConfig.name} — AI Language Learning` }],
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: `${SITE_NAME} — AI Language Learning` }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -45,8 +48,8 @@ export const metadata: Metadata = {
     site: '@speakiqapp',
   },
   robots: { index: true, follow: true },
-  metadataBase: new URL(siteConfig.url),
-  alternates: { canonical: siteConfig.url },
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: SITE_URL },
 }
 
 const clerkAppearance = {
@@ -109,74 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
         `}} />
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          "name": siteConfig.name,
-          "url": siteConfig.url,
-          "description": siteConfig.seo.description,
-          "applicationCategory": "EducationApplication",
-          "operatingSystem": "Web",
-          "inLanguage": "en",
-          "offers": [
-            { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free Plan" },
-            { "@type": "Offer", "price": "9.99", "priceCurrency": "USD", "name": "Pro Plan", "billingIncrement": "P1M" }
-          ],
-          "featureList": siteConfig.features.map(f => f.title).join(', '),
-          "screenshot": `${siteConfig.url}/og.svg`,
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "reviewCount": "127"
-          }
-        })}} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "EducationalOrganization",
-          "name": siteConfig.name,
-          "url": siteConfig.url,
-          "description": siteConfig.description,
-          "logo": `${siteConfig.url}/logo.svg`,
-          "sameAs": [siteConfig.url],
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Language Learning Plans",
-            "itemListElement": [
-              { "@type": "Offer", "name": "Free Plan", "price": "0", "priceCurrency": "USD" },
-              { "@type": "Offer", "name": "Pro Plan", "price": "9.99", "priceCurrency": "USD" }
-            ]
-          }
-        })}} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "How many languages does SpeakIQ support?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "SpeakIQ supports 50+ languages including Spanish, French, German, Japanese, Mandarin, Korean, Hindi, Arabic, Tamil, and many more."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Is SpeakIQ free to use?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes! SpeakIQ is free to start with 20 messages per day and no account required. Pro plan at $9.99/month unlocks unlimited messages and additional features."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How does AI language practice work on SpeakIQ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "SpeakIQ uses advanced AI to simulate real conversations in your target language. The AI tutor adapts to your level, corrects grammar in real-time, and saves vocabulary as flashcards automatically."
-              }
-            }
-          ]
-        })}} />
+        <SchemaOrg />
       </head>
       <body className="flex flex-col min-h-screen">
         <Script

@@ -1,0 +1,22 @@
+# SpeakIQ
+> AI language learning and conversation practice. Speak a new language confidently in 60 days.
+
+## What this site does
+SpeakIQ is an AI language tutor that helps you reach conversational fluency through real AI conversation practice. The AI adapts to your level, corrects grammar in real-time, saves vocabulary as flashcards automatically, and tracks your progress across sessions. Supports 50+ languages.
+
+## Who it's for
+Language learners at any level — complete beginners to advanced speakers wanting to maintain fluency. Great for people preparing for travel, work, exams (IELTS, DELF, JLPT), or learning for personal interest.
+
+## Key features
+- AI conversation practice in 50+ languages
+- Real-time grammar correction and feedback
+- Vocabulary flashcards auto-saved from conversations
+- Adaptive difficulty — adjusts to your level
+- Daily streaks and progress tracking
+- Lesson paths: travel, business, exam prep, casual conversation
+
+## Pricing
+Free tier available — 20 AI messages per day, no account required. Pro plan from $9.99/month for unlimited messages and advanced features.
+
+## Contact
+https://speakiq.app

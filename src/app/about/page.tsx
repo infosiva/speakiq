@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   openGraph: {
     title: `About ${siteConfig.name}`,
-    description: siteConfig.about.mission,
+    description: siteConfig.about?.mission ?? siteConfig.seo.description,
     type: 'website',
     siteName: siteConfig.name,
   },
@@ -26,7 +26,7 @@ export default function AboutPage() {
           Our Mission
         </h1>
         <p className="text-white/60 text-lg leading-relaxed max-w-xl">
-          {siteConfig.about.mission}
+          {siteConfig.about?.mission ?? siteConfig.subheadline}
         </p>
       </div>
 
@@ -41,7 +41,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-bold text-white mb-1">{step.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
+                <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
               </div>
             </div>
           ))}
@@ -56,7 +56,7 @@ export default function AboutPage() {
             <div key={f.title} className="p-4 rounded-2xl border border-white/[0.07] bg-white/[0.02]">
               <div className="text-2xl mb-2">{f.icon}</div>
               <h3 className="font-semibold text-white mb-1 text-sm">{f.title}</h3>
-              <p className="text-white/40 text-xs leading-relaxed">{f.description}</p>
+              <p className="text-white/40 text-xs leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -65,7 +65,7 @@ export default function AboutPage() {
       {/* Founder */}
       <section className="mb-14">
         <h2 className="text-2xl font-black mb-4">The Team</h2>
-        <p className="text-white/50 text-sm leading-relaxed mb-4">{siteConfig.about.founder}</p>
+        <p className="text-white/50 text-sm leading-relaxed mb-4">{siteConfig.about?.founder ?? 'SpeakIQ is built by a small team passionate about language learning and AI.'}</p>
         <p className="text-white/50 text-sm leading-relaxed">
           We use state-of-the-art AI models to deliver personalised, high-quality language practice.
           Our systems continuously improve based on user feedback and the latest AI research.

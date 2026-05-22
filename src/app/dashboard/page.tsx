@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { BADGES, getUnlockedBadges } from '@/lib/gamification/badges'
 import { SKILL_TREE, getCompletedNodes, isNodeUnlocked } from '@/lib/gamification/skill-tree'
+import { getPracticeHistory, getLanguageBreakdown, getCurrentStreak, type PracticeSession } from '@/lib/practiceHistory'
 
 interface StreakData { streak: number; lastDate: string }
 interface Flashcard { word: string; translation: string; language: string; example?: string; addedAt: string }
@@ -73,6 +74,8 @@ export default function DashboardPage() {
   const [isPro, setIsPro] = useState(false)
   const [prefs, setPrefs] = useState<{ language: string; level: string }>({ language: 'Spanish', level: 'Beginner' })
   const [completedNodes, setCompletedNodes] = useState<string[]>([])
+  const [practiceHistory, setPracticeHistory] = useState<PracticeSession[]>([])
+  const [historyStreak, setHistoryStreak] = useState(0)
 
   useEffect(() => {
     try {
@@ -94,6 +97,10 @@ export default function DashboardPage() {
     } catch { /* empty */ }
 
     setCompletedNodes(getCompletedNodes())
+
+    // Practice history from practiceHistory lib
+    setPracticeHistory(getPracticeHistory().slice(0, 5))
+    setHistoryStreak(getCurrentStreak())
   }, [])
 
   // Language breakdown from flashcards

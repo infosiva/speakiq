@@ -17,7 +17,7 @@ export default function ChatBot() {
   const [open, setOpen] = useState(false)
   const [visible, setVisible] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: siteConfig.chatbot.openingMessage },
+    { role: 'assistant', content: siteConfig.chatbot.welcomeMessage },
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -47,7 +47,7 @@ export default function ChatBot() {
     setInput('')
     setLoading(true)
     try {
-      const res = await fetch(siteConfig.chatbot.apiEndpoint, {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: next, systemPrompt: SYSTEM_PROMPT }),

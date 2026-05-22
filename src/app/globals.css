@@ -872,3 +872,60 @@ html.chat-active body > nav {
 .cl-internal-vul4p4 {
   color: rgba(255, 255, 255, 0.55) !important;
 }
+
+/* ── Magic UI — shimmer animation (ShimmerButton) ────────── */
+@keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+  }
+}
+.animate-shimmer-slide {
+  animation: shimmer-slide var(--speed, 3s) ease-in-out infinite alternate;
+}
+
+/* ── Badge glow — CSS only, no JS hydration cost ──────────── */
+@keyframes badge-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+}
+.badge-glow { animation: badge-glow 2.5s ease-in-out infinite; }
+
+/* ── CSS marquee — zero JS ─────────────────────────────────── */
+@keyframes marquee-scroll { to { transform: translateX(-50%); } }
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 22s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-wrapper {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, white 8%, white 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, white 8%, white 92%, transparent 100%);
+}
+
+/* ── Connecting line animation (How It Works) ──────────────── */
+@keyframes line-grow { from { width: 0%; } to { width: 100%; } }
+.line-grow { animation: line-grow 0.8s ease-out forwards; }
+
+/* ── Pulse glow on final CTA button ───────────────────────── */
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.6); }
+  50%       { box-shadow: 0 0 0 16px rgba(99, 102, 241, 0); }
+}
+.cta-pulse { animation: cta-pulse 2s ease-in-out infinite; }
+
+/* ── animate-in utilities (Radix accordion compat) ──────────── */
+@keyframes fade-in-opacity {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-in { animation-fill-mode: both; }
+.fade-in-0  { animation-name: fade-in-opacity; }
+.fade-out-0 { animation-name: fade-in-opacity; animation-direction: reverse; }
+
+/* ── Reduce motion: disable all custom animations ──────────── */
+@media (prefers-reduced-motion: reduce) {
+  .badge-glow, .marquee-track, .line-grow, .cta-pulse,
+  .animate-shimmer-slide { animation: none !important; }
+}
