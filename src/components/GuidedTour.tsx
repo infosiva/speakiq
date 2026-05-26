@@ -35,7 +35,7 @@ interface Props {
 }
 
 const TOOLTIP_W = 300
-const TOOLTIP_H = 160  // approximate — used for placement calc
+const TOOLTIP_H = 260  // approximate — used for placement calc (90px hero + 170px content)
 const PAD       = 12   // gap between target and tooltip
 const RING      = 8    // spotlight ring padding
 
@@ -127,7 +127,10 @@ export default function GuidedTour({
       top  = r.top + r.height / 2 - TOOLTIP_H / 2
       left = r.left - TOOLTIP_W - PAD
     }
-    setTooltipPos({ top: Math.max(8, top), left: Math.max(8, left) })
+    setTooltipPos({
+      top: Math.max(8, Math.min(vh - TOOLTIP_H - 8, top)),
+      left: Math.max(8, left),
+    })
   }
 
   function advance() {
@@ -238,6 +241,8 @@ export default function GuidedTour({
           WebkitBackdropFilter: 'blur(24px)',
           boxShadow: `0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px ${accentColor}12`,
           overflow: 'hidden',
+          maxHeight: 'calc(100vh - 24px)',
+          overflowY: 'auto',
         }}
       >
         <div style={arrowStyle} />
