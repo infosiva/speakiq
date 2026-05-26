@@ -116,6 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SchemaOrg />
       </head>
       <body className="flex flex-col min-h-screen">
+        <Script defer data-domain="speakiq.app" src="https://plausible.io/js/script.js" strategy="afterInteractive" />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176"
