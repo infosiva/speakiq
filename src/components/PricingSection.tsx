@@ -7,8 +7,8 @@ export default function PricingSection() {
   const { free, pro } = siteConfig.pricing
 
   return (
-    <section id="pricing" className="py-14 px-4 sm:px-6 max-w-4xl mx-auto border-t border-white/[0.05]">
-      <div className="text-center mb-10">
+    <section id="pricing" className="py-9 px-4 sm:px-6 max-w-4xl mx-auto border-t border-white/[0.05]">
+      <div className="text-center mb-6">
         <h2 className="text-2xl font-black text-white mb-2">Free vs Pro</h2>
         <p className="text-white/40 text-sm">Transparent pricing — no surprises</p>
       </div>
