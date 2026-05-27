@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { STAGGER_CONTAINER, FADE_UP, SPRING_CINEMATIC, BUTTON_PRESS, useMotionVariants } from '@/lib/motion'
 import { siteConfig } from '@/lib/site.config'
+import type { ContentOverrides } from '@/lib/content'
 import { ShimmerButton } from '@/components/magicui/shimmer-button'
 import { btn } from '@/lib/theme'
 import Link from 'next/link'
@@ -11,7 +12,7 @@ import LanguagePicker, { LANGUAGES } from './LanguagePicker'
 import HeroDemo from './HeroDemo'
 import type { SelectedLanguage } from './LanguagePicker'
 
-export default function HeroClient() {
+export default function HeroClient({ overrides = {} }: { overrides?: ContentOverrides }) {
   const [selectedLang, setSelectedLang] = useState<SelectedLanguage>(LANGUAGES[0])
 
   const containerVars = useMotionVariants(STAGGER_CONTAINER(0.07))
@@ -41,7 +42,7 @@ export default function HeroClient() {
           className="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight"
           style={{ fontFamily: "'Nunito', sans-serif" }}
         >
-          <span className="block text-white">Start speaking</span>
+          <span className="block text-white">{overrides.headline ?? 'Start speaking'}</span>
           <span
             className="block bg-gradient-to-r from-indigo-400 via-violet-300 to-blue-200 bg-clip-text text-transparent"
             style={{ filter: 'drop-shadow(0 0 28px rgba(99,102,241,0.4))' }}
@@ -56,7 +57,7 @@ export default function HeroClient() {
           variants={childVars as Parameters<typeof motion.p>[0]['variants']}
           className="text-white/55 text-base leading-relaxed max-w-md"
         >
-          Your AI conversation partner corrects grammar, coaches pronunciation, and adapts to your pace — in 50+ languages.
+          {overrides.subheadline ?? 'Your AI conversation partner corrects grammar, coaches pronunciation, and adapts to your pace — in 50+ languages.'}
         </motion.p>
 
         {/* Language picker */}
@@ -76,7 +77,7 @@ export default function HeroClient() {
                 shimmerColor="#c7d2fe"
                 className="px-8 py-4 text-base font-bold min-h-[52px] w-full sm:w-auto"
               >
-                <span className="mr-1">{selectedLang.flag}</span> Start speaking {selectedLang.name}
+                <span className="mr-1">{selectedLang.flag}</span> {overrides.cta ?? `Start speaking ${selectedLang.name}`}
               </ShimmerButton>
             </Link>
           </motion.div>
