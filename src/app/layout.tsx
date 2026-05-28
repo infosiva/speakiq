@@ -7,6 +7,7 @@ import Footer from '../../components/Footer'
 import DesignEffects from '@/components/DesignEffects'
 import AnimatedBackground from '@/components/AnimatedBackground'
 import ChatBot from '@/components/ChatBot'
+import { getSiteFlags } from '@/lib/flags'
 import BackToTop from '@/components/BackToTop'
 import PageStats from '@/components/PageStats'
 import type { BrandConfig } from '@/components/SharedNavbar'
@@ -78,7 +79,8 @@ function MaybeClerk({ children }: { children: React.ReactNode }) {
   return <ClerkProvider appearance={clerkAppearance}>{children}</ClerkProvider>
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const flags = await getSiteFlags('speakiq')
   return (
     <MaybeClerk>
     <html lang="en" suppressHydrationWarning>
@@ -134,7 +136,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16">{children}</main>
         <div id="layout-footer" className="relative z-10 bg-[#05030a]"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
-      <ChatBot />
+      {flags.chatbot && <ChatBot />}
       <BackToTop accentColor="#6366f1" />
       <CookieConsent />
       <StickyFooterCTA />
