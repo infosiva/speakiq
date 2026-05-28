@@ -84,10 +84,18 @@ export default function MagicAuthModal({
     <>
       <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, backdropFilter: 'blur(4px)' }} />
       <div style={{
-        position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-        zIndex: 1001, width: '90%', maxWidth: 400,
+        position: 'fixed', inset: 0, zIndex: 1001,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '16px',
+        overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+      }}>
+      <div style={{
+        width: '100%', maxWidth: 400,
         background: '#fff', borderRadius: 20, overflow: 'hidden',
         boxShadow: '0 24px 80px rgba(0,0,0,0.25)',
+        position: 'relative',
+        margin: 'auto',
       }}>
         {/* Accent top bar */}
         <div style={{ height: 4, background: `linear-gradient(90deg,${accent},${accent}88)` }} />
@@ -190,6 +198,7 @@ export default function MagicAuthModal({
             </>
           )}
         </div>
+      </div>
       </div>
     </>
   )
