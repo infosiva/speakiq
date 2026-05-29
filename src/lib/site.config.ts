@@ -75,10 +75,10 @@ export const siteConfig: SiteConfig = {
   themeColor: 'indigo',
 
   heroBadge:    'speakiq · AI language coach · free to try',
-  headline:     ['Speak any language', 'fluently with AI.'],
-  subheadline:  'AI coaches your pronunciation, grammar, and confidence — practice anytime, no tutor needed.',
-  ctaPrimary:   { text: '🗣️ Start Free Session →', href: '/converse' },
-  ctaSecondary: { text: '🌍 See Languages',        href: '/languages' },
+  headline:     ['Have a real conversation', 'today.'],
+  subheadline:  'Talk to your AI tutor in 50+ languages — grammar corrected live, no memorisation drills.',
+  ctaPrimary:   { text: '🗣️ Start Talking Free', href: '/converse' },
+  ctaSecondary: { text: '🌍 See Languages',      href: '/languages' },
 
   freeTier: {
     pills:             ['3 free sessions', 'Any language', 'No sign-up'],
@@ -182,7 +182,7 @@ export const siteConfig: SiteConfig = {
   ],
 
   chatbot: {
-    welcomeMessage: 'Hola! Want to practice a language? Tell me which one and I\'ll start a conversation with you right now.',
+    welcomeMessage: 'Tell me which language you\'re learning and I\'ll start a real conversation with you right now — corrections included.',
     botName:        'SpeakBot',
     placeholder:    'Ask me about language practice…',
   },
