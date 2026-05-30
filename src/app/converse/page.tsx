@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ConversationMode } from '@/components/gamification'
 
+type PracticeMode = 'drills' | 'conversation'
+
 const LANGUAGES = ['Spanish', 'French', 'German', 'Italian', 'Japanese', 'Korean', 'Mandarin Chinese', 'Portuguese', 'Hindi', 'Arabic']
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced']
 
@@ -10,6 +12,7 @@ export default function ConversePage() {
   const [language, setLanguage] = useState('Spanish')
   const [level, setLevel] = useState('Beginner')
   const [key, setKey] = useState(0) // remount ConversationMode on language/level change
+  const [mode, setMode] = useState<PracticeMode>('conversation')
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -29,7 +32,16 @@ export default function ConversePage() {
       if (p.language) setLanguage(p.language)
       if (p.level) setLevel(p.level)
     }
+    // Restore saved mode
+    const savedMode = localStorage.getItem('sq_mode') as PracticeMode | null
+    if (savedMode === 'drills' || savedMode === 'conversation') setMode(savedMode)
   }, [])
+
+  function switchMode(m: PracticeMode) {
+    setMode(m)
+    localStorage.setItem('sq_mode', m)
+    setKey(k => k + 1) // remount chat on mode switch
+  }
 
   function changeLanguage(lang: string) {
     setLanguage(lang)
@@ -47,7 +59,27 @@ export default function ConversePage() {
       <div className="border-b border-white/[0.06] bg-white/[0.02] backdrop-blur-md shrink-0">
         <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 flex items-center gap-3 h-12">
           <Link href="/" className="text-white/40 hover:text-white/80 transition-colors text-sm shrink-0">← Back</Link>
-          <h1 className="font-bold text-sm sm:text-base truncate">AI Conversation</h1>
+
+          {/* Mode toggle — Drills vs Conversation */}
+          <div className="flex items-center gap-1 rounded-lg border border-white/[0.10] bg-white/[0.03] p-0.5 shrink-0">
+            {([
+              { id: 'drills'       as const, label: '📝 Drills' },
+              { id: 'conversation' as const, label: '💬 Conversation' },
+            ] as const).map(m => (
+              <button
+                key={m.id}
+                onClick={() => switchMode(m.id)}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
+                  mode === m.id
+                    ? 'bg-[var(--theme-primary)] text-white'
+                    : 'text-white/40 hover:text-white/70'
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+
           <div className="ml-auto flex gap-1.5 shrink-0">
             <select
               value={language}
@@ -70,7 +102,25 @@ export default function ConversePage() {
       {/* Chat — fills remaining height */}
       <div className="flex-1 min-h-0 overflow-hidden">
         <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 h-full flex flex-col py-3">
-          <ConversationMode key={key} language={language} level={level} tutorName="Luna" className="flex-1 min-h-0" />
+          {mode === 'drills' ? (
+            <div className="flex-1 min-h-0 flex flex-col items-center justify-center gap-4 text-center px-4">
+              <div className="text-4xl">📝</div>
+              <h2 className="text-white font-bold text-lg">Drill Mode</h2>
+              <p className="text-white/50 text-sm max-w-sm leading-relaxed">
+                Focused pronunciation and vocabulary drills. Type or speak a word and get
+                syllable-by-syllable feedback on exactly where your pronunciation breaks down.
+              </p>
+              <ConversationMode
+                key={key}
+                language={language}
+                level={level}
+                tutorName="Drill Coach"
+                className="flex-1 min-h-0 w-full max-w-2xl"
+              />
+            </div>
+          ) : (
+            <ConversationMode key={key} language={language} level={level} tutorName="Luna" className="flex-1 min-h-0" />
+          )}
         </div>
       </div>
     </div>

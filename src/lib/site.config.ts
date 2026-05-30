@@ -75,8 +75,8 @@ export const siteConfig: SiteConfig = {
   themeColor: 'indigo',
 
   heroBadge:    'speakiq · AI language coach · free to try',
-  headline:     ['Have a real conversation', 'today.'],
-  subheadline:  'Talk to your AI tutor in 50+ languages — grammar corrected live, no memorisation drills.',
+  headline:     ["Not just 'try again' —", 'AI that tells you exactly why.'],
+  subheadline:  'Real-time AI speech coach that pinpoints the exact syllable, explains the fix, and tracks your progress.',
   ctaPrimary:   { text: '🗣️ Start Talking Free', href: '/converse' },
   ctaSecondary: { text: '🌍 See Languages',      href: '/languages' },
 

@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import { getTutorName, getTutorContext } from '@/lib/gamification/tutor-memory'
+import PhonemeDisplay, { splitByDots } from '@/components/PhonemeDisplay'
 
 interface Correction { original: string; fixed: string; explanation: string }
 interface Turn {
@@ -11,6 +12,34 @@ interface Turn {
 }
 
 interface Props { language: string; level: string; tutorName?: string; className?: string }
+
+// Rough syllable splitter — groups consonant-vowel clusters for visual display
+// Not linguistically perfect but good enough for "see the shape" feedback
+function roughSyllables(word: string): string {
+  const w = word.toUpperCase()
+  const vowels = new Set('AEIOU')
+  const parts: string[] = []
+  let chunk = ''
+
+  for (let i = 0; i < w.length; i++) {
+    chunk += w[i]
+    const nextIsVowel = i + 1 < w.length && vowels.has(w[i + 1])
+    const currIsVowel = vowels.has(w[i])
+
+    // Split after a vowel followed by a consonant sequence
+    if (currIsVowel && !nextIsVowel && i + 1 < w.length && chunk.length >= 2) {
+      parts.push(chunk)
+      chunk = ''
+    }
+    // Or split after 3+ consonant chars
+    else if (!currIsVowel && chunk.replace(/[AEIOU]/g, '').length >= 3) {
+      parts.push(chunk.slice(0, -1))
+      chunk = chunk.slice(-1)
+    }
+  }
+  if (chunk) parts.push(chunk)
+  return parts.filter(Boolean).join('·') || w
+}
 
 const STARTER_PROMPTS: Record<string, string[]> = {
   Beginner: ['Hello! How are you?', 'What is your name?', 'I like coffee.'],
@@ -118,9 +147,25 @@ export function ConversationMode({ language, level, tutorName = 'Luna', classNam
               <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl px-3 py-2 text-xs space-y-1.5 max-w-[78%]">
                 <p className="text-yellow-400/80 font-medium text-[10px] uppercase tracking-wide">Corrections</p>
                 {t.corrections.map((c, ci) => (
-                  <div key={ci} className="space-y-0.5">
+                  <div key={ci} className="space-y-1">
                     <p><span className="line-through text-red-400">{c.original}</span><span className="text-[var(--text-2)]"> → </span><span className="text-green-400">{c.fixed}</span></p>
                     <p className="text-[var(--text-2)]">{c.explanation}</p>
+                    {/* Phoneme breakdown of the corrected word — syllable level */}
+                    {c.fixed && (() => {
+                      // Take first word, split into rough syllables for visual feedback
+                      const word = c.fixed.trim().split(' ')[0]
+                      if (!word || word.length < 3) return null
+                      const dotted = roughSyllables(word)
+                      return (
+                        <div className="mt-1.5">
+                          <PhonemeDisplay
+                            label="Say it as"
+                            segments={splitByDots(dotted, [])}
+                            note={`Say: ${dotted.replace(/·/g, ' - ')}`}
+                          />
+                        </div>
+                      )
+                    })()}
                   </div>
                 ))}
               </div>
