@@ -10,9 +10,11 @@ import FeaturesGrid      from '@/components/FeaturesGrid'
 import PricingSection    from '@/components/PricingSection'
 import FAQSection        from '@/components/FAQSection'
 import FinalCTA          from '@/components/FinalCTA'
+import SpeakStats        from '@/components/SpeakStats'
 
 const SECTION_MAP: Record<string, React.ReactNode> = {
   hero:        <HeroSection />,
+  speakStats:  <Suspense fallback={null}><SpeakStats /></Suspense>,
   marquee:     <MarqueeBar />,
   howItWorks:  <HowItWorksSection />,
   features:    <Suspense fallback={<div className="h-96" />}><FeaturesGrid /></Suspense>,
