@@ -1,5 +1,4 @@
 'use client'
-// components/HeroClient.tsx — conversation-first hero with language picker
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { STAGGER_CONTAINER, FADE_UP, SPRING_CINEMATIC, BUTTON_PRESS, useMotionVariants } from '@/lib/motion'
@@ -11,6 +10,33 @@ import Link from 'next/link'
 import LanguagePicker, { LANGUAGES } from './LanguagePicker'
 import HeroDemo from './HeroDemo'
 import type { SelectedLanguage } from './LanguagePicker'
+import { Zap } from 'lucide-react'
+
+// Duolingo-inspired XP progress bar — fills on hover, resets on leave
+function XPBar() {
+  const [fill, setFill] = useState(62)
+  return (
+    <div
+      className="flex items-center gap-3 cursor-default select-none"
+      onMouseEnter={() => setFill(88)}
+      onMouseLeave={() => setFill(62)}
+    >
+      <span className="text-[11px] font-bold text-violet-300/70 uppercase tracking-widest whitespace-nowrap">
+        Daily XP
+      </span>
+      <div className="flex-1 h-2 rounded-full bg-white/[0.07] overflow-hidden">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-400"
+          style={{
+            width: `${fill}%`,
+            transition: 'width 0.6s cubic-bezier(0.23,1,0.32,1)',
+          }}
+        />
+      </div>
+      <span className="text-[11px] font-bold text-violet-300/60 tabular-nums">{fill}/100</span>
+    </div>
+  )
+}
 
 export default function HeroClient({ overrides = {} }: { overrides?: ContentOverrides }) {
   const [selectedLang, setSelectedLang] = useState<SelectedLanguage>(LANGUAGES[0])
@@ -28,36 +54,42 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
         animate="show"
         className="flex flex-col gap-3"
       >
-        {/* Trust badge */}
+        {/* Live learner badge — Duolingo-style streak pill */}
         <motion.div variants={childVars as Parameters<typeof motion.div>[0]['variants']}>
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/25 text-indigo-300 text-xs font-bold uppercase tracking-widest">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            No account needed · free to try
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/12 border border-violet-500/25 text-violet-300 text-xs font-bold uppercase tracking-widest">
+            <Zap size={10} className="fill-violet-400 text-violet-400" />
+            2,847 learners speaking today · free to start
           </span>
         </motion.div>
 
-        {/* Headline */}
+        {/* Headline — Nunito, large, Duolingo bounce energy */}
         <motion.h1
           variants={childVars as Parameters<typeof motion.h1>[0]['variants']}
           className="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight"
           style={{ fontFamily: "'Nunito', sans-serif" }}
         >
-          <span className="block text-white">{overrides.headline ?? 'Start speaking'}</span>
+          <span className="block text-white">{overrides.headline ?? 'Speak any language'}</span>
           <span
-            className="block bg-gradient-to-r from-indigo-400 via-violet-300 to-blue-200 bg-clip-text text-transparent"
-            style={{ filter: 'drop-shadow(0 0 28px rgba(99,102,241,0.4))' }}
+            className="block bg-gradient-to-r from-violet-400 via-indigo-300 to-blue-300 bg-clip-text text-transparent"
+            style={{ filter: 'drop-shadow(0 0 32px rgba(139,92,246,0.45))' }}
           >
             in minutes,
           </span>
-          <span className="block text-white">not months.</span>
+          <span className="block text-white/90">not months.</span>
         </motion.h1>
+
+        {/* XP bar — gamification signal */}
+        <motion.div variants={childVars as Parameters<typeof motion.div>[0]['variants']}>
+          <XPBar />
+        </motion.div>
 
         {/* Sub */}
         <motion.p
           variants={childVars as Parameters<typeof motion.p>[0]['variants']}
-          className="text-white/55 text-base leading-relaxed max-w-md"
+          className="text-white/50 text-[15px] leading-relaxed max-w-md"
+          style={{ fontFamily: "'Nunito', sans-serif" }}
         >
-          {overrides.subheadline ?? 'Your AI conversation partner corrects grammar, coaches pronunciation, and adapts to your pace — in 50+ languages.'}
+          {overrides.subheadline ?? 'AI conversation partner that corrects grammar, coaches pronunciation, and adapts to your pace — 50+ languages.'}
         </motion.p>
 
         {/* Language picker */}
@@ -73,9 +105,10 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
           <motion.div {...BUTTON_PRESS} transition={SPRING_CINEMATIC}>
             <Link href={`/converse?lang=${selectedLang.code}`}>
               <ShimmerButton
-                background="rgba(79, 70, 229, 1)"
-                shimmerColor="#c7d2fe"
+                background="rgba(109, 40, 217, 1)"
+                shimmerColor="#ddd6fe"
                 className="px-8 py-4 text-base font-bold min-h-[52px] w-full sm:w-auto"
+                style={{ fontFamily: "'Nunito', sans-serif" }}
               >
                 <span className="mr-1">{selectedLang.flag}</span> {overrides.cta ?? `Start speaking ${selectedLang.name}`}
               </ShimmerButton>
@@ -85,21 +118,23 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
             <Link
               href="/languages"
               className={btn.secondary + ' text-sm px-6 py-4 font-semibold min-h-[52px] flex items-center gap-2 justify-center'}
+              style={{ fontFamily: "'Nunito', sans-serif" }}
             >
-              🌍 All 50+ languages
+              🌍 50+ languages
             </Link>
           </motion.div>
         </motion.div>
 
-        {/* Trust pills */}
+        {/* Trust pills — compact row */}
         <motion.div
           variants={childVars as Parameters<typeof motion.div>[0]['variants']}
           className="flex flex-wrap gap-2"
         >
-          {['No sign-up', '3 free sessions', 'AI conversation partner', 'Works on mobile'].map(pill => (
+          {['No sign-up', '3 free sessions', 'AI grammar coach', 'Works on mobile'].map(pill => (
             <span
               key={pill}
-              className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white/[0.05] border border-white/[0.08] text-white/45"
+              className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-violet-500/[0.07] border border-violet-500/[0.12] text-violet-300/60"
+              style={{ fontFamily: "'Nunito', sans-serif" }}
             >
               {pill}
             </span>
@@ -107,7 +142,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
         </motion.div>
       </motion.div>
 
-      {/* RIGHT — live conversation demo (desktop: right col; mobile: below CTA) */}
+      {/* RIGHT — live conversation demo */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
