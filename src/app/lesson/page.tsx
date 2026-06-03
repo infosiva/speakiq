@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { CelebrationOverlay, PronunciationScorer } from '@/components/gamification'
 import { ArrowLeft, BookOpen, Volume2, MessageSquare, ChevronDown, ChevronUp, Loader2, Sparkles, Copy, CheckCircle } from 'lucide-react'
+import { useGate } from '@/lib/shared/useGate'
+import RegisterGate from '@/lib/shared/RegisterGate'
 
 interface VocabItem {
   word: string
@@ -50,6 +52,8 @@ export default function LessonPage() {
   const [knownWords, setKnownWords] = useState<Set<string>>(new Set())
   const [celebrate, setCelebrate] = useState(false)
 
+  const gate = useGate('speakiq', 3, 'lesson')
+
   // Load saved lang/level from localStorage
   useEffect(() => {
     const saved = localStorage.getItem('speakfast-prefs')
@@ -62,6 +66,8 @@ export default function LessonPage() {
 
   async function generateLesson() {
     if (!language || !level) return
+    const allowed = await gate.increment()
+    if (!allowed) return
     setLoading(true)
     setError('')
     setLesson(null)
@@ -109,6 +115,18 @@ export default function LessonPage() {
   return (
     <div style={{ minHeight: '100vh', padding: '24px 16px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
       <CelebrationOverlay trigger={celebrate} message="🎉 Lesson ready!" onDone={() => setCelebrate(false)} />
+      {gate.showGate && (
+        <RegisterGate
+          freeUsed={gate.count}
+          freeLimit={3}
+          freeFeature="AI lessons"
+          lockedFeature="unlimited lessons, pronunciation scoring & progress tracking"
+          accentColor="#6366f1"
+          site="speakiq"
+          onSuccess={gate.onRegistered}
+          onDismiss={gate.dismissGate}
+        />
+      )}
 
       {/* Nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
