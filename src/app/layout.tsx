@@ -116,6 +116,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         `}} />
 
         <SchemaOrg />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "SpeakIQ",
+          "url": "https://speakiq.app",
+          "description": "AI language tutor for 50+ languages. Practice speaking, get instant corrections, and build fluency — no account needed.",
+          "applicationCategory": "EducationApplication",
+          "operatingSystem": "Web",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        }) }} />
       </head>
       <body className="flex flex-col min-h-screen">
         <Script defer data-domain="speakiq.app" src="https://plausible.io/js/script.js" strategy="afterInteractive" />

@@ -1,156 +1,347 @@
 'use client'
-import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { STAGGER_CONTAINER, FADE_UP, SPRING_CINEMATIC, BUTTON_PRESS, useMotionVariants } from '@/lib/motion'
-import { siteConfig } from '@/lib/site.config'
-import type { ContentOverrides } from '@/lib/content'
-import { ShimmerButton } from '@/components/magicui/shimmer-button'
-import { btn } from '@/lib/theme'
 import Link from 'next/link'
-import LanguagePicker, { LANGUAGES } from './LanguagePicker'
-import HeroDemo from './HeroDemo'
-import type { SelectedLanguage } from './LanguagePicker'
-import { Zap } from 'lucide-react'
+import type { ContentOverrides } from '@/lib/content'
+import LiveConversationPanel from './LiveConversationPanel'
 
-// Duolingo-inspired XP progress bar — fills on hover, resets on leave
-function XPBar() {
-  const [fill, setFill] = useState(62)
-  return (
-    <div
-      className="flex items-center gap-3 cursor-default select-none"
-      onMouseEnter={() => setFill(88)}
-      onMouseLeave={() => setFill(62)}
-    >
-      <span className="text-[11px] font-bold text-violet-300/70 uppercase tracking-widest whitespace-nowrap">
-        Daily XP
-      </span>
-      <div className="flex-1 h-2 rounded-full bg-white/[0.07] overflow-hidden">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-400"
-          style={{
-            width: `${fill}%`,
-            transition: 'width 0.6s cubic-bezier(0.23,1,0.32,1)',
-          }}
-        />
-      </div>
-      <span className="text-[11px] font-bold text-violet-300/60 tabular-nums">{fill}/100</span>
-    </div>
-  )
+// ── Language data (5 hero flags matching design brief) ──────────────────────
+export const HERO_LANGS = [
+  { code: 'es', flag: '🇪🇸', name: 'Spanish' },
+  { code: 'fr', flag: '🇫🇷', name: 'French'  },
+  { code: 'ja', flag: '🇯🇵', name: 'Japanese' },
+  { code: 'de', flag: '🇩🇪', name: 'German'  },
+  { code: 'pt', flag: '🇧🇷', name: 'Portuguese' },
+] as const
+
+export type HeroLangCode = (typeof HERO_LANGS)[number]['code']
+
+// ── Inline styles as constants to keep JSX clean ─────────────────────────────
+const INDIGO  = '#6366f1'
+const CYAN    = '#06b6d4'
+const ACCENT_GRAD = `linear-gradient(135deg, ${INDIGO} 0%, ${CYAN} 100%)`
+
+// Entry animation (applied via style so no extra CSS class needed)
+function fadeUp(delay = 0): React.CSSProperties {
+  return {
+    animation: `sq-fade-up 0.6s cubic-bezier(0.23,1,0.32,1) ${delay}s both`,
+  }
 }
 
 export default function HeroClient({ overrides = {} }: { overrides?: ContentOverrides }) {
-  const [selectedLang, setSelectedLang] = useState<SelectedLanguage>(LANGUAGES[0])
-
-  const containerVars = useMotionVariants(STAGGER_CONTAINER(0.07))
-  const childVars     = useMotionVariants(FADE_UP)
+  const [activeLang, setActiveLang] = useState<HeroLangCode>('es')
+  const lang = HERO_LANGS.find(l => l.code === activeLang) ?? HERO_LANGS[0]
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+    <>
+      {/* ── Keyframes injected once ─────────────────────────────────── */}
+      <style>{`
+        @keyframes sq-fade-up {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0);    }
+        }
+        @keyframes sq-mesh-shift {
+          0%   { background-position: 0% 50%;   }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%;   }
+        }
+        @keyframes sq-orb-float {
+          0%, 100% { transform: translateY(0)   scale(1);    }
+          50%       { transform: translateY(-18px) scale(1.04); }
+        }
+        @keyframes sq-counter-pulse {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.7; }
+        }
+        .sq-btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 14px 28px;
+          border-radius: 12px;
+          font-weight: 800;
+          font-size: 16px;
+          color: #fff;
+          background: ${ACCENT_GRAD};
+          border: none;
+          cursor: pointer;
+          text-decoration: none;
+          transition: transform 0.12s cubic-bezier(0.23,1,0.32,1),
+                      box-shadow 0.12s cubic-bezier(0.23,1,0.32,1);
+          box-shadow: 0 4px 24px rgba(99,102,241,0.4);
+          white-space: nowrap;
+          font-family: 'Nunito', sans-serif;
+        }
+        .sq-btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(99,102,241,0.55);
+        }
+        .sq-btn-primary:active {
+          transform: scale(0.97) translateY(0);
+          box-shadow: 0 2px 12px rgba(99,102,241,0.35);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sq-btn-primary { transition: none; }
+          .sq-fade-up { animation: none !important; }
+        }
+      `}</style>
 
-      {/* LEFT — copy + picker + CTAs */}
-      <motion.div
-        variants={containerVars as Parameters<typeof motion.div>[0]['variants']}
-        initial="hidden"
-        animate="show"
-        className="flex flex-col gap-3"
+      {/* ── Two-column hero grid ─────────────────────────────────────── */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gap: '32px',
+          alignItems: 'center',
+        }}
+        className="lg:grid-cols-2"
       >
-        {/* Live learner badge — Duolingo-style streak pill */}
-        <motion.div variants={childVars as Parameters<typeof motion.div>[0]['variants']}>
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/12 border border-violet-500/25 text-violet-300 text-xs font-bold uppercase tracking-widest">
-            <Zap size={10} className="fill-violet-400 text-violet-400" />
-            2,847 learners speaking today · free to start
-          </span>
-        </motion.div>
 
-        {/* Headline — Nunito, large, Duolingo bounce energy */}
-        <motion.h1
-          variants={childVars as Parameters<typeof motion.h1>[0]['variants']}
-          className="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight"
-          style={{ fontFamily: "'Nunito', sans-serif" }}
-        >
-          <span className="block text-white">{overrides.headline ?? 'Speak any language'}</span>
-          <span
-            className="block bg-gradient-to-r from-violet-400 via-indigo-300 to-blue-300 bg-clip-text text-transparent"
-            style={{ filter: 'drop-shadow(0 0 32px rgba(139,92,246,0.45))' }}
-          >
-            in minutes,
-          </span>
-          <span className="block text-white/90">not months.</span>
-        </motion.h1>
+        {/* ── LEFT: copy + CTA ──────────────────────────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
-        {/* XP bar — gamification signal */}
-        <motion.div variants={childVars as Parameters<typeof motion.div>[0]['variants']}>
-          <XPBar />
-        </motion.div>
-
-        {/* Sub */}
-        <motion.p
-          variants={childVars as Parameters<typeof motion.p>[0]['variants']}
-          className="text-white/50 text-[15px] leading-relaxed max-w-md"
-          style={{ fontFamily: "'Nunito', sans-serif" }}
-        >
-          {overrides.subheadline ?? 'AI conversation partner that corrects grammar, coaches pronunciation, and adapts to your pace — 50+ languages.'}
-        </motion.p>
-
-        {/* Language picker */}
-        <motion.div variants={childVars as Parameters<typeof motion.div>[0]['variants']}>
-          <LanguagePicker selected={selectedLang} onSelect={setSelectedLang} />
-        </motion.div>
-
-        {/* CTAs */}
-        <motion.div
-          variants={childVars as Parameters<typeof motion.div>[0]['variants']}
-          className="flex flex-col sm:flex-row gap-3 pt-1"
-        >
-          <motion.div {...BUTTON_PRESS} transition={SPRING_CINEMATIC}>
-            <Link href={`/converse?lang=${selectedLang.code}`}>
-              <ShimmerButton
-                background="rgba(109, 40, 217, 1)"
-                shimmerColor="#ddd6fe"
-                className="px-8 py-4 text-base font-bold min-h-[52px] w-full sm:w-auto"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
-              >
-                <span className="mr-1">{selectedLang.flag}</span> {overrides.cta ?? `Start speaking ${selectedLang.name}`}
-              </ShimmerButton>
-            </Link>
-          </motion.div>
-          <motion.div {...BUTTON_PRESS} transition={SPRING_CINEMATIC}>
-            <Link
-              href="/languages"
-              className={btn.secondary + ' text-sm px-6 py-4 font-semibold min-h-[52px] flex items-center gap-2 justify-center'}
-              style={{ fontFamily: "'Nunito', sans-serif" }}
-            >
-              🌍 50+ languages
-            </Link>
-          </motion.div>
-        </motion.div>
-
-        {/* Trust pills — compact row */}
-        <motion.div
-          variants={childVars as Parameters<typeof motion.div>[0]['variants']}
-          className="flex flex-wrap gap-2"
-        >
-          {['No sign-up', '3 free sessions', 'AI grammar coach', 'Works on mobile'].map(pill => (
-            <span
-              key={pill}
-              className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-violet-500/[0.07] border border-violet-500/[0.12] text-violet-300/60"
-              style={{ fontFamily: "'Nunito', sans-serif" }}
-            >
-              {pill}
+          {/* Badge */}
+          <div style={fadeUp(0)}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '6px 14px',
+              borderRadius: '999px',
+              border: '1px solid rgba(99,102,241,0.35)',
+              background: 'rgba(99,102,241,0.10)',
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: '#a5b4fc',
+              fontFamily: "'DM Sans', sans-serif",
+            }}>
+              <span style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                background: CYAN,
+                display: 'inline-block',
+                boxShadow: `0 0 6px ${CYAN}`,
+                animation: 'sq-counter-pulse 2s ease-in-out infinite',
+              }} />
+              AI conversation partner &mdash; 50+ languages
             </span>
-          ))}
-        </motion.div>
-      </motion.div>
+          </div>
 
-      {/* RIGHT — live conversation demo */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full mt-2 lg:mt-0"
+          {/* H1 */}
+          <div style={fadeUp(0.07)}>
+            <h1
+              style={{
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: 'clamp(38px, 5.5vw, 62px)',
+                fontWeight: 900,
+                lineHeight: 1.05,
+                letterSpacing: '-0.02em',
+                margin: 0,
+              }}
+            >
+              <span style={{ display: 'block', color: '#f1f5ff' }}>
+                {overrides.headline ?? 'Speak any language'}
+              </span>
+              <span style={{
+                display: 'block',
+                backgroundImage: ACCENT_GRAD,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: `drop-shadow(0 0 28px rgba(99,102,241,0.5))`,
+              }}>
+                in minutes,
+              </span>
+              <span style={{ display: 'block', color: 'rgba(241,245,255,0.85)' }}>not months.</span>
+            </h1>
+          </div>
+
+          {/* Subtext */}
+          <div style={fadeUp(0.13)}>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: '16px',
+              lineHeight: 1.65,
+              color: 'rgba(255,255,255,0.52)',
+              maxWidth: '420px',
+              margin: 0,
+            }}>
+              {overrides.subheadline ?? 'AI corrects grammar as you speak. Adapts to your pace. No account needed.'}
+            </p>
+          </div>
+
+          {/* Language selector row (compact, left panel) */}
+          <div style={fadeUp(0.18)}>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: '10px',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.28)',
+              marginBottom: '8px',
+            }}>
+              Choose language
+            </p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {HERO_LANGS.map(l => {
+                const active = l.code === activeLang
+                return (
+                  <button
+                    key={l.code}
+                    onClick={() => setActiveLang(l.code)}
+                    aria-label={`Practice ${l.name}`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 12px',
+                      borderRadius: '10px',
+                      border: `1px solid ${active ? 'rgba(99,102,241,0.55)' : 'rgba(255,255,255,0.09)'}`,
+                      background: active ? 'rgba(99,102,241,0.18)' : 'rgba(255,255,255,0.04)',
+                      color: active ? '#c7d2fe' : 'rgba(255,255,255,0.42)',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      transition: 'all 0.15s cubic-bezier(0.23,1,0.32,1)',
+                      boxShadow: active ? '0 0 10px rgba(99,102,241,0.28)' : 'none',
+                      fontFamily: "'DM Sans', sans-serif",
+                    }}
+                  >
+                    <span style={{ fontSize: '16px', lineHeight: 1 }}>{l.flag}</span>
+                    <span>{l.name}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div style={fadeUp(0.23)}>
+            <Link
+              href={`/converse?lang=${activeLang}`}
+              className="sq-btn-primary"
+            >
+              <span style={{ fontSize: '18px' }}>{lang.flag}</span>
+              {overrides.cta ?? `Start speaking ${lang.name} →`}
+            </Link>
+          </div>
+
+          {/* Trust line */}
+          <div style={{ ...fadeUp(0.28), display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+            {['Free', 'No account', 'Works on any device'].map((item, i) => (
+              <span
+                key={item}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: 'rgba(255,255,255,0.35)',
+                  fontFamily: "'DM Sans', sans-serif",
+                }}
+              >
+                {i > 0 && (
+                  <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', display: 'inline-block', marginRight: '11px' }} />
+                )}
+                <span style={{
+                  width: '14px',
+                  height: '14px',
+                  borderRadius: '50%',
+                  background: 'rgba(6,182,212,0.18)',
+                  border: '1px solid rgba(6,182,212,0.3)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '9px',
+                  color: CYAN,
+                }}>&#10003;</span>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* ── RIGHT: live conversation panel ────────────────────────── */}
+        <div
+          style={{
+            animation: 'sq-fade-up 0.7s cubic-bezier(0.23,1,0.32,1) 0.3s both',
+          }}
+          className="w-full mt-4 lg:mt-0"
+        >
+          <LiveConversationPanel activeLang={activeLang} onLangChange={setActiveLang} />
+        </div>
+
+      </div>
+
+      {/* Mobile: horizontal bubble strip (shown below CTA on mobile, hidden on lg) */}
+      <div
+        className="lg:hidden"
+        style={{
+          marginTop: '8px',
+          animation: 'sq-fade-up 0.7s cubic-bezier(0.23,1,0.32,1) 0.4s both',
+        }}
       >
-        <HeroDemo language={selectedLang} />
-      </motion.div>
+        <MobileBubbleStrip lang={activeLang} />
+      </div>
+    </>
+  )
+}
+
+// ── Mobile horizontal bubble strip ──────────────────────────────────────────
+function MobileBubbleStrip({ lang }: { lang: HeroLangCode }) {
+  const BUBBLES: Record<HeroLangCode, { ai: string; user: string }> = {
+    es: { ai: '¿Cómo estuvo tu fin de semana?', user: 'Estuvo bien, gracias!' },
+    fr: { ai: 'Comment s\'était ton week-end?', user: 'C\'était bien, merci!' },
+    ja: { ai: '週末はいかがでしたか？', user: 'よかったです、ありがとう！' },
+    de: { ai: 'Wie war dein Wochenende?', user: 'Es war gut, danke!' },
+    pt: { ai: 'Como foi o seu fim de semana?', user: 'Foi bom, obrigado!' },
+  }
+  const b = BUBBLES[lang]
+  return (
+    <div style={{
+      display: 'flex',
+      gap: '10px',
+      overflowX: 'auto',
+      paddingBottom: '4px',
+      scrollSnapType: 'x mandatory',
+    }}>
+      {[
+        { text: b.ai, isAi: true },
+        { text: b.user, isAi: false },
+      ].map((bubble, i) => (
+        <div
+          key={i}
+          style={{
+            flexShrink: 0,
+            scrollSnapAlign: 'start',
+            padding: '10px 14px',
+            borderRadius: '14px',
+            border: `1px solid ${bubble.isAi ? 'rgba(99,102,241,0.2)' : 'rgba(6,182,212,0.2)'}`,
+            background: bubble.isAi ? 'rgba(99,102,241,0.10)' : 'rgba(6,182,212,0.08)',
+            fontSize: '12px',
+            color: 'rgba(255,255,255,0.75)',
+            maxWidth: '200px',
+            fontFamily: "'DM Sans', sans-serif",
+          }}
+        >
+          <span style={{
+            display: 'block',
+            fontSize: '9px',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: bubble.isAi ? 'rgba(99,102,241,0.7)' : 'rgba(6,182,212,0.7)',
+            marginBottom: '4px',
+          }}>
+            {bubble.isAi ? 'AI Tutor' : 'You'}
+          </span>
+          {bubble.text}
+        </div>
+      ))}
     </div>
   )
 }
