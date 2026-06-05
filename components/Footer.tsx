@@ -67,10 +67,25 @@ export default function Footer({
         {/* Bottom bar */}
         <div className="mt-8 pt-6 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
           <span>© {year} {siteName}. All rights reserved.</span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Built with AI
-          </span>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://backlinklog.com/listing/speakiq.app?utm_source=backlinklog&utm_medium=badge"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://backlinklog.com/badge/speakiq.app.svg"
+                alt="Listed on BacklinkLog"
+                width="160"
+                height="40"
+              />
+            </a>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Built with AI
+            </span>
+          </div>
         </div>
       </div>
     </footer>
