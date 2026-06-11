@@ -9,12 +9,15 @@ import AnimatedBackground from '@/components/AnimatedBackground'
 import ChatBot from '@/components/ChatBot'
 import { getSiteFlags } from '@/lib/flags'
 import BackToTop from '@/components/BackToTop'
+import FloatingChatWrapper from '@/components/FloatingChatWrapper'
 import PageStats from '@/components/PageStats'
 import type { BrandConfig } from '@/components/SharedNavbar'
 import CookieConsent from "../../components/CookieConsent";
 import StickyFooterCTA from "../../components/StickyFooterCTA";
 import SchemaOrg from '@/components/SchemaOrg'
+import FeedbackWidget from '@/components/FeedbackWidget'
 import { siteConfig } from '@/lib/site.config'
+import { loadSiteTheme, buildThemeStyleTag, isWidgetHidden } from '@/lib/theme-loader'
 
 const SITE_NAME = siteConfig.name ?? siteConfig.siteName
 const SITE_URL  = siteConfig.url  ?? `https://${siteConfig.domain}`
@@ -80,7 +83,17 @@ function MaybeClerk({ children }: { children: React.ReactNode }) {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const flags = await getSiteFlags('speakiq')
+  const [flags, theme] = await Promise.all([
+    getSiteFlags('speakiq'),
+    loadSiteTheme('speakiq'),
+  ])
+
+  const themeCSS = buildThemeStyleTag(theme, {
+    background: '#0d0b1e',
+    primary: '#6366f1',
+    secondary: '#818cf8',
+  })
+
   return (
     <MaybeClerk>
     <html lang="en" suppressHydrationWarning>
@@ -113,6 +126,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             background: rgba(13,11,30,0.65) !important;
             border-color: rgba(99,102,241,0.12) !important;
           }
+          ${themeCSS}
         `}} />
 
         <SchemaOrg />
@@ -146,10 +160,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16">{children}</main>
         <div id="layout-footer" className="relative z-10 bg-[#05030a]"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
-      {flags.chatbot && <ChatBot />}
-      <BackToTop accentColor="#6366f1" />
-      <CookieConsent />
-      <StickyFooterCTA />
+      {flags.chatbot && !isWidgetHidden(theme, 'chatbot') && <ChatBot />}
+      {!isWidgetHidden(theme, 'backToTop') && <BackToTop accentColor="#6366f1" />}
+      {!isWidgetHidden(theme, 'cookieConsent') && <CookieConsent />}
+      {!isWidgetHidden(theme, 'stickyFooterCTA') && <StickyFooterCTA />}
+      <FloatingChatWrapper />
+      <FeedbackWidget siteName="SpeakIQ" accentColor="#0ea5e9" position="left" />
       </body>
     </html>
     </MaybeClerk>

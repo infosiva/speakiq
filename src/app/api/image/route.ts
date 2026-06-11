@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { AI_LIMITER } from '@/lib/rateLimit'
 import crypto from 'crypto'
 
 interface ImageGenOptions {
@@ -99,6 +100,7 @@ async function generateImage(prompt: string, opts: ImageGenOptions = {}) {
 }
 
 export async function POST(req: NextRequest) {
+  const limited = AI_LIMITER.check(req); if (limited) return limited
   try {
     const { prompt, width, height, style } = await req.json()
     if (!prompt?.trim()) {

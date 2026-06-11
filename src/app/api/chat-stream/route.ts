@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+import { AI_LIMITER } from '@/lib/rateLimit'
 
 const TECH_LANGS = ['Python', 'JavaScript', 'SQL', 'Prompt Engineering', 'AI Concepts']
 
@@ -201,6 +202,7 @@ function normaliseGeminiStream(upstream: ReadableStream<Uint8Array>): ReadableSt
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  const limited = AI_LIMITER.check(req); if (limited) return limited
   const { message, language, native, level, mode, history, interviewProfile } = await req.json()
 
   const system = buildSystem(language, native, level, mode, interviewProfile ?? null)
