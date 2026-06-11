@@ -1,3 +1,4 @@
+import { reportToTaskFlow } from '@/lib/reportToTaskFlow'
 import { NextRequest, NextResponse } from 'next/server'
 import { callAI } from '@/lib/ai'
 
@@ -260,5 +261,6 @@ SAFETY (non-negotiable): This platform is used by children and teenagers. Always
     'balanced',
   )
 
+  void reportToTaskFlow({ project: 'speakiq', agentName: 'ChatBot', status: 'completed', message: 'Chat message processed' })
   return NextResponse.json({ reply })
 }
