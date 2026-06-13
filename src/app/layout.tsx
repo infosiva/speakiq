@@ -98,6 +98,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <MaybeClerk>
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="google-adsense-account" content="ca-pub-4237294630161176" />
         <meta name="Impact-Site-Verification" content="cec1d783-d697-4f52-a52f-2677e900984f" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
