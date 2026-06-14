@@ -5,16 +5,16 @@
    via CSS vars injected in layout.tsx
 ───────────────────────────────────────── */
 :root {
-  --background: #060610;
-  --surface-1:  #0c0c18;
-  --surface-2:  #111120;
-  --foreground: #ededf0;
-  --text-2:     #8e8ea0;
-  --text-3:     #52525e;
+  --background: #f0f9ff;
+  --surface-1:  #ffffff;
+  --surface-2:  #e0f2fe;
+  --foreground: #0c2333;
+  --text-2:     #4b6b80;
+  --text-3:     #8aa6b8;
 
-  --border-subtle:  rgb(255 255 255 / 0.04);
-  --border-default: rgb(255 255 255 / 0.07);
-  --border-strong:  rgb(255 255 255 / 0.13);
+  --border-subtle:  rgb(2 132 199 / 0.06);
+  --border-default: rgb(2 132 199 / 0.12);
+  --border-strong:  rgb(2 132 199 / 0.22);
 
   --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
@@ -26,9 +26,9 @@
   --radius-xl: 1.5rem;
 
   /* Theme vars — injected by layout.tsx */
-  --theme-primary:   #7c3aed;
-  --theme-secondary: #a78bfa;
-  --theme-base:      #060610;
+  --theme-primary:   #0284c7;
+  --theme-secondary: #0ea5e9;
+  --theme-base:      #f0f9ff;
 }
 
 /* ─────────────────────────────────────────
@@ -87,84 +87,17 @@ pre {
 }
 
 /* ─────────────────────────────────────────
-   Aurora background blobs
-───────────────────────────────────────── */
-.aurora {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: -1;
-  will-change: transform;
-}
-.aurora-primary {
-  top: -15%;
-  left: -10%;
-  width: min(700px, 90vw);
-  height: min(700px, 90vw);
-  background: radial-gradient(circle, color-mix(in srgb, var(--theme-primary, #7c3aed) 30%, transparent) 0%, transparent 70%);
-  animation: aurora-drift 18s ease-in-out infinite alternate;
-}
-.aurora-secondary {
-  top: 35%;
-  right: -12%;
-  width: min(550px, 80vw);
-  height: min(550px, 80vw);
-  background: radial-gradient(circle, color-mix(in srgb, var(--theme-secondary, #a78bfa) 20%, transparent) 0%, transparent 70%);
-  animation: aurora-drift 24s ease-in-out infinite alternate-reverse;
-}
-.aurora-third {
-  bottom: -10%;
-  left: 35%;
-  width: min(480px, 70vw);
-  height: min(480px, 70vw);
-  background: radial-gradient(circle, color-mix(in srgb, var(--theme-primary, #7c3aed) 18%, transparent) 0%, transparent 70%);
-  animation: aurora-drift 30s ease-in-out infinite alternate;
-}
-@keyframes aurora-drift {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(30px, 20px) scale(1.08); }
-}
-
-/* ─────────────────────────────────────────
-   Film grain overlay
-───────────────────────────────────────── */
-.grain {
-  position: fixed;
-  inset: -200%;
-  width: 400%;
-  height: 400%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.022;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain-shift 0.8s steps(1) infinite;
-}
-@keyframes grain-shift {
-  0%  { transform: translate(0,0); }
-  10% { transform: translate(-3%,-5%); }
-  20% { transform: translate(-7%, 3%); }
-  30% { transform: translate( 5%,-4%); }
-  40% { transform: translate(-4%, 6%); }
-  50% { transform: translate(-3%,-4%); }
-  60% { transform: translate( 5%, 3%); }
-  70% { transform: translate(-7%,-2%); }
-  80% { transform: translate(-3%, 6%); }
-  90% { transform: translate( 5%,-4%); }
-}
-
-/* ─────────────────────────────────────────
-   Glass surfaces
+   Glass surfaces (light sky-tint theme)
 ───────────────────────────────────────── */
 .glass {
-  background: rgb(6 6 16 / 0.60);
+  background: rgb(255 255 255 / 0.65);
   backdrop-filter: blur(20px) saturate(140%);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   border: 1px solid var(--border-subtle);
 }
 
 .glass-strong {
-  background: rgb(6 6 16 / 0.80);
+  background: rgb(255 255 255 / 0.85);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   border: 1px solid var(--border-default);
@@ -813,46 +746,6 @@ pre {
 }
 .section-liquid > * { position: relative; z-index: 1; }
 
-/* ── SpeakIQ unique: aurora background ── */
-@keyframes aurora1 {
-  0%, 100% { transform: translate(0,0) scale(1); opacity: 0.6 }
-  33% { transform: translate(60px,-40px) scale(1.2); opacity: 0.9 }
-  66% { transform: translate(-40px,30px) scale(0.9); opacity: 0.5 }
-}
-@keyframes aurora2 {
-  0%, 100% { transform: translate(0,0) scale(1.1); opacity: 0.5 }
-  33% { transform: translate(-70px,50px) scale(0.8); opacity: 0.8 }
-  66% { transform: translate(50px,-30px) scale(1.3); opacity: 0.4 }
-}
-@keyframes aurora3 {
-  0%, 100% { transform: translate(0,0) scale(0.9); opacity: 0.4 }
-  50% { transform: translate(30px,60px) scale(1.2); opacity: 0.7 }
-}
-.aurora-orb-1 {
-  position: fixed; top: -200px; left: -100px;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%);
-  filter: blur(60px);
-  animation: aurora1 12s ease-in-out infinite;
-  pointer-events: none; z-index: 0;
-}
-.aurora-orb-2 {
-  position: fixed; top: 30%; right: -150px;
-  width: 500px; height: 500px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(14,165,233,0.20) 0%, transparent 70%);
-  filter: blur(80px);
-  animation: aurora2 15s ease-in-out infinite;
-  pointer-events: none; z-index: 0;
-}
-.aurora-orb-3 {
-  position: fixed; bottom: -100px; left: 30%;
-  width: 450px; height: 450px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(236,72,153,0.15) 0%, transparent 70%);
-  filter: blur(70px);
-  animation: aurora3 10s ease-in-out infinite;
-  pointer-events: none; z-index: 0;
-}
-
 /* ── SpeakIQ: floating language letters ── */
 @keyframes floatLetter {
   0% { transform: translateY(0) rotate(0deg); opacity: 0; }
@@ -952,8 +845,8 @@ html.chat-active body > nav {
 
 /* ── Badge glow — CSS only, no JS hydration cost ──────────── */
 @keyframes badge-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-  50%       { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(2, 132, 199, 0); }
 }
 .badge-glow { animation: badge-glow 2.5s ease-in-out infinite; }
 
@@ -977,8 +870,8 @@ html.chat-active body > nav {
 
 /* ── Pulse glow on final CTA button ───────────────────────── */
 @keyframes cta-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.6); }
-  50%       { box-shadow: 0 0 0 16px rgba(99, 102, 241, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.6); }
+  50%       { box-shadow: 0 0 0 16px rgba(2, 132, 199, 0); }
 }
 .cta-pulse { animation: cta-pulse 2s ease-in-out infinite; }
 
@@ -996,10 +889,3 @@ html.chat-active body > nav {
   .badge-glow, .marquee-track, .line-grow, .cta-pulse,
   .animate-shimmer-slide { animation: none !important; }
 }
-
-/* ── Aurora background blobs ── */
-.aurora { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: -1; will-change: transform; }
-.aurora-primary { top: -15%; left: -10%; width: min(700px, 90vw); height: min(700px, 90vw); background: radial-gradient(circle, color-mix(in srgb, var(--theme-primary, #7c3aed) 30%, transparent) 0%, transparent 70%); animation: aurora-drift 18s ease-in-out infinite alternate; }
-.aurora-secondary { top: 35%; right: -12%; width: min(550px, 80vw); height: min(550px, 80vw); background: radial-gradient(circle, color-mix(in srgb, var(--theme-secondary, #a78bfa) 20%, transparent) 0%, transparent 70%); animation: aurora-drift 24s ease-in-out infinite alternate-reverse; }
-.aurora-third { bottom: -10%; left: 35%; width: min(480px, 70vw); height: min(480px, 70vw); background: radial-gradient(circle, color-mix(in srgb, var(--theme-primary, #7c3aed) 18%, transparent) 0%, transparent 70%); animation: aurora-drift 30s ease-in-out infinite alternate; }
-@keyframes aurora-drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(30px, 20px) scale(1.08); } }

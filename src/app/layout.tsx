@@ -26,7 +26,7 @@ const brand: BrandConfig = {
   name: SITE_NAME,
   tagline: siteConfig.subtagline ?? siteConfig.subheadline,
   icon: 'SQ',
-  color: siteConfig.primaryColor ?? '#6366f1',
+  color: siteConfig.primaryColor ?? '#0284c7',
   url: SITE_URL,
   logoSrc: '/logo.svg',
   navLinks: siteConfig.nav,
@@ -89,9 +89,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   ])
 
   const themeCSS = buildThemeStyleTag(theme, {
-    background: '#0d0b1e',
-    primary: '#6366f1',
-    secondary: '#818cf8',
+    background: '#f0f9ff',
+    primary: '#0284c7',
+    secondary: '#0ea5e9',
   })
 
   return (
@@ -107,16 +107,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{ __html: `
           :root {
-            --theme-primary: #6366f1;
-            --theme-secondary: #818cf8;
-            --theme-base: #0d0b1e;
-            --background: #0d0b1e;
-            --surface-1: #13112a;
-            --surface-2: #1a1840;
-            --foreground: #eef2ff;
-            --text-2: #a5b4fc;
-            --border-default: rgba(99,102,241,0.15);
-            --border-strong: rgba(99,102,241,0.25);
+            --theme-primary: #0284c7;
+            --theme-secondary: #0ea5e9;
+            --theme-base: #f0f9ff;
+            --background: #f0f9ff;
+            --surface-1: #ffffff;
+            --surface-2: #e0f2fe;
+            --foreground: #0c2333;
+            --text-2: #4b6b80;
+            --border-default: rgba(2,132,199,0.14);
+            --border-strong: rgba(2,132,199,0.25);
             --radius: 1rem;
             --radius-lg: 1.5rem;
             --radius-xl: 2rem;
@@ -124,8 +124,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           body { font-family: 'DM Sans', system-ui, sans-serif !important; }
           h1, h2, h3, .display { font-family: 'Nunito', sans-serif !important; }
           .glass {
-            background: rgba(13,11,30,0.65) !important;
-            border-color: rgba(99,102,241,0.12) !important;
+            background: rgba(255,255,255,0.65) !important;
+            border-color: rgba(2,132,199,0.12) !important;
           }
           ${themeCSS}
         `}} />
@@ -151,18 +151,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <div className="aurora aurora-primary" aria-hidden />
-        <div className="aurora aurora-secondary" aria-hidden />
-        <div className="aurora aurora-third" aria-hidden />
         <AnimatedBackground />
-        <div className="grain" aria-hidden />
         <DesignEffects />
         <PageStats site="speakiq.app" />
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16">{children}</main>
-        <div id="layout-footer" className="relative z-10 bg-[#05030a]"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
+        <div id="layout-footer" className="relative z-10 bg-[#0c2333]"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
       {flags.chatbot && !isWidgetHidden(theme, 'chatbot') && <ChatBot />}
-      {!isWidgetHidden(theme, 'backToTop') && <BackToTop accentColor="#6366f1" />}
+      {!isWidgetHidden(theme, 'backToTop') && <BackToTop accentColor="#0284c7" />}
       {!isWidgetHidden(theme, 'cookieConsent') && <CookieConsent />}
       {!isWidgetHidden(theme, 'stickyFooterCTA') && <StickyFooterCTA />}
       <FloatingChatWrapper />
