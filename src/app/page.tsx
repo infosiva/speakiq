@@ -11,9 +11,11 @@ import PricingSection    from '@/components/PricingSection'
 import FAQSection        from '@/components/FAQSection'
 import FinalCTA          from '@/components/FinalCTA'
 import SpeakStats        from '@/components/SpeakStats'
+import SampleLesson      from '@/components/SampleLesson'
 
 const SECTION_MAP: Record<string, React.ReactNode> = {
-  hero:        <HeroSection />,
+  hero:         <HeroSection />,
+  sampleLesson: <SampleLesson />,
   speakStats:  <Suspense fallback={null}><SpeakStats /></Suspense>,
   marquee:     <MarqueeBar />,
   howItWorks:  <HowItWorksSection />,
