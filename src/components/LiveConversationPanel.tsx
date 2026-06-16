@@ -192,7 +192,7 @@ export default function LiveConversationPanel({ activeLang, onLangChange }: Prop
               fontFamily: "'DM Sans', sans-serif",
               whiteSpace: 'nowrap',
             }}>
-              2,847 learners speaking today
+              AI · live session
             </span>
           </div>
         </div>
