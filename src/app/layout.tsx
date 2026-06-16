@@ -156,7 +156,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <PageStats site="speakiq.app" />
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16">{children}</main>
-        <div id="layout-footer" className="relative z-10 bg-[#0c2333]"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
+        <div id="layout-footer" className="relative z-10 bg-[#e0f2fe] border-t border-sky-200"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
       {flags.chatbot && !isWidgetHidden(theme, 'chatbot') && <ChatBot />}
       {!isWidgetHidden(theme, 'backToTop') && <BackToTop accentColor="#0284c7" />}
       {!isWidgetHidden(theme, 'cookieConsent') && <CookieConsent />}

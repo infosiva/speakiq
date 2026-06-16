@@ -39,7 +39,7 @@ export default function Footer({
   const allLinks = [...complianceLinks, ...extraLinks];
 
   return (
-    <footer className={`w-full border-t border-white/[0.06] bg-transparent mt-auto ${className}`}>
+    <footer className={`w-full border-t border-sky-200 bg-transparent mt-auto ${className}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Brand + links row */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -47,17 +47,17 @@ export default function Footer({
             {(icon || siteName) && (
               <div className="flex items-center gap-2 mb-1.5">
                 {icon && <span className="text-xl">{icon}</span>}
-                <span className="font-bold text-white text-sm">{siteName}</span>
+                <span className="font-bold text-slate-800 text-sm">{siteName}</span>
               </div>
             )}
             {tagline && (
-              <p className="text-white/40 text-xs max-w-xs">{tagline}</p>
+              <p className="text-slate-500 text-xs max-w-xs">{tagline}</p>
             )}
           </div>
 
-          <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-4 text-xs text-white/40">
+          <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-4 text-xs text-slate-500">
             {allLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-white/70 transition-colors">
+              <Link key={link.href} href={link.href} className="hover:text-slate-700 transition-colors">
                 {link.label}
               </Link>
             ))}
@@ -65,7 +65,7 @@ export default function Footer({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
+        <div className="mt-8 pt-6 border-t border-sky-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
           <span>© {year} {siteName}. All rights reserved.</span>
           <div className="flex items-center gap-4">
             <a
@@ -81,7 +81,7 @@ export default function Footer({
                 height="40"
               />
             </a>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5 text-slate-500">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Built with AI
             </span>
