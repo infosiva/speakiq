@@ -5,16 +5,16 @@
    via CSS vars injected in layout.tsx
 ───────────────────────────────────────── */
 :root {
-  --background: #f0f9ff;
+  --background: #fdf4ff;
   --surface-1:  #ffffff;
-  --surface-2:  #e0f2fe;
-  --foreground: #0c2333;
-  --text-2:     #4b6b80;
-  --text-3:     #8aa6b8;
+  --surface-2:  #fae8ff;
+  --foreground: #1e0a2e;
+  --text-2:     #6b4f7a;
+  --text-3:     #9c7aad;
 
-  --border-subtle:  rgb(2 132 199 / 0.06);
-  --border-default: rgb(2 132 199 / 0.12);
-  --border-strong:  rgb(2 132 199 / 0.22);
+  --border-subtle:  rgb(147 51 234 / 0.06);
+  --border-default: rgb(147 51 234 / 0.12);
+  --border-strong:  rgb(147 51 234 / 0.22);
 
   --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
@@ -25,10 +25,14 @@
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
 
-  /* Theme vars — injected by layout.tsx */
-  --theme-primary:   #0284c7;
-  --theme-secondary: #0ea5e9;
-  --theme-base:      #f0f9ff;
+  /* Theme vars — language/education category, violet identity */
+  --theme-primary:   #9333ea;
+  --theme-secondary: #a855f7;
+  --theme-base:      #fdf4ff;
+  /* Standard design system aliases */
+  --accent:          #9333ea;
+  --accent-2:        #a855f7;
+  --accent-dim:      rgba(147,51,234,0.12);
 }
 
 /* ─────────────────────────────────────────
