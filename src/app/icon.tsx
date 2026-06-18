@@ -4,6 +4,17 @@ export const size = { width: 32, height: 32 }
 export const contentType = 'image/png'
 export default function Icon() {
   return new ImageResponse(
-    <div style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>💬</div>
+    <div style={{
+      width: 32, height: 32, borderRadius: 8,
+      background: 'linear-gradient(135deg, #7e22ce, #9333ea)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Sound-wave bars — represents speech/audio */}
+        <rect x="3"  y="9" width="3" height="6"  rx="1.5" fill="white" opacity="0.55"/>
+        <rect x="9"  y="5" width="3" height="14" rx="1.5" fill="white"/>
+        <rect x="15" y="2" width="3" height="20" rx="1.5" fill="white" opacity="0.85"/>
+      </svg>
+    </div>
   )
 }
