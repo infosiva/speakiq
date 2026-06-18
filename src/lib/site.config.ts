@@ -161,7 +161,7 @@ export const siteConfig: SiteConfig = {
 
   layout: {
     heroVariant:  'split',
-    sectionOrder: ['hero', 'sampleLesson', 'speakStats', 'marquee', 'howItWorks', 'features', 'pricing', 'faq', 'finalCta'],
+    sectionOrder: ['hero', 'sampleLesson', 'liveStats', 'speakStats', 'marquee', 'howItWorks', 'features', 'pricing', 'faq', 'finalCta'],
     hideSections: [],
   },
 

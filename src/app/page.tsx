@@ -12,10 +12,12 @@ import FAQSection        from '@/components/FAQSection'
 import FinalCTA          from '@/components/FinalCTA'
 import SpeakStats        from '@/components/SpeakStats'
 import SampleLesson      from '@/components/SampleLesson'
+import LiveStatsBar      from '@/components/LiveStatsBar'
 
 const SECTION_MAP: Record<string, React.ReactNode> = {
   hero:         <HeroSection />,
   sampleLesson: <SampleLesson />,
+  liveStats:   <LiveStatsBar />,
   speakStats:  <Suspense fallback={null}><SpeakStats /></Suspense>,
   marquee:     <MarqueeBar />,
   howItWorks:  <HowItWorksSection />,

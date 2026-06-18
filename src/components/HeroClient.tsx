@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import type { ContentOverrides } from '@/lib/content'
 import LiveConversationPanel from './LiveConversationPanel'
+import { usePromo } from '@/hooks/usePromo'
 
 // ── Language data (5 hero flags matching design brief) ──────────────────────
 export const HERO_LANGS = [
@@ -30,6 +31,7 @@ function fadeUp(delay = 0): React.CSSProperties {
 export default function HeroClient({ overrides = {} }: { overrides?: ContentOverrides }) {
   const [activeLang, setActiveLang] = useState<HeroLangCode>('es')
   const lang = HERO_LANGS.find(l => l.code === activeLang) ?? HERO_LANGS[0]
+  const { isUnlocked, daysLeft } = usePromo()
 
   return (
     <>
@@ -263,6 +265,20 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               </span>
             ))}
           </div>
+
+          {/* Promo code */}
+          {isUnlocked ? (
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#22d3ee', marginTop: '4px' }}>
+              🎉 Pro access active — {daysLeft} day{daysLeft === 1 ? '' : 's'} remaining
+            </div>
+          ) : (
+            <Link
+              href="/pricing#promo"
+              style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textDecoration: 'underline', marginTop: '4px', display: 'inline-block' }}
+            >
+              Have a promo code?
+            </Link>
+          )}
         </div>
 
         {/* ── RIGHT: live conversation panel ────────────────────────── */}
