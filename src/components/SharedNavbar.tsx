@@ -66,8 +66,8 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
         style={{ '--accent': brand.color } as React.CSSProperties}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out
           ${scrolled
-            ? 'bg-[#030305]/80 backdrop-blur-2xl border-b border-white/[0.05]'
-            : 'bg-transparent'
+            ? 'bg-[#030305]/90 backdrop-blur-2xl border-b border-white/[0.05]'
+            : 'bg-[#0b1120]/85 backdrop-blur-xl border-b border-white/[0.06]'
           }`}
       >
         <div className="max-w-5xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between gap-4">

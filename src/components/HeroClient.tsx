@@ -143,7 +143,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
                 margin: 0,
               }}
             >
-              <span style={{ display: 'block', color: '#f1f5ff' }}>
+              <span style={{ display: 'block', color: '#0c1a3a' }}>
                 {overrides.headline ?? 'Speak any language'}
               </span>
               <span style={{
@@ -156,7 +156,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               }}>
                 in minutes,
               </span>
-              <span style={{ display: 'block', color: 'rgba(241,245,255,0.85)' }}>not months.</span>
+              <span style={{ display: 'block', color: '#0c1a3a' }}>not months.</span>
             </h1>
           </div>
 
@@ -166,7 +166,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               fontFamily: "'DM Sans', sans-serif",
               fontSize: '16px',
               lineHeight: 1.65,
-              color: 'rgba(255,255,255,0.52)',
+              color: '#334e6e',
               maxWidth: '420px',
               margin: 0,
             }}>
@@ -182,7 +182,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               fontWeight: 700,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.28)',
+              color: '#64748b',
               marginBottom: '8px',
             }}>
               Choose language
@@ -201,9 +201,9 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
                       gap: '6px',
                       padding: '6px 12px',
                       borderRadius: '10px',
-                      border: `1px solid ${active ? 'rgba(99,102,241,0.55)' : 'rgba(255,255,255,0.25)'}`,
-                      background: active ? 'rgba(99,102,241,0.28)' : 'rgba(255,255,255,0.12)',
-                      color: active ? '#e0e7ff' : 'rgba(255,255,255,0.88)',
+                      border: `1px solid ${active ? 'rgba(99,102,241,0.55)' : 'rgba(15,23,42,0.15)'}`,
+                      background: active ? 'rgba(99,102,241,0.18)' : 'rgba(255,255,255,0.65)',
+                      color: active ? '#4f46e5' : '#334155',
                       fontSize: '12px',
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -242,12 +242,12 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
                   gap: '5px',
                   fontSize: '12px',
                   fontWeight: 600,
-                  color: 'rgba(255,255,255,0.35)',
+                  color: '#334e6e',
                   fontFamily: "'DM Sans', sans-serif",
                 }}
               >
                 {i > 0 && (
-                  <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', display: 'inline-block', marginRight: '11px' }} />
+                  <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(15,23,42,0.25)', display: 'inline-block', marginRight: '11px' }} />
                 )}
                 <span style={{
                   width: '14px',
@@ -274,7 +274,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
           ) : (
             <Link
               href="/pricing#promo"
-              style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textDecoration: 'underline', marginTop: '4px', display: 'inline-block' }}
+              style={{ fontSize: '12px', color: '#64748b', textDecoration: 'underline', marginTop: '4px', display: 'inline-block' }}
             >
               Have a promo code?
             </Link>
