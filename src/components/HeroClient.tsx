@@ -20,6 +20,7 @@ export type HeroLangCode = (typeof HERO_LANGS)[number]['code']
 const INDIGO  = '#6366f1'
 const CYAN    = '#06b6d4'
 const ACCENT_GRAD = `linear-gradient(135deg, ${INDIGO} 0%, ${CYAN} 100%)`
+const ACCENT_GRAD_TEXT = `linear-gradient(135deg, ${INDIGO} 0%, ${CYAN} 100%)`
 
 // Entry animation (applied via style so no extra CSS class needed)
 function fadeUp(delay = 0): React.CSSProperties {
@@ -109,13 +110,13 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               gap: '8px',
               padding: '6px 14px',
               borderRadius: '999px',
-              border: '1px solid rgba(99,102,241,0.50)',
-              background: 'rgba(99,102,241,0.30)',
+              border: '1px solid rgba(129,140,248,0.45)',
+              background: 'rgba(99,102,241,0.22)',
               fontSize: '11px',
               fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: '#ffffff',
+              color: '#c7d2fe',
               fontFamily: "'DM Sans', sans-serif",
             }}>
               <span style={{
@@ -143,12 +144,13 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
                 margin: 0,
               }}
             >
-              <span style={{ display: 'block', color: '#0c1a3a' }}>
+              <span style={{ display: 'block', color: '#f8fafc' }}>
                 {overrides.headline ?? 'Speak any language'}
               </span>
               <span style={{
                 display: 'block',
-                backgroundImage: ACCENT_GRAD,
+                color: '#4338ca',
+                backgroundImage: ACCENT_GRAD_TEXT,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -156,7 +158,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               }}>
                 in minutes,
               </span>
-              <span style={{ display: 'block', color: '#0c1a3a' }}>not months.</span>
+              <span style={{ display: 'block', color: '#f8fafc' }}>not months.</span>
             </h1>
           </div>
 
@@ -166,7 +168,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               fontFamily: "'DM Sans', sans-serif",
               fontSize: '16px',
               lineHeight: 1.65,
-              color: '#334e6e',
+              color: 'rgba(248,250,252,0.72)',
               maxWidth: '420px',
               margin: 0,
             }}>
@@ -182,7 +184,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               fontWeight: 700,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: '#64748b',
+              color: 'rgba(255,255,255,0.55)',
               marginBottom: '8px',
             }}>
               Choose language
@@ -201,9 +203,9 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
                       gap: '6px',
                       padding: '6px 12px',
                       borderRadius: '10px',
-                      border: `1px solid ${active ? 'rgba(99,102,241,0.55)' : 'rgba(15,23,42,0.15)'}`,
-                      background: active ? 'rgba(99,102,241,0.18)' : 'rgba(255,255,255,0.65)',
-                      color: active ? '#4f46e5' : '#334155',
+                      border: `1px solid ${active ? 'rgba(129,140,248,0.6)' : 'rgba(255,255,255,0.14)'}`,
+                      background: active ? 'rgba(99,102,241,0.28)' : '#1e293b',
+                      color: active ? '#e0e7ff' : '#cbd5e1',
                       fontSize: '12px',
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -274,7 +276,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
           ) : (
             <Link
               href="/pricing#promo"
-              style={{ fontSize: '12px', color: '#64748b', textDecoration: 'underline', marginTop: '4px', display: 'inline-block' }}
+              style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', textDecoration: 'underline', marginTop: '4px', display: 'inline-block' }}
             >
               Have a promo code?
             </Link>

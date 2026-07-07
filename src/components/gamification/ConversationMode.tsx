@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { getTutorName, getTutorContext } from '@/lib/gamification/tutor-memory'
 import PhonemeDisplay, { splitByDots } from '@/components/PhonemeDisplay'
+import { loseHeart } from '@/lib/gamification/hearts'
 
 interface Correction { original: string; fixed: string; explanation: string }
 interface Turn {
@@ -11,7 +12,18 @@ interface Turn {
   corrections?: Correction[]
 }
 
-interface Props { language: string; level: string; tutorName?: string; className?: string }
+export interface SessionStats { xp: number; turnsPracticed: number; cleanTurns: number; streak: number }
+
+interface Props {
+  language: string
+  level: string
+  tutorName?: string
+  className?: string
+  onStatsChange?: (stats: SessionStats) => void
+  onHeartsDepleted?: () => void
+}
+
+const XP_PER_CLEAN_TURN = 10
 
 // Rough syllable splitter — groups consonant-vowel clusters for visual display
 // Not linguistically perfect but good enough for "see the shape" feedback
@@ -47,13 +59,39 @@ const STARTER_PROMPTS: Record<string, string[]> = {
   Advanced: ['Let\'s discuss current events.', 'What\'s your opinion on travel?', 'Tell me a short story.'],
 }
 
-export function ConversationMode({ language, level, tutorName = 'Luna', className = '' }: Props) {
+export function ConversationMode({ language, level, tutorName = 'Luna', className = '', onStatsChange, onHeartsDepleted }: Props) {
   const [turns,   setTurns]   = useState<Turn[]>([])
   const [input,   setInput]   = useState('')
   const [loading, setLoading] = useState(false)
+  const [xp, setXp] = useState(0)
+  const [streak, setStreak] = useState(0)
+  const [xpPop, setXpPop] = useState(false)
+  const cleanTurnsRef = useRef(0)
+  const turnsPracticedRef = useRef(0)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [turns, loading])
+
+  function recordTurnResult(hadCorrections: boolean) {
+    turnsPracticedRef.current += 1
+    if (hadCorrections) {
+      const remaining = loseHeart()
+      setStreak(0)
+      if (onHeartsDepleted && remaining !== false && remaining <= 0) onHeartsDepleted()
+    } else {
+      cleanTurnsRef.current += 1
+      setStreak(s => s + 1)
+      setXp(x => x + XP_PER_CLEAN_TURN)
+      setXpPop(true)
+      setTimeout(() => setXpPop(false), 600)
+    }
+    onStatsChange?.({
+      xp: hadCorrections ? xp : xp + XP_PER_CLEAN_TURN,
+      turnsPracticed: turnsPracticedRef.current,
+      cleanTurns: cleanTurnsRef.current,
+      streak: hadCorrections ? 0 : streak + 1,
+    })
+  }
 
   // Auto-greet on mount
   useEffect(() => {
@@ -101,12 +139,14 @@ export function ConversationMode({ language, level, tutorName = 'Luna', classNam
         body: JSON.stringify({ messages, language, level, tutorName: resolvedName, weakSpotContext: getTutorContext() }),
       })
       const data = await r.json()
+      const corrections: Correction[] = data.corrections ?? []
       setTurns(prev => [...prev, {
         role: 'assistant',
         content: data.reply ?? '',
         translation: data.replyTranslation,
-        corrections: data.corrections ?? [],
+        corrections,
       }])
+      recordTurnResult(corrections.length > 0)
     } catch { /* silent */ }
     finally { setLoading(false) }
   }
@@ -123,20 +163,40 @@ export function ConversationMode({ language, level, tutorName = 'Luna', classNam
           <p className="font-semibold text-sm leading-none">{tutorName}</p>
           <p className="text-xs text-[var(--text-2)] mt-0.5">{language} · {level}</p>
         </div>
-        <span className="ml-auto flex items-center gap-1 text-xs text-green-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
-          Online
-        </span>
+        <div className="ml-auto flex items-center gap-3">
+          {streak > 0 && (
+            <span className="text-xs font-semibold text-orange-400 flex items-center gap-1">
+              🔥{streak}
+            </span>
+          )}
+          <span
+            className={`text-xs font-bold text-[var(--theme-primary)] transition-transform ${xpPop ? 'animate-bounce-once' : ''}`}
+          >
+            {xp} XP
+          </span>
+          <span className="flex items-center gap-1 text-xs text-green-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
+            Online
+          </span>
+        </div>
       </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3 scroll-smooth">
-        {turns.map((t, i) => (
+        {turns.map((t, i) => {
+          const graded = t.role === 'assistant' && t.corrections !== undefined
+          const clean = graded && t.corrections!.length === 0
+          const mistake = graded && t.corrections!.length > 0
+          return (
           <div key={i} className={`flex flex-col gap-1 ${t.role === 'user' ? 'items-end' : 'items-start'}`}>
-            <div className={`max-w-[78%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+            <div className={`max-w-[78%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed border transition-colors duration-300 ${
               t.role === 'user'
-                ? 'bg-[var(--theme-primary)] text-white rounded-br-sm'
-                : 'bg-white/10 text-white rounded-bl-sm'
+                ? 'bg-[var(--theme-primary)] text-white rounded-br-sm border-transparent'
+                : clean
+                ? 'bg-white/10 text-white rounded-bl-sm border-green-400/50'
+                : mistake
+                ? 'bg-white/10 text-white rounded-bl-sm border-red-400/50'
+                : 'bg-white/10 text-white rounded-bl-sm border-transparent'
             }`}>
               {t.content}
             </div>
@@ -171,7 +231,8 @@ export function ConversationMode({ language, level, tutorName = 'Luna', classNam
               </div>
             )}
           </div>
-        ))}
+          )
+        })}
 
         {loading && (
           <div className="flex items-start gap-2">
