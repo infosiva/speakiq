@@ -60,7 +60,13 @@ export default function SampleLesson() {
   }
 
   return (
-    <section style={{ padding: '48px 16px', maxWidth: '680px', margin: '0 auto' }}>
+    <section style={{
+      padding: '48px 16px',
+      maxWidth: '100%',
+      margin: '0 auto',
+      background: `linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%), radial-gradient(circle at 50% 0%, ${INDIGO}22, transparent 60%)`,
+    }}>
+      <div style={{ maxWidth: '680px', margin: '0 auto' }}>
       <style>{`
         .sq-lesson-btn {
           background: rgba(255,255,255,0.04);
@@ -272,6 +278,7 @@ export default function SampleLesson() {
           )}
         </div>
       )}
+      </div>
     </section>
   )
 }
