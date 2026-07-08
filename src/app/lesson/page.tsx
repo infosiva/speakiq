@@ -113,7 +113,8 @@ export default function LessonPage() {
   const topics = COMMON_TOPICS[level] ?? COMMON_TOPICS.Beginner
 
   return (
-    <div style={{ minHeight: '100vh', padding: '24px 16px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
+    <div style={{ minHeight: '100vh', padding: '24px 16px', fontFamily: 'system-ui, sans-serif', background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)' }}>
+    <div style={{ maxWidth: 800, margin: '0 auto' }}>
       <CelebrationOverlay trigger={celebrate} message="🎉 Lesson ready!" onDone={() => setCelebrate(false)} />
       {gate.showGate && (
         <RegisterGate
@@ -335,6 +336,7 @@ export default function LessonPage() {
 
         </div>
       )}
+      </div>
 
       <style>{`@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }`}</style>
     </div>
