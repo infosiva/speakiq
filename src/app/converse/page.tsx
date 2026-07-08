@@ -69,7 +69,13 @@ export default function ConversePage() {
   }
 
   return (
-    <div className="flex flex-col text-[var(--foreground)] overflow-hidden" style={{ position: 'fixed', top: '4rem', left: 0, right: 0, bottom: 0 }}>
+    <div
+      className="flex flex-col text-white overflow-hidden"
+      style={{
+        position: 'fixed', top: '4rem', left: 0, right: 0, bottom: 0,
+        background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)',
+      }}
+    >
       {/* Compact top bar — always visible, never shrinks */}
       <div className="border-b border-white/[0.06] bg-white/[0.02] backdrop-blur-md shrink-0">
         <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 py-1.5 flex flex-wrap items-center gap-2 sm:gap-3 sm:h-12">
