@@ -9,7 +9,12 @@ export default function FAQSection() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section id="faq" className="py-8 px-4 sm:px-6 max-w-3xl mx-auto border-t border-white/[0.05]">
+    <section
+      id="faq"
+      className="border-t border-white/[0.05]"
+      style={{ background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)' }}
+    >
+      <div className="py-8 px-4 sm:px-6 max-w-3xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-black text-white mb-2">Frequently asked questions</h2>
         <p className="text-white/40 text-sm">Everything you need to know</p>
@@ -39,6 +44,7 @@ export default function FAQSection() {
             )}
           </div>
         ))}
+      </div>
       </div>
     </section>
   )

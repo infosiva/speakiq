@@ -6,7 +6,10 @@ export default function SharedFooter({ brand }: { brand: BrandConfig }) {
   const links = brand.navLinks ?? []
 
   return (
-    <footer className="mt-auto border-t border-white/[0.04]">
+    <footer
+      className="mt-auto border-t border-white/[0.04]"
+      style={{ background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)' }}
+    >
       <div className="max-w-5xl mx-auto px-5 sm:px-8 py-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           {/* Brand */}

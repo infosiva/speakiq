@@ -5,7 +5,11 @@ export default function MarqueeBar() {
   const items = [...siteConfig.socialProof.marqueeItems, ...siteConfig.socialProof.marqueeItems]
 
   return (
-    <section aria-label="Supported languages" className="py-5 border-y border-white/[0.05] overflow-hidden bg-indigo-950/20">
+    <section
+      aria-label="Supported languages"
+      className="py-5 border-y border-white/[0.05] overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)' }}
+    >
       <div className="flex items-center gap-4 mb-3 px-4 sm:px-6 max-w-6xl mx-auto">
         <span className="text-[11px] text-white/30 font-semibold uppercase tracking-widest whitespace-nowrap">
           50+ languages

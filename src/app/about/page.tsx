@@ -15,6 +15,10 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
+    <div
+      className="min-h-screen"
+      style={{ background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)' }}
+    >
     <main className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
 
       {/* Hero */}
@@ -112,5 +116,6 @@ export default function AboutPage() {
 
       <p className="opacity-30 text-xs">© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
     </main>
+    </div>
   )
 }

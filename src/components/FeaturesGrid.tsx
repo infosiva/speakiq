@@ -19,7 +19,12 @@ export default function FeaturesGrid() {
   const itemVars      = useMotionVariants(FADE_UP)
 
   return (
-    <section id="features" className="py-10 px-4 sm:px-6 max-w-5xl mx-auto border-t border-white/[0.05]">
+    <section
+      id="features"
+      className="border-t border-white/[0.05]"
+      style={{ background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)' }}
+    >
+      <div className="py-10 px-4 sm:px-6 max-w-5xl mx-auto">
       <div className="text-center mb-6">
         <h2
           className="text-3xl font-black text-white mb-3"
@@ -61,6 +66,7 @@ export default function FeaturesGrid() {
           )
         })}
       </motion.div>
+      </div>
     </section>
   )
 }

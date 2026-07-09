@@ -16,7 +16,12 @@ export default function HowItWorksSection() {
   const itemVars      = useMotionVariants(FADE_UP)
 
   return (
-    <section id="how-it-works" className="py-10 px-4 sm:px-6 max-w-5xl mx-auto border-t border-white/[0.05]">
+    <section
+      id="how-it-works"
+      className="border-t border-white/[0.05]"
+      style={{ background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)' }}
+    >
+      <div className="py-10 px-4 sm:px-6 max-w-5xl mx-auto">
       <motion.div
         variants={containerVars as Parameters<typeof motion.div>[0]['variants']}
         initial="hidden"
@@ -83,6 +88,7 @@ export default function HowItWorksSection() {
           </Link>
         </motion.div>
       </motion.div>
+      </div>
     </section>
   )
 }
