@@ -144,7 +144,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className="flex flex-col min-h-screen">
         <Script defer data-domain="speakiq.app" src="https://plausible.io/js/script.js" strategy="afterInteractive" />
-        <Script defer data-site="speakiq.app" src="http://31.97.56.148:3098/t.js" strategy="afterInteractive" />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176"
