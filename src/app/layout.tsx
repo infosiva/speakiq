@@ -10,7 +10,6 @@ import ChatBot from '@/components/ChatBot'
 import { getSiteFlags } from '@/lib/flags'
 import BackToTop from '@/components/BackToTop'
 import FloatingChatWrapper from '@/components/FloatingChatWrapper'
-import PageStats from '@/components/PageStats'
 import type { BrandConfig } from '@/components/SharedNavbar'
 import CookieConsent from "../../components/CookieConsent";
 import StickyFooterCTA from "../../components/StickyFooterCTA";
@@ -152,7 +151,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         <AnimatedBackground />
         <DesignEffects />
-        <PageStats site="speakiq.app" />
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16">{children}</main>
         <div id="layout-footer" className="relative z-10 bg-[#e0f2fe] border-t border-sky-200"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
