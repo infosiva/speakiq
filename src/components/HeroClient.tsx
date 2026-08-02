@@ -4,6 +4,7 @@ import Link from 'next/link'
 import type { ContentOverrides } from '@/lib/content'
 import LiveConversationPanel from './LiveConversationPanel'
 import { usePromo } from '@/hooks/usePromo'
+import PromoBar from './PromoBar'
 
 // ── Language data (5 hero flags matching design brief) ──────────────────────
 export const HERO_LANGS = [
@@ -274,12 +275,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               🎉 Pro access active — {daysLeft} day{daysLeft === 1 ? '' : 's'} remaining
             </div>
           ) : (
-            <Link
-              href="/pricing#promo"
-              style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', textDecoration: 'underline', marginTop: '4px', display: 'inline-block' }}
-            >
-              Have a promo code?
-            </Link>
+            <PromoBar />
           )}
         </div>
 
