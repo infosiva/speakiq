@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import type { ContentOverrides } from '@/lib/content'
 import LiveConversationPanel from './LiveConversationPanel'
+import TryItLive from './TryItLive'
 import { usePromo } from '@/hooks/usePromo'
 import PromoBar from './PromoBar'
 
@@ -287,6 +288,7 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
           className="w-full mt-4 lg:mt-0"
         >
           <LiveConversationPanel activeLang={activeLang} onLangChange={setActiveLang} />
+          <TryItLive activeLang={activeLang} />
         </div>
 
       </div>

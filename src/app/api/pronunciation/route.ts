@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callAI } from '@/lib/ai'
+import { AI_LIMITER } from '@/lib/rateLimit'
 
 export async function POST(req: NextRequest) {
+  // ponytail: this route is now reachable from the zero-auth landing page
+  // (TryItLive.tsx) not just the gated /lesson flow — needs a rate limit.
+  const limited = AI_LIMITER.check(req)
+  if (limited) return limited
+
   const { spoken, expected, language } = await req.json()
   if (!spoken || !expected) return NextResponse.json({ error: 'Missing params' }, { status: 400 })
 

@@ -159,7 +159,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       {!isWidgetHidden(theme, 'cookieConsent') && <CookieConsent />}
       {!isWidgetHidden(theme, 'stickyFooterCTA') && <StickyFooterCTA />}
       <FloatingChatWrapper />
-      <FeedbackWidget siteName="SpeakIQ" accentColor="#0ea5e9" position="left" />
+      <FeedbackWidget siteName="SpeakIQ" accentColor="#7c3aed" position="left" />
       </body>
     </html>
     </MaybeClerk>

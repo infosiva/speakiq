@@ -77,22 +77,25 @@ export default function SpeakStats() {
 
   // Compute trend from last 2 scores
   let trendSymbol = ''
-  let trendColor  = 'text-white/40'
+  let trendColor  = 'text-slate-400'
   if (accuracyHistory.length >= 2) {
     const last  = accuracyHistory[accuracyHistory.length - 1]
     const prev  = accuracyHistory[accuracyHistory.length - 2]
-    if (last > prev)      { trendSymbol = '↑'; trendColor = 'text-emerald-400' }
-    else if (last < prev) { trendSymbol = '↓'; trendColor = 'text-red-400' }
-    else                  { trendSymbol = '→'; trendColor = 'text-white/40' }
+    if (last > prev)      { trendSymbol = '↑'; trendColor = 'text-emerald-600' }
+    else if (last < prev) { trendSymbol = '↓'; trendColor = 'text-red-600' }
+    else                  { trendSymbol = '→'; trendColor = 'text-slate-400' }
   }
 
   const latestAccuracy = accuracyHistory.length
     ? accuracyHistory[accuracyHistory.length - 1]
     : null
 
+  // ponytail: light-on-light section (sits after LiveStatsBar, both render on the
+  // page's default light --background) — dark slate text, not the dark-theme
+  // text-white/* used elsewhere in this codebase. See §0-BG-CONTRAST.
   const pills: { label: string; value: string | number; accent?: string }[] = [
-    { label: 'Sessions',  value: sessionsCompleted, accent: 'text-teal-400' },
-    { label: 'Words',     value: wordsPracticed,    accent: 'text-sky-400' },
+    { label: 'Sessions',  value: sessionsCompleted, accent: 'text-teal-600' },
+    { label: 'Words',     value: wordsPracticed,    accent: 'text-sky-600' },
     ...(latestAccuracy != null
       ? [{ label: 'Accuracy', value: `${latestAccuracy}% ${trendSymbol}`, accent: trendColor }]
       : []),
@@ -106,10 +109,10 @@ export default function SpeakStats() {
       {pills.map(pill => (
         <div
           key={pill.label}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.05] border border-white/[0.08]"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-[var(--border,#e9d5ff)]"
         >
-          <span className="text-[10px] text-white/30 font-medium">{pill.label}</span>
-          <span className={`text-[11px] font-bold ${pill.accent ?? 'text-white/70'}`}>
+          <span className="text-[10px] text-slate-500 font-medium">{pill.label}</span>
+          <span className={`text-[11px] font-bold ${pill.accent ?? 'text-slate-700'}`}>
             {pill.value}
           </span>
         </div>
