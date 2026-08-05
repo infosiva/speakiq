@@ -6,6 +6,7 @@ import LiveConversationPanel from './LiveConversationPanel'
 import TryItLive from './TryItLive'
 import { usePromo } from '@/hooks/usePromo'
 import PromoBar from './PromoBar'
+import UpgradeButton from './UpgradeButton'
 
 // ── Language data (5 hero flags matching design brief) ──────────────────────
 export const HERO_LANGS = [
@@ -276,7 +277,10 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
               🎉 Pro access active — {daysLeft} day{daysLeft === 1 ? '' : 's'} remaining
             </div>
           ) : (
-            <PromoBar />
+            <>
+              <div className="flex justify-center mb-3"><UpgradeButton /></div>
+              <PromoBar />
+            </>
           )}
         </div>
 

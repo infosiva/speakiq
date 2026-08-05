@@ -65,7 +65,7 @@ export default function Footer({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-sky-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+        <div className="mt-8 pt-6 border-t border-sky-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
           <span>© {year} {siteName}. All rights reserved.</span>
           <div className="flex items-center gap-4">
             <a
@@ -81,7 +81,7 @@ export default function Footer({
                 height="40"
               />
             </a>
-            <span className="flex items-center gap-1.5 text-slate-500">
+            <span className="flex items-center gap-1.5 text-slate-600">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Built with AI
             </span>
