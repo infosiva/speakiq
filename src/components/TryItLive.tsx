@@ -6,7 +6,7 @@
 // route + scoring contract as the gated /lesson flow (PronunciationScorer.tsx)
 // — ponytail: no new API, no new AI prompt, just a typed-input path onto the
 // existing voice-only scorer so the landing demo doesn't force a mic prompt.
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { HeroLangCode } from './HeroClient'
 import { HERO_LANGS } from './HeroClient'
 
@@ -36,9 +36,12 @@ export default function TryItLive({ activeLang }: { activeLang: HeroLangCode }) 
   const [error, setError] = useState('')
   const recRef = useRef<any>(null)
 
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+
   const lang = HERO_LANGS.find(l => l.code === activeLang) ?? HERO_LANGS[0]
   const target = TARGET_PHRASES[activeLang]
-  const canListen = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition)
+  const canListen = mounted && (window.SpeechRecognition || window.webkitSpeechRecognition)
 
   async function score(spoken: string) {
     if (!spoken.trim()) return
