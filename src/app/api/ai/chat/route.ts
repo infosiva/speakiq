@@ -20,7 +20,7 @@ async function callGroq(model: string, userMsg: string, key: string) {
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: userMsg },
       ],
-      max_tokens: 300,
+      max_tokens: 400,
     }),
   })
   if (!res.ok) throw new Error(`groq ${model} ${res.status}`)
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
   // Fallback chain: primary Groq model → faster Groq model → graceful message.
   // Never a 500 or blank screen to the user (§Y).
-  for (const model of ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant']) {
+  for (const model of ['qwen/qwen3.8-27b', 'openai/gpt-oss-20b']) {
     try {
       const text = await callGroq(model, userMsg, groqKey)
       return NextResponse.json({ text })

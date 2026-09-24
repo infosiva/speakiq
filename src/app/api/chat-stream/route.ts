@@ -215,7 +215,7 @@ export async function POST(req: NextRequest) {
   // 1. Try Groq streaming (fastest — llama 70b is free)
   const groqKeys = getKeys('GROQ')
   for (const key of groqKeys) {
-    for (const model of ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant']) {
+    for (const model of ['qwen/qwen3.8-27b', 'openai/gpt-oss-20b']) {
       try {
         const upstream = await streamGroq(key, model, system, messages, maxTokens)
         if (upstream) {
