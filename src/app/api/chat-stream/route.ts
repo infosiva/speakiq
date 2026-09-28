@@ -235,7 +235,7 @@ export async function POST(req: NextRequest) {
   // 2. Fallback to Gemini streaming
   const geminiKeys = getKeys('GEMINI')
   for (const key of geminiKeys) {
-    for (const model of ['gemini-2.0-flash', 'gemini-2.0-flash-lite']) {
+    for (const model of ['gemini-2.5-flash-lite', 'gemini-2.5-flash-lite']) {
       try {
         const upstream = await streamGemini(key, model, system, messages, maxTokens)
         if (upstream) {
