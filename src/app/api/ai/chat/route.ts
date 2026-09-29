@@ -30,6 +30,20 @@ async function callGroq(model: string, userMsg: string, key: string) {
   return text
 }
 
+// Last-resort fallback when every Groq model fails (bad key / outage / rate limit)
+async function geminiFallback(system: string, userText: string, maxTokens = 400): Promise<string | null> {
+  const gk = process.env.GEMINI_API_KEY
+  if (!gk) return null
+  try {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${gk}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: [{ text: userText }] }], generationConfig: { maxOutputTokens: maxTokens, temperature: 0.6 } }),
+    })
+    if (!r.ok) return null
+    return (await r.json()).candidates?.[0]?.content?.parts?.[0]?.text ?? null
+  } catch { return null }
+}
+
 export async function POST(req: NextRequest) {
   const limited = CHAT_LIMITER.check(req)
   if (limited) return limited
@@ -48,5 +62,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ text })
     } catch { /* try next tier */ }
   }
-  return NextResponse.json({ text: 'Chat is resting — try again in a moment.' })
+  const gt = await geminiFallback(SYSTEM_PROMPT, userMsg)
+  if (gt) return NextResponse.json({ text: gt })
+  return NextResponse.json({ text: 'Chat is temporarily unavailable. Please try again shortly.' }, { status: 503 })
 }
