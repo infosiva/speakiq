@@ -7,6 +7,7 @@ import TryItLive from './TryItLive'
 import { usePromo } from '@/hooks/usePromo'
 import PromoBar from './PromoBar'
 import UpgradeButton from './UpgradeButton'
+import { MagneticButton } from "@infosiva/shared-ui/modern";
 
 // ── Language data (5 hero flags matching design brief) ──────────────────────
 export const HERO_LANGS = [
@@ -227,12 +228,11 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
 
           {/* CTA */}
           <div style={fadeUp(0.23)}>
-            <Link
-              href={`/converse?lang=${activeLang}`}
-              className="sq-btn-primary"
-            >
-              <span style={{ fontSize: '18px' }}>{lang.flag}</span>
-              {overrides.cta ?? `Start speaking ${lang.name} →`}
+            <Link href={`/converse?lang=${activeLang}`} className="inline-flex">
+              <MagneticButton tabIndex={-1} className="sq-btn-primary">
+                <span style={{ fontSize: '18px' }}>{lang.flag}</span>
+                {overrides.cta ?? `Start speaking ${lang.name} →`}
+              </MagneticButton>
             </Link>
           </div>
 

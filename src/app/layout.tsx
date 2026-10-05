@@ -13,6 +13,7 @@ import FloatingChatWrapper from '@/components/FloatingChatWrapper'
 import type { BrandConfig } from '@/components/SharedNavbar'
 import CookieConsent from "../../components/CookieConsent";
 import StickyFooterCTA from "../../components/StickyFooterCTA";
+import { MotionProvider } from "@infosiva/shared-ui/modern";
 import SchemaOrg from '@/components/SchemaOrg'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import { siteConfig } from '@/lib/site.config'
@@ -152,7 +153,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <AnimatedBackground />
         <DesignEffects />
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
-        <main className="flex-1 pt-16">{children}</main>
+        <main className="flex-1 pt-16"><MotionProvider>{children}</MotionProvider></main>
         <div id="layout-footer" className="relative z-10 bg-[#e0f2fe] border-t border-sky-200"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
       {flags.chatbot && !isWidgetHidden(theme, 'chatbot') && <ChatBot />}
       {!isWidgetHidden(theme, 'backToTop') && <BackToTop accentColor="#0284c7" />}
