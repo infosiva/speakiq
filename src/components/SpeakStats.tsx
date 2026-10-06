@@ -95,7 +95,7 @@ export default function SpeakStats() {
   // text-white/* used elsewhere in this codebase. See §0-BG-CONTRAST.
   const pills: { label: string; value: string | number; accent?: string }[] = [
     { label: 'Sessions',  value: sessionsCompleted, accent: 'text-teal-600' },
-    { label: 'Words',     value: wordsPracticed,    accent: 'text-sky-600' },
+    { label: 'Words',     value: wordsPracticed,    accent: 'text-cyan-600' },
     ...(latestAccuracy != null
       ? [{ label: 'Accuracy', value: `${latestAccuracy}% ${trendSymbol}`, accent: trendColor }]
       : []),

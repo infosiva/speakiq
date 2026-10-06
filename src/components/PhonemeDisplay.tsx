@@ -74,7 +74,7 @@ export default function PhonemeDisplay({ label, segments, note }: PhonemeDisplay
 
       {/* Coaching note */}
       {note && (
-        <p className="text-xs text-indigo-300/70 leading-relaxed border-t border-white/[0.06] pt-2">
+        <p className="text-xs text-teal-300/70 leading-relaxed border-t border-white/[0.06] pt-2">
           💡 {note}
         </p>
       )}

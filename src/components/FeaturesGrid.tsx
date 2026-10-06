@@ -6,12 +6,12 @@ import { FADE_UP, STAGGER_CONTAINER, CARD_HOVER, SPRING_CINEMATIC, useMotionVari
 
 // Accent colors per feature slot
 const ACCENTS = [
-  'from-indigo-500/15 border-indigo-500/20',
-  'from-violet-500/10 border-violet-500/15',
+  'from-teal-500/15 border-teal-500/20',
+  'from-teal-500/10 border-teal-500/15',
   'from-blue-500/10 border-blue-500/15',
-  'from-indigo-500/10 border-indigo-500/15',
+  'from-teal-500/10 border-teal-500/15',
   'from-cyan-500/10 border-cyan-500/15',
-  'from-violet-500/10 border-violet-500/15',
+  'from-teal-500/10 border-teal-500/15',
 ]
 
 export default function FeaturesGrid() {

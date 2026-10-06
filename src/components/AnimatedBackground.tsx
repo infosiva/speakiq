@@ -6,7 +6,7 @@ export default function AnimatedBackground() {
       {/* Sky-blue tint gradient */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'radial-gradient(ellipse 70% 50% at 40% 20%, rgba(2,132,199,0.08) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 75% 75%, rgba(14,165,233,0.06) 0%, transparent 60%)',
+        background: 'radial-gradient(ellipse 70% 50% at 40% 20%, rgba(14,154,167,0.08) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 75% 75%, rgba(14,165,233,0.06) 0%, transparent 60%)',
       }} />
 
       {/* Sound wave SVG */}
@@ -16,7 +16,7 @@ export default function AnimatedBackground() {
           <ellipse key={i}
             cx="400" cy="100"
             rx={i * 70} ry={i * 14}
-            fill="none" stroke="#0284c7" strokeWidth="1.5"
+            fill="none" stroke="#0a7f8f" strokeWidth="1.5"
             opacity={1 / i}
           >
             <animate attributeName="rx" values={`${i*70};${i*80};${i*70}`} dur={`${2+i*0.5}s`} repeatCount="indefinite" />
@@ -36,7 +36,7 @@ export default function AnimatedBackground() {
               const freq = 0.04 + i * 0.02
               return `${x},${y * 800 + Math.sin(j * freq * Math.PI) * amp}`
             }).join(' ')}
-            fill="none" stroke="#0284c7" strokeWidth="1.5"
+            fill="none" stroke="#0a7f8f" strokeWidth="1.5"
           >
             <animate attributeName="points"
               values={
@@ -65,7 +65,7 @@ export default function AnimatedBackground() {
       </svg>
 
 
-<div className="orb orb-1" style={{ background: 'radial-gradient(circle, rgba(2,132,199,0.12), rgba(14,165,233,0.05) 60%, transparent)', top: '-80px', left: '-60px' }} />
+<div className="orb orb-1" style={{ background: 'radial-gradient(circle, rgba(14,154,167,0.12), rgba(14,165,233,0.05) 60%, transparent)', top: '-80px', left: '-60px' }} />
       <div className="orb orb-2" style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.08), transparent 70%)', bottom: '5%', right: '-80px' }} />
     </div>
   )

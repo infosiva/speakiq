@@ -56,7 +56,7 @@ export default function StickyFooterCTA() {
           display: 'inline-block',
           padding: '10px 24px',
           minHeight: '44px',
-          background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+          background: 'linear-gradient(135deg, #0a7f8f, #0e9aa7)',
           color: '#fff',
           fontWeight: 700,
           fontSize: '0.9375rem',

@@ -21,8 +21,8 @@ export const HERO_LANGS = [
 export type HeroLangCode = (typeof HERO_LANGS)[number]['code']
 
 // ── Inline styles as constants to keep JSX clean ─────────────────────────────
-const INDIGO  = '#6366f1'
-const CYAN    = '#06b6d4'
+const INDIGO  = '#0e9aa7'
+const CYAN    = '#5eead4'
 const ACCENT_GRAD = `linear-gradient(135deg, ${INDIGO} 0%, ${CYAN} 100%)`
 const ACCENT_GRAD_TEXT = `linear-gradient(135deg, ${INDIGO} 0%, ${CYAN} 100%)`
 
@@ -96,11 +96,10 @@ export default function HeroClient({ overrides = {} }: { overrides?: ContentOver
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr',
           gap: '32px',
           alignItems: 'center',
         }}
-        className="lg:grid-cols-2"
+        className="grid-cols-1 lg:grid-cols-2"
       >
 
         {/* ── LEFT: copy + CTA ──────────────────────────────────────── */}

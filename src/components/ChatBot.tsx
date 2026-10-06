@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { siteConfig } from '@/lib/site.config'
 
 const ACCENT = '#6366f1'
-const ACCENT2 = '#4f46e5'
+const ACCENT2 = '#0a7f8f'
 const BOT_NAME = 'SpeakIQ AI'
 const SYSTEM_PROMPT = `You are SpeakBot, the AI language tutor for SpeakIQ — an AI-powered language learning platform.
 Help users learn languages through conversation, grammar explanations, vocabulary building, and pronunciation guidance.

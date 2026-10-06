@@ -38,7 +38,7 @@ export default function FloatingChatWrapper() {
         whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.93 }}
         aria-label="Open SpeakIQ AI chat"
         style={{ position: 'fixed', bottom: 24, right: 24, width: 52, height: 52, borderRadius: '50%',
-          background: 'linear-gradient(135deg,#0ea5e9,#0284c7)', border: 'none', cursor: 'pointer',
+          background: 'linear-gradient(135deg,#22b8c4,#0a7f8f)', border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 4px 20px rgba(14,165,233,0.35)', zIndex: 1000, fontSize: 20 }}
       >
@@ -57,14 +57,14 @@ export default function FloatingChatWrapper() {
               overflow: 'hidden', boxShadow: '0 8px 40px rgba(14,165,233,0.15)' }}
           >
             <div style={{ padding: '12px 16px', borderBottom: '1px solid #f1f5f9', fontSize: 13, fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#0ea5e9', display: 'inline-block' }} />
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22b8c4', display: 'inline-block' }} />
               SpeakBot
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
               {msgs.map((m, i) => (
                 <div key={i} style={{
                   alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
-                  background: m.role === 'user' ? '#0ea5e9' : '#f1f5f9',
+                  background: m.role === 'user' ? '#22b8c4' : '#f1f5f9',
                   color: m.role === 'user' ? '#fff' : '#0f172a',
                   padding: '8px 12px', borderRadius: 10, fontSize: 12.5, maxWidth: '85%', lineHeight: 1.5,
                 }}>{m.text}</div>
@@ -78,7 +78,7 @@ export default function FloatingChatWrapper() {
                 style={{ flex: 1, background: '#f8fafc', border: '1px solid #e2e8f0',
                   borderRadius: 8, padding: '7px 10px', fontSize: 12, color: '#0f172a', outline: 'none' }} />
               <button onClick={send} disabled={loading}
-                style={{ background: '#0ea5e9', border: 'none', borderRadius: 8, padding: '7px 13px', fontSize: 13, color: '#fff', cursor: 'pointer', fontWeight: 700 }}>→</button>
+                style={{ background: '#22b8c4', border: 'none', borderRadius: 8, padding: '7px 13px', fontSize: 13, color: '#fff', cursor: 'pointer', fontWeight: 700 }}>→</button>
             </div>
           </motion.div>
         )}

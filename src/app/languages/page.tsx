@@ -45,7 +45,7 @@ export default function LanguagesPage() {
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <div className="mb-12 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-xs font-bold mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 text-teal-300 text-xs font-bold mb-6">
           🌍 50+ Languages Available
         </div>
         <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-4">
@@ -61,11 +61,11 @@ export default function LanguagesPage() {
           <Link
             key={lang.name}
             href={`/converse`}
-            className="flex items-center gap-3 p-3.5 rounded-2xl border border-white/[0.07] bg-white/[0.02] hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-all group"
+            className="flex items-center gap-3 p-3.5 rounded-2xl border border-white/[0.07] bg-white/[0.02] hover:bg-teal-500/10 hover:border-teal-500/30 transition-all group"
           >
             <span className="text-2xl shrink-0">{lang.flag}</span>
             <div className="min-w-0">
-              <div className="font-semibold text-sm text-white group-hover:text-indigo-300 transition-colors truncate">{lang.name}</div>
+              <div className="font-semibold text-sm text-white group-hover:text-teal-300 transition-colors truncate">{lang.name}</div>
               <div className="text-[10px] text-white/30 truncate">{lang.learners}</div>
             </div>
           </Link>

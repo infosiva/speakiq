@@ -60,12 +60,12 @@ export default function LanguagePicker({ onSelect, selected }: LanguagePickerPro
                 shrink-0 flex flex-col items-center gap-1 px-3 py-2 rounded-xl border text-center
                 transition-all duration-150 cursor-pointer
                 ${isActive
-                  ? 'bg-indigo-500/25 border-indigo-400/50 shadow-[0_0_12px_rgba(99,102,241,0.35)]'
+                  ? 'bg-teal-500/25 border-teal-400/50 shadow-[0_0_12px_rgba(99,102,241,0.35)]'
                   : 'bg-white/[0.04] border-white/[0.08] hover:bg-white/[0.08] hover:border-white/[0.15]'}
               `}
             >
               <span className="text-2xl leading-none">{lang.flag}</span>
-              <span className={`text-[10px] font-semibold whitespace-nowrap ${isActive ? 'text-indigo-300' : 'text-white/40'}`}>
+              <span className={`text-[10px] font-semibold whitespace-nowrap ${isActive ? 'text-teal-300' : 'text-white/40'}`}>
                 {lang.name}
               </span>
             </motion.button>

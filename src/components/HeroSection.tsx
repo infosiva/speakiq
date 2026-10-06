@@ -7,7 +7,7 @@ export default async function HeroSection() {
   return (
     <section
       style={{
-        background: 'linear-gradient(145deg, #0f0a1e 0%, #1a0d35 50%, #0d0a2a 100%)',
+        background: 'linear-gradient(145deg, #04222a 0%, #063640 50%, #041d26 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -16,7 +16,7 @@ export default async function HeroSection() {
       <div style={{
         position: 'absolute', top: '-120px', right: '-80px',
         width: '500px', height: '500px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(45,212,191,0.20) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
       <div style={{

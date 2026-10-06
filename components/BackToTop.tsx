@@ -6,7 +6,7 @@ interface Props {
   accentColor?: string
 }
 
-export default function BackToTop({ accentColor = '#7c3aed' }: Props) {
+export default function BackToTop({ accentColor = '#0e9aa7' }: Props) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {

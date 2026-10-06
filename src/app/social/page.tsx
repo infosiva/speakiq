@@ -64,8 +64,8 @@ export default function SocialPage() {
   return (
     <main className="min-h-screen text-white" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #0d0d1a 50%, #0a0a0f 100%)' }}>
       <nav className="px-6 py-4 flex items-center justify-between max-w-4xl mx-auto">
-        <Link href="/" className="text-sm font-bold text-violet-400">← SpeakIQ</Link>
-        <Link href="/pricing" className="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-violet-600 to-cyan-500">
+        <Link href="/" className="text-sm font-bold text-teal-400">← SpeakIQ</Link>
+        <Link href="/pricing" className="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-teal-600 to-cyan-500">
           Start free →
         </Link>
       </nav>
@@ -73,12 +73,12 @@ export default function SocialPage() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         {/* Hero */}
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs font-bold text-violet-300 mb-5">
+          <div className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/10 px-4 py-1.5 text-xs font-bold text-teal-300 mb-5">
             🌍 Speak any language. Starting now.
           </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">
             Real conversations.{' '}
-            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
               50+ languages.
             </span>
           </h1>
@@ -89,7 +89,7 @@ export default function SocialPage() {
             <span>50+ languages · 7 learning modes · Free forever plan</span>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/" className="px-8 py-3.5 rounded-xl font-bold bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 transition text-white text-sm">
+            <Link href="/" className="px-8 py-3.5 rounded-xl font-bold bg-gradient-to-r from-teal-600 to-cyan-500 hover:from-teal-500 hover:to-cyan-400 transition text-white text-sm">
               Start learning free →
             </Link>
             <Link href="/pricing" className="px-8 py-3.5 rounded-xl font-semibold border border-white/10 text-white/60 hover:bg-white/5 transition text-sm">
@@ -135,10 +135,10 @@ export default function SocialPage() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-8 text-center">
+        <div className="rounded-2xl border border-teal-500/20 bg-teal-500/5 p-8 text-center">
           <h3 className="text-2xl font-black mb-2">Start speaking today. It's free.</h3>
           <p className="text-white/40 text-sm mb-6">20 messages/day free. No credit card. Cancel anytime.</p>
-          <Link href="/" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 transition text-white">
+          <Link href="/" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-teal-600 to-cyan-500 hover:from-teal-500 hover:to-cyan-400 transition text-white">
             Start learning free →
           </Link>
         </div>

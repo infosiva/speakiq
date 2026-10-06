@@ -195,7 +195,7 @@ export default function LessonPage() {
         <button
           onClick={generateLesson}
           disabled={!language || !level || loading}
-          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 12, border: 'none', cursor: loading || !language || !level ? 'not-allowed' : 'pointer', fontWeight: 800, fontSize: 15, color: '#fff', background: 'linear-gradient(135deg,#6366f1,#4f46e5)', opacity: !language || !level ? 0.5 : 1, transition: 'opacity 0.2s' }}
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 12, border: 'none', cursor: loading || !language || !level ? 'not-allowed' : 'pointer', fontWeight: 800, fontSize: 15, color: '#fff', background: 'linear-gradient(135deg,#6366f1,#0a7f8f)', opacity: !language || !level ? 0.5 : 1, transition: 'opacity 0.2s' }}
         >
           {loading ? <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> Generating lesson…</> : <><Sparkles size={16} /> Generate Lesson</>}
         </button>

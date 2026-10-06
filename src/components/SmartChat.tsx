@@ -47,7 +47,7 @@ export function SmartChat({
   botAvatar,
   welcomeMessage,
   placeholder = "Ask me anything...",
-  themeColor = "#7c3aed",
+  themeColor = "#0e9aa7",
   systemContext,
   maxMessages = 50,
   showTimestamps = false,
@@ -320,7 +320,7 @@ export function FloatingChat({ triggerLabel = "Chat", width = 380, height = 520,
           >
             <div
               className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08]"
-              style={{ background: props.themeColor ?? "#7c3aed" }}
+              style={{ background: props.themeColor ?? "#0e9aa7" }}
             >
               <span className="text-white font-semibold text-sm">{props.botName ?? "AI"}</span>
               <button
@@ -340,7 +340,7 @@ export function FloatingChat({ triggerLabel = "Chat", width = 380, height = 520,
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(o => !o)}
         className="w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center text-xl"
-        style={{ background: props.themeColor ?? "#7c3aed", boxShadow: `0 8px 32px ${props.themeColor ?? "#7c3aed"}50` }}
+        style={{ background: props.themeColor ?? "#0e9aa7", boxShadow: `0 8px 32px ${props.themeColor ?? "#0e9aa7"}50` }}
       >
         {open ? "×" : "💬"}
       </motion.button>

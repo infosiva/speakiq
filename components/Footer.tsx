@@ -39,7 +39,7 @@ export default function Footer({
   const allLinks = [...complianceLinks, ...extraLinks];
 
   return (
-    <footer className={`w-full border-t border-sky-200 bg-transparent mt-auto ${className}`}>
+    <footer className={`w-full border-t border-cyan-200 bg-transparent mt-auto ${className}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Brand + links row */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -65,7 +65,7 @@ export default function Footer({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-sky-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+        <div className="mt-8 pt-6 border-t border-cyan-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
           <span>© {year} {siteName}. All rights reserved.</span>
           <div className="flex items-center gap-4">
             <a

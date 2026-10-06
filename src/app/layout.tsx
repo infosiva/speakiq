@@ -26,7 +26,7 @@ const brand: BrandConfig = {
   name: SITE_NAME,
   tagline: siteConfig.subtagline ?? siteConfig.subheadline,
   icon: 'SQ',
-  color: siteConfig.primaryColor ?? '#0284c7',
+  color: siteConfig.primaryColor ?? '#0a7f8f',
   url: SITE_URL,
   logoSrc: '/logo.svg',
   navLinks: siteConfig.nav,
@@ -59,14 +59,14 @@ export const metadata: Metadata = {
 
 const clerkAppearance = {
   variables: {
-    colorPrimary: '#7c3aed',
+    colorPrimary: '#0e9aa7',
     colorBackground: '#1c1830',
     colorText: '#ffffff',
     colorTextSecondary: '#9ca3af',
     colorInputBackground: '#2a2545',
     colorInputText: '#ffffff',
     colorNeutral: '#ffffff',
-    colorShimmer: '#7c3aed',
+    colorShimmer: '#0e9aa7',
     borderRadius: '12px',
     fontSize: '15px',
   },
@@ -89,9 +89,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   ])
 
   const themeCSS = buildThemeStyleTag(theme, {
-    background: '#f0f9ff',
-    primary: '#0284c7',
-    secondary: '#0ea5e9',
+    background: '#effafb',
+    primary: '#0a7f8f',
+    secondary: '#22b8c4',
   })
 
   return (
@@ -101,22 +101,22 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name="google-adsense-account" content="ca-pub-4237294630161176" />
         <meta name="Impact-Site-Verification" content="cec1d783-d697-4f52-a52f-2677e900984f" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/apple-icon" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{ __html: `
           :root {
-            --theme-primary: #0284c7;
-            --theme-secondary: #0ea5e9;
-            --theme-base: #f0f9ff;
-            --background: #f0f9ff;
+            --theme-primary: #0a7f8f;
+            --theme-secondary: #22b8c4;
+            --theme-base: #effafb;
+            --background: #effafb;
             --surface-1: #ffffff;
-            --surface-2: #e0f2fe;
-            --foreground: #0c2333;
-            --text-2: #4b6b80;
-            --border-default: rgba(2,132,199,0.14);
-            --border-strong: rgba(2,132,199,0.25);
+            --surface-2: #d9f3f5;
+            --foreground: #08262b;
+            --text-2: #46686d;
+            --border-default: rgba(14,154,167,0.14);
+            --border-strong: rgba(14,154,167,0.25);
             --radius: 1rem;
             --radius-lg: 1.5rem;
             --radius-xl: 2rem;
@@ -125,7 +125,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           h1, h2, h3, .display { font-family: 'Nunito', sans-serif !important; }
           .glass {
             background: rgba(255,255,255,0.65) !important;
-            border-color: rgba(2,132,199,0.12) !important;
+            border-color: rgba(14,154,167,0.12) !important;
           }
           ${themeCSS}
         `}} />
@@ -154,13 +154,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <DesignEffects />
         <div id="layout-nav"><SharedNavbar brand={brand} /></div>
         <main className="flex-1 pt-16"><MotionProvider>{children}</MotionProvider></main>
-        <div id="layout-footer" className="relative z-10 bg-[#e0f2fe] border-t border-sky-200"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
+        <div id="layout-footer" className="relative z-10 bg-[#d9f3f5] border-t border-teal-200"><Footer siteName="SpeakIQ" tagline="AI language tutor — 50+ languages, no account needed." /></div>
       {flags.chatbot && !isWidgetHidden(theme, 'chatbot') && <ChatBot />}
-      {!isWidgetHidden(theme, 'backToTop') && <BackToTop accentColor="#0284c7" />}
+      {!isWidgetHidden(theme, 'backToTop') && <BackToTop accentColor="#0a7f8f" />}
       {!isWidgetHidden(theme, 'cookieConsent') && <CookieConsent />}
       {!isWidgetHidden(theme, 'stickyFooterCTA') && <StickyFooterCTA />}
       <FloatingChatWrapper />
-      <FeedbackWidget siteName="SpeakIQ" accentColor="#7c3aed" position="left" />
+      <FeedbackWidget siteName="SpeakIQ" accentColor="#0e9aa7" position="left" />
       </body>
     </html>
     </MaybeClerk>

@@ -9,7 +9,7 @@
 import { useState } from 'react'
 import { usePromo } from '@/hooks/usePromo'
 
-const ACCENT = '#7c3aed'
+const ACCENT = '#0e9aa7'
 
 export default function UpgradeButton() {
   const { isUnlocked } = usePromo()

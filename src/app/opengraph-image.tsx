@@ -25,7 +25,7 @@ export default async function Image() {
         <div style={{
           position: 'absolute', top: 80, left: 120,
           width: 400, height: 400, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.35) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(14,154,167,0.35) 0%, transparent 70%)',
         }} />
         <div style={{
           position: 'absolute', bottom: 60, right: 100,
@@ -37,8 +37,8 @@ export default async function Image() {
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '8px 20px', borderRadius: 999,
-          background: 'rgba(124,58,237,0.2)',
-          border: '1px solid rgba(124,58,237,0.4)',
+          background: 'rgba(14,154,167,0.2)',
+          border: '1px solid rgba(14,154,167,0.4)',
           color: '#c4b5fd', fontSize: 18, fontWeight: 700,
           marginBottom: 28,
         }}>
@@ -53,7 +53,7 @@ export default async function Image() {
         }}>
           Your AI Language
           <br />
-          <span style={{ background: 'linear-gradient(90deg, #7c3aed, #06b6d4)', backgroundClip: 'text', color: 'transparent' }}>
+          <span style={{ background: 'linear-gradient(90deg, #0e9aa7, #06b6d4)', backgroundClip: 'text', color: 'transparent' }}>
             Tutor — 24/7
           </span>
         </div>
@@ -70,7 +70,7 @@ export default async function Image() {
         <div style={{
           display: 'flex', alignItems: 'center', gap: 12,
           padding: '14px 36px', borderRadius: 16,
-          background: 'linear-gradient(135deg, #7c3aed, #06b6d4)',
+          background: 'linear-gradient(135deg, #0e9aa7, #06b6d4)',
           color: '#ffffff', fontSize: 24, fontWeight: 800,
         }}>
           Start free at speakiq.app

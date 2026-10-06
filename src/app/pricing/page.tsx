@@ -56,8 +56,8 @@ export default function PricingPage() {
     <main className="min-h-screen text-white" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #0d0d1a 50%, #0a0a0f 100%)' }}>
       {/* Nav */}
       <nav className="px-6 py-4 flex items-center justify-between max-w-5xl mx-auto">
-        <Link href="/" className="text-sm font-bold text-violet-400 hover:text-violet-300 transition">← SpeakIQ</Link>
-        <Link href="/?upgrade=true" className="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 transition">
+        <Link href="/" className="text-sm font-bold text-teal-400 hover:text-teal-300 transition">← SpeakIQ</Link>
+        <Link href="/?upgrade=true" className="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-teal-600 to-cyan-500 hover:from-teal-500 hover:to-cyan-400 transition">
           Start Pro →
         </Link>
       </nav>
@@ -65,12 +65,12 @@ export default function PricingPage() {
       <div className="max-w-5xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs font-bold text-violet-300 mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/10 px-4 py-1.5 text-xs font-bold text-teal-300 mb-6">
             ⚡ Simple pricing
           </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">
             Learn languages with AI.{' '}
-            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
               Start free.
             </span>
           </h1>
@@ -99,21 +99,21 @@ export default function PricingPage() {
           </div>
 
           {/* Pro */}
-          <div className="rounded-2xl border-2 border-violet-500/50 bg-violet-950/30 p-8 relative">
-            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-600 to-cyan-500 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest">
+          <div className="rounded-2xl border-2 border-teal-500/50 bg-teal-950/30 p-8 relative">
+            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-teal-600 to-cyan-500 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest">
               Most Popular
             </span>
-            <div className="text-xs font-bold uppercase tracking-widest text-violet-400 mb-2">Pro</div>
+            <div className="text-xs font-bold uppercase tracking-widest text-teal-400 mb-2">Pro</div>
             <div className="text-5xl font-black text-white mb-1">$7</div>
-            <div className="text-xs text-violet-500 mb-8">/month · cancel anytime</div>
+            <div className="text-xs text-teal-500 mb-8">/month · cancel anytime</div>
             <ul className="space-y-3 mb-8">
               {PRO_FEATURES.map(f => (
                 <li key={f} className="flex items-center gap-2 text-sm text-white/70">
-                  <span className="text-violet-400">✓</span> {f}
+                  <span className="text-teal-400">✓</span> {f}
                 </li>
               ))}
             </ul>
-            <Link href="/?upgrade=true" className="block w-full py-3 rounded-xl text-center text-sm font-bold bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 transition text-white">
+            <Link href="/?upgrade=true" className="block w-full py-3 rounded-xl text-center text-sm font-bold bg-gradient-to-r from-teal-600 to-cyan-500 hover:from-teal-500 hover:to-cyan-400 transition text-white">
               Start Pro — $7/mo →
             </Link>
             <p className="text-[10px] text-center text-white/25 mt-3">7-day money-back guarantee</p>
@@ -146,7 +146,7 @@ export default function PricingPage() {
         {/* Bottom CTA */}
         <div className="text-center mt-20">
           <p className="text-white/30 text-sm mb-4">Still not sure? Start free — no credit card needed.</p>
-          <Link href="/" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 transition text-white">
+          <Link href="/" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-teal-600 to-cyan-500 hover:from-teal-500 hover:to-cyan-400 transition text-white">
             Start learning free →
           </Link>
         </div>
@@ -155,7 +155,7 @@ export default function PricingPage() {
         <div className="border-t border-white/[0.06] mt-20 pt-12 text-center">
           <p className="text-white/50 text-sm font-medium mb-1">Get weekly language learning tips</p>
           <p className="text-white/25 text-xs mb-6">No spam. Unsubscribe anytime.</p>
-          <NewsletterForm accentClass="from-violet-600 to-cyan-500" />
+          <NewsletterForm accentClass="from-teal-600 to-cyan-500" />
         </div>
       </div>
     </main>

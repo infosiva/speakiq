@@ -26,7 +26,7 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.12, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className={`absolute hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-950/80 border border-indigo-500/20 text-sm text-white/60 shadow-lg ${s.pos} select-none pointer-events-none`}
+          className={`absolute hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-950/80 border border-teal-500/20 text-sm text-white/60 shadow-lg ${s.pos} select-none pointer-events-none`}
         >
           <span>{s.lang}</span>
           <span className="font-medium">{s.text}</span>
@@ -74,7 +74,7 @@ export default function FinalCTA() {
           {['No sign-up', '3 free sessions', 'Any language', 'Cancel anytime'].map(pill => (
             <span
               key={pill}
-              className="text-xs font-medium px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300/70"
+              className="text-xs font-medium px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-300/70"
             >
               {pill}
             </span>

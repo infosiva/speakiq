@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-const ACCENT = '#7c3aed'
-const ACCENT2 = '#4f46e5'
+const ACCENT = '#0e9aa7'
+const ACCENT2 = '#0a7f8f'
 
 const features = [
   { icon: '🗣️', title: 'Conversational AI Tutor', desc: 'Practice real conversations with SpeakBot. It adapts to your level — beginner to advanced — in 50+ languages.' },
@@ -47,7 +47,7 @@ function ParticleBg() {
         if (p.y < 0) p.y = h; if (p.y > h) p.y = 0
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(124,58,237,${p.opacity})`
+        ctx.fillStyle = `rgba(14,154,167,${p.opacity})`
         ctx.fill()
       }
       for (let i = 0; i < particles.length; i++) {
@@ -59,7 +59,7 @@ function ParticleBg() {
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `rgba(124,58,237,${0.07 * (1 - dist / 95)})`
+            ctx.strokeStyle = `rgba(14,154,167,${0.07 * (1 - dist / 95)})`
             ctx.lineWidth = 0.5
             ctx.stroke()
           }
@@ -97,14 +97,14 @@ export default function AnimatedHeroGuide() {
         @keyframes sq-shimmer { 0%{background-position:200% center;} 100%{background-position:-200% center;} }
         @keyframes sq-lang { 0%,80%{opacity:1;transform:translateY(0);} 90%{opacity:0;transform:translateY(-8px);} 95%{opacity:0;transform:translateY(8px);} 100%{opacity:1;transform:translateY(0);} }
         .sq-shimmer-text {
-          background: linear-gradient(90deg, #7c3aed, #a78bfa, #c4b5fd, #7c3aed);
+          background: linear-gradient(90deg, #0e9aa7, #a78bfa, #c4b5fd, #0e9aa7);
           background-size: 200% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           animation: sq-shimmer 4s linear infinite;
         }
         .sq-card { transition: transform 200ms cubic-bezier(.23,1,.32,1), box-shadow 200ms cubic-bezier(.23,1,.32,1); }
-        .sq-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(124,58,237,0.15), 0 0 0 1px rgba(124,58,237,0.2); }
+        .sq-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(14,154,167,0.15), 0 0 0 1px rgba(14,154,167,0.2); }
         /* Mobile: features = 2x2 pill grid, steps = horizontal scroll */
         @media (max-width: 640px) {
           .sq-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
@@ -133,11 +133,11 @@ export default function AnimatedHeroGuide() {
 
       <section className="sq-hero-section" style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #0d0b1e 0%, #120f2a 100%)', padding: '80px 24px 60px' }}>
         <ParticleBg />
-        <div style={{ position: 'absolute', top: -80, right: '20%', width: 450, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)', animation: 'sq-glow 7s ease-in-out infinite', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: -80, right: '20%', width: 450, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(14,154,167,0.1) 0%, transparent 70%)', animation: 'sq-glow 7s ease-in-out infinite', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: -60, left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(79,70,229,0.09) 0%, transparent 70%)', animation: 'sq-glow 9s ease-in-out infinite 2s', pointerEvents: 'none' }} />
 
         <div style={{ position: 'relative', maxWidth: 720, margin: '0 auto', textAlign: 'center', opacity: visible ? 1 : 0, animation: visible ? 'sq-fade-up 0.6s ease-out' : 'none' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)', borderRadius: 99, padding: '6px 16px', marginBottom: 24 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(14,154,167,0.1)', border: '1px solid rgba(14,154,167,0.25)', borderRadius: 99, padding: '6px 16px', marginBottom: 24 }}>
             <span style={{ fontSize: 14 }}>🌍</span>
             <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600, letterSpacing: '0.05em' }}>AI LANGUAGE TUTOR · FREE TO START</span>
           </div>
@@ -159,17 +159,17 @@ export default function AnimatedHeroGuide() {
           </p>
 
           <div className="sq-hero-btns" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/converse" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 28px', borderRadius: 12, background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none', boxShadow: '0 4px 20px rgba(124,58,237,0.35)', transition: 'transform 150ms ease' }}
+            <a href="/converse" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 28px', borderRadius: 12, background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none', boxShadow: '0 4px 20px rgba(14,154,167,0.35)', transition: 'transform 150ms ease' }}
               onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = 'scale(1.04)'}
               onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = 'scale(1)'}
             >Start speaking free →</a>
-            <a href="#how-it-works" style={{ display: 'inline-flex', alignItems: 'center', padding: '13px 24px', borderRadius: 12, border: '1px solid rgba(124,58,237,0.25)', color: ACCENT, fontWeight: 600, fontSize: 15, textDecoration: 'none', background: 'rgba(124,58,237,0.05)' }}>How it works</a>
+            <a href="#how-it-works" style={{ display: 'inline-flex', alignItems: 'center', padding: '13px 24px', borderRadius: 12, border: '1px solid rgba(14,154,167,0.25)', color: ACCENT, fontWeight: 600, fontSize: 15, textDecoration: 'none', background: 'rgba(14,154,167,0.05)' }}>How it works</a>
           </div>
 
           {/* Streak badges preview */}
           <div className="sq-hero-badges" style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 32, flexWrap: 'wrap' }}>
             {['🔥 7-day streak', '⚡ 250 XP', '🏆 Level 3', '🎯 B1 Spanish'].map((badge, i) => (
-              <div key={i} className="sq-badge" style={{ padding: '5px 12px', borderRadius: 20, background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.18)', fontSize: 12, color: 'rgba(238,242,255,0.55)', fontWeight: 600, animation: `sq-fade-up 0.4s ease-out ${0.1 + i * 0.08}s both` }}>
+              <div key={i} className="sq-badge" style={{ padding: '5px 12px', borderRadius: 20, background: 'rgba(14,154,167,0.08)', border: '1px solid rgba(14,154,167,0.18)', fontSize: 12, color: 'rgba(238,242,255,0.55)', fontWeight: 600, animation: `sq-fade-up 0.4s ease-out ${0.1 + i * 0.08}s both` }}>
                 {badge}
               </div>
             ))}
@@ -185,7 +185,7 @@ export default function AnimatedHeroGuide() {
           </div>
           <div className="sq-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
             {features.map((f, i) => (
-              <div key={i} className="sq-card" style={{ padding: '24px', background: 'rgba(124,58,237,0.04)', border: '1px solid rgba(124,58,237,0.12)', borderRadius: 16, animation: `sq-fade-up 0.5s ease-out ${i * 0.1}s both` }}>
+              <div key={i} className="sq-card" style={{ padding: '24px', background: 'rgba(14,154,167,0.04)', border: '1px solid rgba(14,154,167,0.12)', borderRadius: 16, animation: `sq-fade-up 0.5s ease-out ${i * 0.1}s both` }}>
                 <div className="sq-card-icon" style={{ fontSize: 28, marginBottom: 12, animation: 'sq-float 4s ease-in-out infinite', display: 'inline-block' }}>{f.icon}</div>
                 <h3 className="sq-card-title" style={{ fontSize: 15, fontWeight: 700, color: '#eef2ff', marginBottom: 6 }}>{f.title}</h3>
                 <p className="sq-card-desc" style={{ fontSize: 13.5, color: 'rgba(238,242,255,0.5)', lineHeight: 1.6 }}>{f.desc}</p>
@@ -202,10 +202,10 @@ export default function AnimatedHeroGuide() {
           </div>
           <div className="sq-steps-wrap" style={{ padding: '0 24px' }}>
             <div className="sq-steps" style={{ display: 'flex', gap: 0, position: 'relative' }}>
-              <div className="sq-steps-connector" style={{ position: 'absolute', top: 28, left: '12%', right: '12%', height: 1, background: 'rgba(124,58,237,0.12)', pointerEvents: 'none' }} />
+              <div className="sq-steps-connector" style={{ position: 'absolute', top: 28, left: '12%', right: '12%', height: 1, background: 'rgba(14,154,167,0.12)', pointerEvents: 'none' }} />
               {steps.map((s, i) => (
                 <div key={i} className="sq-step" onClick={() => setActiveStep(i)} style={{ flex: 1, textAlign: 'center', padding: '0 12px', cursor: 'pointer' }}>
-                  <div className="sq-step-circle" style={{ width: 56, height: 56, borderRadius: '50%', background: activeStep === i ? `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})` : 'rgba(124,58,237,0.08)', border: `2px solid ${activeStep === i ? ACCENT : 'rgba(124,58,237,0.2)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', transition: 'all 300ms cubic-bezier(.23,1,.32,1)', boxShadow: activeStep === i ? '0 0 20px rgba(124,58,237,0.4)' : 'none' }}>
+                  <div className="sq-step-circle" style={{ width: 56, height: 56, borderRadius: '50%', background: activeStep === i ? `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})` : 'rgba(14,154,167,0.08)', border: `2px solid ${activeStep === i ? ACCENT : 'rgba(14,154,167,0.2)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', transition: 'all 300ms cubic-bezier(.23,1,.32,1)', boxShadow: activeStep === i ? '0 0 20px rgba(14,154,167,0.4)' : 'none' }}>
                     <span style={{ fontSize: 11, fontWeight: 800, color: activeStep === i ? '#fff' : ACCENT, letterSpacing: '0.05em' }}>{s.num}</span>
                   </div>
                   <h3 className="sq-step-title" style={{ fontSize: 13, fontWeight: 700, color: activeStep === i ? ACCENT : '#eef2ff', marginBottom: 6, transition: 'color 300ms' }}>{s.title}</h3>

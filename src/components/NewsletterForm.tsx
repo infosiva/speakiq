@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 
-export default function NewsletterForm({ accentClass = 'from-violet-600 to-cyan-500' }: { accentClass?: string }) {
+export default function NewsletterForm({ accentClass = 'from-teal-600 to-cyan-500' }: { accentClass?: string }) {
   const [email, setEmail] = useState('')
   const [state, setState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
 

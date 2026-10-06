@@ -6,8 +6,8 @@ import { FADE_UP, STAGGER_CONTAINER, useMotionVariants } from '@/lib/motion'
 import Link from 'next/link'
 
 const STEP_COLORS = [
-  { border: 'border-indigo-500/30', bg: 'bg-indigo-500/10', text: 'text-indigo-300', num: 'text-indigo-500/20' },
-  { border: 'border-violet-500/30', bg: 'bg-violet-500/10', text: 'text-violet-300', num: 'text-violet-500/20' },
+  { border: 'border-teal-500/30', bg: 'bg-teal-500/10', text: 'text-teal-300', num: 'text-teal-500/20' },
+  { border: 'border-teal-500/30', bg: 'bg-teal-500/10', text: 'text-teal-300', num: 'text-teal-500/20' },
   { border: 'border-blue-500/30',   bg: 'bg-blue-500/10',   text: 'text-blue-300',   num: 'text-blue-500/20'   },
 ]
 
@@ -46,10 +46,10 @@ export default function HowItWorksSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
           {/* Arrow connectors — desktop */}
           <div className="hidden md:block absolute top-10 left-[33%] w-[11%] flex items-center justify-center" aria-hidden="true">
-            <div className="h-px w-full bg-gradient-to-r from-indigo-500/30 to-violet-500/30" />
+            <div className="h-px w-full bg-gradient-to-r from-teal-500/30 to-teal-500/30" />
           </div>
           <div className="hidden md:block absolute top-10 left-[57%] w-[11%] flex items-center justify-center" aria-hidden="true">
-            <div className="h-px w-full bg-gradient-to-r from-violet-500/30 to-blue-500/30" />
+            <div className="h-px w-full bg-gradient-to-r from-teal-500/30 to-blue-500/30" />
           </div>
 
           {siteConfig.howItWorks.map((step, idx) => {
@@ -82,7 +82,7 @@ export default function HowItWorksSection() {
         >
           <Link
             href="/converse"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 hover:bg-indigo-500/20 transition-all duration-150"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-teal-300 bg-teal-500/10 border border-teal-500/25 hover:bg-teal-500/20 transition-all duration-150"
           >
             Try it free — no sign-up →
           </Link>

@@ -52,12 +52,12 @@ export default function PromoBar() {
           onChange={(e) => { setCode(e.target.value); setStatus('idle') }}
           onKeyDown={(e) => e.key === 'Enter' && submit()}
           placeholder="Enter code"
-          style={{ borderRadius: '6px', border: '1px solid rgba(124,58,237,0.4)', padding: '4px 8px', fontSize: '12px', background: 'rgba(255,255,255,0.05)', color: '#fff' }}
+          style={{ borderRadius: '6px', border: '1px solid rgba(14,154,167,0.4)', padding: '4px 8px', fontSize: '12px', background: 'rgba(255,255,255,0.05)', color: '#fff' }}
         />
         <button
           onClick={submit}
           disabled={status === 'checking'}
-          style={{ borderRadius: '6px', padding: '4px 10px', fontSize: '12px', fontWeight: 700, color: '#fff', background: '#7c3aed', opacity: status === 'checking' ? 0.6 : 1 }}
+          style={{ borderRadius: '6px', padding: '4px 10px', fontSize: '12px', fontWeight: 700, color: '#fff', background: '#0e9aa7', opacity: status === 'checking' ? 0.6 : 1 }}
         >
           {status === 'checking' ? '...' : 'Apply'}
         </button>

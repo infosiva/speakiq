@@ -1,3 +1,9 @@
+# DESIGN LOCK (2026-10-05)
+- Archetype: education split with live-demo stage (hero text left, animated TryItLive/LiveConversationPanel right); not generic SaaS hero
+- Background: pale teal wash #effafb with aurora from existing AnimatedBackground; hub-customisable via theme-loader CSS vars
+- Accent: #0e9aa7 (teal-cyan, check-palettes: free), deep #0a7f8f
+- Logo: rounded-square teal mark with 3 sound-wave bars + dot, wordmark Speak<IQ in accent (public/logo.svg, app/icon.svg, app/apple-icon.tsx)
+
 # HANDOFF — speakiq competitive differentiation redesign
 **Date:** 2026-08-04  **Status:** IN PROGRESS
 **Goal:** Differentiate speakiq from Yoodli (enterprise/gated) via zero-auth interactive landing demo — visitor speaks/types a line, sees live confidence/filler-word score animate — plus fix the §0-BG-CONTRAST bug found in SpeakStats.

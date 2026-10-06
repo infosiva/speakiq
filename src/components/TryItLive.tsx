@@ -91,7 +91,7 @@ export default function TryItLive({ activeLang }: { activeLang: HeroLangCode }) 
       className="w-full mt-4 rounded-2xl p-4"
       style={{ background: 'var(--card,#ffffff)', border: '1px solid var(--border,#e2e8f0)' }}
     >
-      <p className="text-xs font-semibold" style={{ color: 'var(--accent,#7c3aed)' }}>
+      <p className="text-xs font-semibold" style={{ color: 'var(--accent,#0e9aa7)' }}>
         TRY IT YOURSELF — no signup
       </p>
       <p className="text-sm mt-1" style={{ color: 'var(--foreground,#0f172a)' }}>
@@ -127,7 +127,7 @@ export default function TryItLive({ activeLang }: { activeLang: HeroLangCode }) 
           onClick={() => score(text)}
           disabled={loading || listening || !text.trim()}
           className="shrink-0 px-4 py-2 rounded-lg text-sm font-semibold text-white disabled:opacity-40 transition-all active:scale-[0.97]"
-          style={{ background: 'var(--accent,#7c3aed)' }}
+          style={{ background: 'var(--accent,#0e9aa7)' }}
         >
           {loading ? 'Scoring…' : 'Score me'}
         </button>

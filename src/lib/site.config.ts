@@ -205,8 +205,8 @@ export const siteConfig: SiteConfig = {
   cta:          'Start Speaking Free',
   ctaHref:      '/converse',
   email:        'info.siva@gmail.com',
-  primaryColor: '#9333ea',
-  color:        '#7c3aed',
+  primaryColor: '#0a7f8f',
+  color:        '#0e9aa7',
 
   stats: {
     users:         'early users',

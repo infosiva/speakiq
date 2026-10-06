@@ -23,7 +23,7 @@ export default function AboutPage() {
 
       {/* Hero */}
       <div className="mb-14">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-bold mb-6 backdrop-blur-sm">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 text-teal-300 text-xs font-bold mb-6 backdrop-blur-sm">
           🌍 {siteConfig.name} · Built for language learners
         </div>
         <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-5">
@@ -40,7 +40,7 @@ export default function AboutPage() {
         <div className="space-y-6">
           {siteConfig.howItWorks.map((step) => (
             <div key={step.step} className="flex gap-5 items-start">
-              <div className="shrink-0 w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center font-black text-violet-300 text-sm">
+              <div className="shrink-0 w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center font-black text-teal-300 text-sm">
                 {step.step}
               </div>
               <div>
@@ -83,7 +83,7 @@ export default function AboutPage() {
         <p className="text-white/50 text-sm leading-relaxed">
           We collect only the data necessary to provide the service. Your learning progress is stored
           locally in your browser — we do not sell your data to third parties. See our{' '}
-          <a href="/privacy" className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition">
+          <a href="/privacy" className="text-teal-400 hover:text-teal-300 underline underline-offset-2 transition">
             Privacy Policy
           </a>{' '}
           for full details.
@@ -104,11 +104,11 @@ export default function AboutPage() {
         <h2 className="text-2xl font-black mb-4">Get in Touch</h2>
         <p className="text-white/50 text-sm leading-relaxed">
           Feedback, bug reports, and partnership enquiries are all welcome. Reach us at{' '}
-          <a href={`mailto:${siteConfig.email}`} className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition">
+          <a href={`mailto:${siteConfig.email}`} className="text-teal-400 hover:text-teal-300 underline underline-offset-2 transition">
             {siteConfig.email}
           </a>{' '}
           or use our{' '}
-          <a href="/contact" className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition">
+          <a href="/contact" className="text-teal-400 hover:text-teal-300 underline underline-offset-2 transition">
             contact page
           </a>.
         </p>

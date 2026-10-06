@@ -12,7 +12,7 @@ function StatCard({ label, value, sub, icon, accent = 'violet' }: {
   label: string; value: string | number; sub?: string; icon: string; accent?: string
 }) {
   const colors: Record<string, string> = {
-    violet: 'from-violet-500/10 to-violet-600/5 border-violet-500/20',
+    violet: 'from-teal-500/10 to-teal-600/5 border-teal-500/20',
     orange: 'from-orange-500/10 to-orange-600/5 border-orange-500/20',
     cyan: 'from-cyan-500/10 to-cyan-600/5 border-cyan-500/20',
     green: 'from-green-500/10 to-green-600/5 border-green-500/20',
@@ -28,7 +28,7 @@ function StatCard({ label, value, sub, icon, accent = 'violet' }: {
   )
 }
 
-function MiniBar({ label, value, max, color = '#7c3aed' }: { label: string; value: number; max: number; color?: string }) {
+function MiniBar({ label, value, max, color = '#0e9aa7' }: { label: string; value: number; max: number; color?: string }) {
   const pct = max > 0 ? Math.round((value / max) * 100) : 0
   return (
     <div className="flex items-center gap-3">
@@ -59,7 +59,7 @@ function WeekGrid({ streakData }: { streakData: StreakData }) {
     <div className="flex gap-2 items-end">
       {days.map(d => (
         <div key={d.date} className="flex flex-col items-center gap-1 flex-1">
-          <div className={`w-full rounded-md transition-all ${d.active ? 'h-8 bg-violet-500 shadow-sm shadow-violet-500/40' : 'h-4 bg-white/[0.06]'}`} />
+          <div className={`w-full rounded-md transition-all ${d.active ? 'h-8 bg-teal-500 shadow-sm shadow-teal-500/40' : 'h-4 bg-white/[0.06]'}`} />
           <span className="text-[9px] text-white/20">{d.label}</span>
         </div>
       ))}
@@ -125,7 +125,7 @@ export default function DashboardPage() {
           </div>
           <div className="flex gap-2 shrink-0">
             <Link href="/"
-              className="px-4 py-2 rounded-xl border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm font-semibold hover:bg-violet-500/20 transition-all">
+              className="px-4 py-2 rounded-xl border border-teal-500/30 bg-teal-500/10 text-teal-300 text-sm font-semibold hover:bg-teal-500/20 transition-all">
               Continue learning →
             </Link>
           </div>
@@ -197,7 +197,7 @@ export default function DashboardPage() {
             </div>
             <div className="mt-4 pt-4 border-t border-white/[0.06]">
               <Link href="/"
-                className="block w-full py-2 rounded-xl bg-violet-500/10 border border-violet-500/20 text-center text-xs font-semibold text-violet-300 hover:bg-violet-500/20 transition-all">
+                className="block w-full py-2 rounded-xl bg-teal-500/10 border border-teal-500/20 text-center text-xs font-semibold text-teal-300 hover:bg-teal-500/20 transition-all">
                 Continue {prefs.language} →
               </Link>
             </div>
@@ -207,7 +207,7 @@ export default function DashboardPage() {
           <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-semibold text-white/70">Badges</h2>
-              <Link href="/badges" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">View all →</Link>
+              <Link href="/badges" className="text-xs text-teal-400 hover:text-teal-300 transition-colors">View all →</Link>
             </div>
             {unlockedBadges.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-24 gap-2">
@@ -245,7 +245,7 @@ export default function DashboardPage() {
               { href: '/path', icon: '🗺️', label: 'My Path', sub: 'Learning roadmap' },
             ].map(item => (
               <Link key={item.href} href={item.href}
-                className="flex flex-col items-center gap-1 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-violet-500/20 transition-all text-center group">
+                className="flex flex-col items-center gap-1 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-teal-500/20 transition-all text-center group">
                 <span className="text-2xl group-hover:scale-110 transition-transform">{item.icon}</span>
                 <span className="text-xs font-semibold text-white/70">{item.label}</span>
                 <span className="text-[10px] text-white/30">{item.sub}</span>
@@ -280,11 +280,11 @@ export default function DashboardPage() {
 
         {/* Upgrade CTA — free users only */}
         {!isPro && (
-          <div className="mt-4 rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-500/10 to-indigo-600/5 p-6 text-center">
+          <div className="mt-4 rounded-2xl border border-teal-500/20 bg-gradient-to-br from-teal-500/10 to-teal-600/5 p-6 text-center">
             <p className="text-sm font-semibold text-white/70 mb-1">Unlock unlimited practice</p>
             <p className="text-xs text-white/40 mb-4">Pro removes the daily limit and adds grammar reports + priority AI speed</p>
             <Link href="/?upgrade=true"
-              className="inline-block px-6 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold transition-all">
+              className="inline-block px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold transition-all">
               Upgrade to Pro — $7/mo
             </Link>
           </div>

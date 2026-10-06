@@ -17,13 +17,13 @@ export default function LiveStatsBar() {
       <div className="mx-auto flex max-w-5xl justify-center gap-8 flex-wrap">
         {stats.sessionsCompleted > 0 && (
           <div className="text-center">
-            <span className="block text-[20px] font-black" style={{ color: 'var(--theme-primary,#9333ea)' }}>{stats.sessionsCompleted}</span>
+            <span className="block text-[20px] font-black" style={{ color: 'var(--theme-primary,#0a7f8f)' }}>{stats.sessionsCompleted}</span>
             <span className="text-[11px] text-slate-500">sessions completed this session</span>
           </div>
         )}
         {stats.feedbackGenerated > 0 && (
           <div className="text-center">
-            <span className="block text-[20px] font-black" style={{ color: 'var(--theme-primary,#9333ea)' }}>{stats.feedbackGenerated}</span>
+            <span className="block text-[20px] font-black" style={{ color: 'var(--theme-primary,#0a7f8f)' }}>{stats.feedbackGenerated}</span>
             <span className="text-[11px] text-slate-500">feedback generated</span>
           </div>
         )}

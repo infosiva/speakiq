@@ -100,7 +100,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
               <UserButton
                 appearance={{
                   elements: {
-                    avatarBox: 'w-8 h-8 ring-2 ring-violet-500/40 hover:ring-violet-500/70 transition-all',
+                    avatarBox: 'w-8 h-8 ring-2 ring-teal-500/40 hover:ring-teal-500/70 transition-all',
                     userButtonPopoverCard: 'bg-[#0d0d1a] border border-white/10 shadow-2xl',
                     userButtonPopoverActionButton: 'text-white/70 hover:text-white hover:bg-white/5',
                     userButtonPopoverActionButtonText: 'text-sm',
@@ -161,7 +161,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
                 <UserButton
                   appearance={{
                     elements: {
-                      avatarBox: 'w-7 h-7 ring-2 ring-violet-500/40',
+                      avatarBox: 'w-7 h-7 ring-2 ring-teal-500/40',
                     },
                   }}
                 />

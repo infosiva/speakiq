@@ -41,8 +41,8 @@ const SCRIPTS: Record<string, Array<{ role: 'ai' | 'user'; text: string; transla
 
 const TIP_COLORS: Record<string, string> = {
   grammar:    'text-emerald-400',
-  vocabulary: 'text-sky-400',
-  fluency:    'text-violet-400',
+  vocabulary: 'text-cyan-400',
+  fluency:    'text-teal-400',
 }
 
 interface HeroDemoProps {
@@ -85,10 +85,10 @@ export default function HeroDemo({ language }: HeroDemoProps) {
   }, [language.code, runSequence])
 
   return (
-    <div className="rounded-2xl border border-indigo-500/20 bg-[#0d0b1e]/80 overflow-hidden backdrop-blur-md shadow-xl shadow-indigo-900/30">
+    <div className="rounded-2xl border border-teal-500/20 bg-[#0d0b1e]/80 overflow-hidden backdrop-blur-md shadow-xl shadow-teal-900/30">
 
       {/* Header bar */}
-      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.06] bg-indigo-950/40">
+      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.06] bg-teal-950/40">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-red-400/50" />
           <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/50" />
@@ -100,7 +100,7 @@ export default function HeroDemo({ language }: HeroDemoProps) {
         </div>
         <div className="ml-auto flex items-center gap-1.5">
           <VoiceWave />
-          <span className="text-[10px] text-indigo-400/70">AI tutor active</span>
+          <span className="text-[10px] text-teal-400/70">AI tutor active</span>
         </div>
       </div>
 
@@ -116,7 +116,7 @@ export default function HeroDemo({ language }: HeroDemoProps) {
               className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {msg.role === 'ai' && (
-                <div className="w-6 h-6 rounded-full bg-indigo-500/30 border border-indigo-400/30 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-6 h-6 rounded-full bg-teal-500/30 border border-teal-400/30 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-[10px]">AI</span>
                 </div>
               )}
@@ -124,8 +124,8 @@ export default function HeroDemo({ language }: HeroDemoProps) {
                 <div className={`
                   px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed
                   ${msg.role === 'ai'
-                    ? 'bg-indigo-950/70 border border-indigo-500/15 text-white/80 rounded-tl-sm'
-                    : 'bg-indigo-600/30 border border-indigo-400/20 text-white/85 rounded-tr-sm'}
+                    ? 'bg-teal-950/70 border border-teal-500/15 text-white/80 rounded-tl-sm'
+                    : 'bg-teal-600/30 border border-teal-400/20 text-white/85 rounded-tr-sm'}
                 `}>
                   {msg.text}
                   {msg.tip && (
@@ -150,15 +150,15 @@ export default function HeroDemo({ language }: HeroDemoProps) {
             exit={{ opacity: 0 }}
             className="flex gap-2 items-start"
           >
-            <div className="w-6 h-6 rounded-full bg-indigo-500/30 border border-indigo-400/30 flex items-center justify-center shrink-0 mt-0.5">
+            <div className="w-6 h-6 rounded-full bg-teal-500/30 border border-teal-400/30 flex items-center justify-center shrink-0 mt-0.5">
               <span className="text-[10px]">AI</span>
             </div>
-            <div className="px-3.5 py-2.5 rounded-2xl rounded-tl-sm bg-indigo-950/70 border border-indigo-500/15">
+            <div className="px-3.5 py-2.5 rounded-2xl rounded-tl-sm bg-teal-950/70 border border-teal-500/15">
               <span className="flex items-center gap-1">
                 {[0, 150, 300].map(delay => (
                   <span
                     key={delay}
-                    className="w-1.5 h-1.5 rounded-full bg-indigo-400/60 animate-bounce"
+                    className="w-1.5 h-1.5 rounded-full bg-teal-400/60 animate-bounce"
                     style={{ animationDelay: `${delay}ms` }}
                   />
                 ))}
@@ -173,7 +173,7 @@ export default function HeroDemo({ language }: HeroDemoProps) {
         <span className="text-[10px] text-white/25 font-medium whitespace-nowrap">Fluency score</span>
         <div className="flex-1 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-400 to-blue-400"
+            className="h-full rounded-full bg-gradient-to-r from-teal-500 via-teal-400 to-blue-400"
             animate={{ width: `${score}%` }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
           />
@@ -182,7 +182,7 @@ export default function HeroDemo({ language }: HeroDemoProps) {
           key={score}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-[11px] text-indigo-400 font-bold tabular-nums w-8 text-right"
+          className="text-[11px] text-teal-400 font-bold tabular-nums w-8 text-right"
         >
           {score}%
         </motion.span>
@@ -198,7 +198,7 @@ function VoiceWave() {
       {[3, 5, 8, 5, 3].map((h, i) => (
         <span
           key={i}
-          className="w-[2px] rounded-full bg-indigo-400/60 animate-voice-wave"
+          className="w-[2px] rounded-full bg-teal-400/60 animate-voice-wave"
           style={{
             height: `${h}px`,
             animationDelay: `${i * 80}ms`,

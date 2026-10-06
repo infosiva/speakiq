@@ -19,7 +19,7 @@ export function CelebrationOverlay({ trigger, message = '🎉 Great job!', onDon
       particleCount: 120,
       spread: 80,
       origin: { y: 0.6 },
-      colors: ['#7c3aed', '#a855f7', '#fbbf24', '#34d399', '#f472b6'],
+      colors: ['#0e9aa7', '#a855f7', '#fbbf24', '#34d399', '#f472b6'],
     })
 
     const t = setTimeout(() => {
