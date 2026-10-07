@@ -17,7 +17,7 @@ import { MotionProvider } from "@infosiva/shared-ui/modern";
 import SchemaOrg from '@/components/SchemaOrg'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import { siteConfig } from '@/lib/site.config'
-import { loadSiteTheme, buildThemeStyleTag, isWidgetHidden } from '@/lib/theme-loader'
+import { loadSiteTheme, buildThemeStyleTag, buildGa4Snippet, isWidgetHidden } from '@/lib/theme-loader'
 
 const SITE_NAME = siteConfig.name ?? siteConfig.siteName
 const SITE_URL  = siteConfig.url  ?? `https://${siteConfig.domain}`
@@ -94,10 +94,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     secondary: '#22b8c4',
   })
 
+  const ga4 = buildGa4Snippet(theme)
+
   return (
     <MaybeClerk>
     <html lang="en" suppressHydrationWarning>
       <head>
+        {ga4 && <script async src={`https://www.googletagmanager.com/gtag/js?id=${theme?.analytics?.ga4Id}`} />}
+        {ga4 && <script dangerouslySetInnerHTML={{ __html: ga4 }} />}
         <meta name="google-adsense-account" content="ca-pub-4237294630161176" />
         <meta name="Impact-Site-Verification" content="cec1d783-d697-4f52-a52f-2677e900984f" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

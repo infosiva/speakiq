@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { Logo } from './Logo'
 import { UserButton, SignInButton, useAuth } from '@clerk/nextjs'
 
 export interface NavLink { label: string; href: string; external?: boolean }
@@ -10,34 +11,6 @@ export interface BrandConfig {
   logoSrc?: string
 }
 
-function Wordmark({ color }: { color: string }) {
-  return (
-    <span className="flex items-center select-none gap-2">
-      <span
-        className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0"
-        style={{ background: `linear-gradient(135deg, ${color} 0%, #06b6d4 100%)` }}
-      >
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3"  y="9" width="3" height="6"  rx="1.5" fill="white" opacity="0.55"/>
-          <rect x="9"  y="5" width="3" height="14" rx="1.5" fill="white"/>
-          <rect x="15" y="2" width="3" height="20" rx="1.5" fill="white" opacity="0.85"/>
-        </svg>
-      </span>
-      <span className="flex items-center">
-        <span className="font-black text-white text-[17px] tracking-[-0.03em] leading-none">Speak</span>
-        <span
-          className="font-black text-[17px] tracking-[-0.03em] leading-none"
-          style={{
-            background: `linear-gradient(135deg, ${color} 0%, #06b6d4 100%)`,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
-        >IQ</span>
-      </span>
-    </span>
-  )
-}
 
 export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
   const [open, setOpen] = useState(false)
@@ -74,7 +47,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
 
           {/* Logo — clean wordmark */}
           <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <Wordmark color={brand.color} />
+            <Logo color={brand.color} />
           </Link>
 
           {/* Desktop nav links */}
@@ -154,7 +127,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
         <div className={`absolute top-0 left-0 right-0 bg-[#030305]/98 backdrop-blur-2xl border-b border-white/[0.06] transition-all duration-300 ease-out ${open ? 'translate-y-0' : '-translate-y-full'}`}>
           <div className="px-5 pt-5 pb-4 flex items-center justify-between border-b border-white/[0.05]">
             <Link href="/" onClick={() => setOpen(false)}>
-              <Wordmark color={brand.color} />
+              <Logo color={brand.color} />
             </Link>
             <div className="flex items-center gap-3">
               {isSignedIn && (

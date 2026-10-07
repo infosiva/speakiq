@@ -57,3 +57,6 @@ just a typed-input path onto the existing scorer. Added `AI_LIMITER` (10/min/IP)
 
 ## Resume from here if interrupted
 SpeakStats fix + TryItLive differentiation feature done. Next: verify navbar/favicon accent, chatbot/feedback/promo correctness, fake-data sweep, then build gate.
+
+## ai-core status (2026-10-07)
+- Not on ai-core yet (exemption, stated honestly): AI calls use the local free-first chain in `src/lib/ai.ts` / `src/app/api/chat`. No document upload, RAG, memory or per-tenant budgets in this app today, so no ai-core feature applies. If any of those are added, extend/consume ai-core (`agents/ai-core`) instead of a local copy.
