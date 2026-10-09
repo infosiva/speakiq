@@ -43,6 +43,7 @@ const LANGUAGES = [
 
 export default function LanguagesPage() {
   return (
+    <div className="min-h-screen text-white" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #0d0d1a 50%, #0a0a0f 100%)' }}>
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <div className="mb-12 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 text-teal-300 text-xs font-bold mb-6">
@@ -83,5 +84,6 @@ export default function LanguagesPage() {
         </Link>
       </div>
     </main>
+    </div>
   )
 }
