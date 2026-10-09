@@ -94,13 +94,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     secondary: '#22b8c4',
   })
 
-  const ga4 = buildGa4Snippet(theme)
+  // hub value wins; env var is the fallback when the hub has no theme for this site
+  const ga4Id = theme?.analytics?.ga4Id || process.env.NEXT_PUBLIC_GA4_ID
+  const ga4 = buildGa4Snippet(theme?.analytics?.ga4Id ? theme : ({ ...(theme ?? {}), analytics: { ...(theme?.analytics ?? {}), ga4Id } } as typeof theme))
 
   return (
     <MaybeClerk>
     <html lang="en" suppressHydrationWarning>
       <head>
-        {ga4 && <script async src={`https://www.googletagmanager.com/gtag/js?id=${theme?.analytics?.ga4Id}`} />}
+        {ga4 && <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />}
         {ga4 && <script dangerouslySetInnerHTML={{ __html: ga4 }} />}
         <meta name="google-adsense-account" content="ca-pub-4237294630161176" />
         <meta name="Impact-Site-Verification" content="cec1d783-d697-4f52-a52f-2677e900984f" />
