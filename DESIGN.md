@@ -150,3 +150,6 @@ XP bar = animated CSS progress element. Step badges = badge-3d class. Flag cards
 ---
 
 *Generated: 2026-05-07 by design-pipeline.ts*
+
+## AI platform (ai-core) status, 2026-10-09
+EXEMPT from ai-core for now. AI routes (`src/app/api/{chat,chat-stream,converse,floatchat,daily-challenge,weekly-report,pronunciation}`) use the local free-first chain in `src/lib/ai.ts` (Groq -> Gemini -> Cerebras). Reason: ai-core (`https://api.prismlane.app`) is not yet reachable from Vercel, so switching would break the live site. No document upload/RAG/vector search in speakiq, so no ad-hoc embeddings. Revisit: migrate `src/lib/ai.ts` to the ai-core SDK (tracing, per-tenant limits) once Vercel reachability is fixed.
