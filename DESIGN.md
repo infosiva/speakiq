@@ -153,3 +153,9 @@ XP bar = animated CSS progress element. Step badges = badge-3d class. Flag cards
 
 ## AI platform (ai-core) status, 2026-10-09
 EXEMPT from ai-core for now. AI routes (`src/app/api/{chat,chat-stream,converse,floatchat,daily-challenge,weekly-report,pronunciation}`) use the local free-first chain in `src/lib/ai.ts` (Groq -> Gemini -> Cerebras). Reason: ai-core (`https://api.prismlane.app`) is not yet reachable from Vercel, so switching would break the live site. No document upload/RAG/vector search in speakiq, so no ad-hoc embeddings. Revisit: migrate `src/lib/ai.ts` to the ai-core SDK (tracing, per-tenant limits) once Vercel reachability is fixed.
+
+## ANIMATED SCOPE (2026-10-09)
+- Hero: aurora/mesh gradient background, animated AI-tutor chat demo (typing dots, fluency bar) loops on load; language chips + CTA press feedback on tap.
+- Why: shows the product (live grammar correction) in 5s; trigger: page load / chip select.
+- Reduced motion: `prefers-reduced-motion` rule present in CSS, animations disabled.
+- SKILL-STACK: partial 2026-10-09 — ran frontend-design, impeccable, visual-qa (375+1280 screenshots read, 0 fails), apple-audit (small tap targets 375: 28→23, 1280: 35→30; remaining open). NOT run: taste-skill, emil-design-eng, animate, fixing-accessibility, 21st-registry.

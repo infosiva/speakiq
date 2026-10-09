@@ -37,6 +37,10 @@ export default function ConversePage() {
       if (p.language) setLanguage(p.language)
       if (p.level) setLevel(p.level)
     }
+    // Hero CTA passes ?lang=<code>; it wins over saved prefs
+    const code = new URLSearchParams(window.location.search).get('lang')
+    const fromHero = { es: 'Spanish', fr: 'French', ja: 'Japanese', de: 'German', pt: 'Portuguese' }[code ?? '']
+    if (fromHero) setLanguage(fromHero)
     // Restore saved mode
     const savedMode = localStorage.getItem('sq_mode') as PracticeMode | null
     if (savedMode === 'drills' || savedMode === 'conversation') setMode(savedMode)
