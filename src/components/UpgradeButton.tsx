@@ -36,7 +36,7 @@ export default function UpgradeButton() {
     <button
       onClick={startCheckout}
       disabled={loading}
-      className="rounded-full px-5 py-2 text-sm font-semibold text-white disabled:opacity-60 transition-opacity"
+      className="rounded-full px-5 py-2 min-h-[44px] text-sm font-semibold text-white disabled:opacity-60 transition-opacity"
       style={{ background: ACCENT }}
     >
       {loading ? 'Redirecting…' : 'Upgrade to Pro'}

@@ -59,7 +59,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
                   href={l.href}
                   target={l.external ? '_blank' : undefined}
                   rel={l.external ? 'noopener noreferrer' : undefined}
-                  className="px-3 py-1.5 text-xs font-medium text-white/50 hover:text-white/90 rounded-lg hover:bg-white/[0.06] transition-all duration-150"
+                  className="px-3 min-h-[44px] inline-flex items-center text-xs font-medium text-white/50 hover:text-white/90 rounded-lg hover:bg-white/[0.06] transition-all duration-150"
                 >
                   {l.label}
                 </Link>
@@ -90,7 +90,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
                 </SignInButton>
                 <Link
                   href={cta.href}
-                  className="px-5 py-2 text-sm font-semibold rounded-xl border transition-all duration-150 hover:-translate-y-px active:translate-y-0"
+                  className="px-5 py-2 min-h-[44px] inline-flex items-center text-sm font-semibold rounded-xl border transition-all duration-150 hover:-translate-y-px active:translate-y-0"
                   style={{
                     color: brand.color,
                     borderColor: `${brand.color}50`,
@@ -106,7 +106,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
           {/* Mobile toggle */}
           <button
             onClick={() => setOpen(v => !v)}
-            className="md:hidden flex flex-col gap-1.5 p-2 rounded-md text-white/50 hover:text-white/80 transition-colors ml-auto"
+            className="md:hidden flex flex-col justify-center items-center gap-1.5 min-w-[44px] min-h-[44px] rounded-md text-white/50 hover:text-white/80 transition-colors ml-auto"
             aria-label={open ? 'Close menu' : 'Open menu'}
           >
             <span className={`block w-5 h-px bg-current transition-all duration-200 origin-center ${open ? 'translate-y-[7px] rotate-45' : ''}`} />

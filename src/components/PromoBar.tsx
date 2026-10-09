@@ -37,7 +37,7 @@ export default function PromoBar() {
     return (
       <button
         onClick={() => setOpen(true)}
-        style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', textDecoration: 'underline', marginTop: '4px', display: 'inline-block', background: 'none', border: 'none', cursor: 'pointer' }}
+        style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', textDecoration: 'underline', marginTop: '4px', display: 'inline-block', minHeight: '44px', background: 'none', border: 'none', cursor: 'pointer' }}
       >
         Have a promo code?
       </button>
