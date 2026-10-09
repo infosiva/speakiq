@@ -84,7 +84,7 @@ export default function SharedNavbar({ brand }: { brand: BrandConfig }) {
             ) : (
               <>
                 <SignInButton mode="modal">
-                  <button className="text-xs text-white/40 hover:text-white/70 transition-colors">
+                  <button className="text-xs min-h-[44px] px-3 text-white/40 hover:text-white/70 transition-colors">
                     Sign in
                   </button>
                 </SignInButton>

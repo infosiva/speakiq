@@ -105,7 +105,7 @@ export default function TryItLive({ activeLang }: { activeLang: HeroLangCode }) 
           onChange={e => setText(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') score(text) }}
           placeholder={`Type it in ${lang.name}...`}
-          className="flex-1 text-sm px-3 py-2 rounded-lg outline-none"
+          className="flex-1 text-sm px-3 py-2 min-h-[44px] rounded-lg outline-none"
           style={{ background: 'var(--surface-2,#f8fafc)', border: '1px solid var(--border,#e2e8f0)', color: 'var(--foreground,#0f172a)' }}
         />
         {canListen && (
@@ -113,7 +113,7 @@ export default function TryItLive({ activeLang }: { activeLang: HeroLangCode }) 
             onClick={startMic}
             disabled={listening || loading}
             title="Speak instead"
-            className={`shrink-0 px-3 py-2 rounded-lg text-sm border transition-all ${listening ? 'animate-pulse' : ''}`}
+            className={`shrink-0 px-3 py-2 min-h-[44px] rounded-lg text-sm border transition-all ${listening ? 'animate-pulse' : ''}`}
             style={{
               background: listening ? 'rgba(220,38,38,0.08)' : 'var(--surface-2,#f8fafc)',
               borderColor: listening ? 'rgba(220,38,38,0.3)' : 'var(--border,#e2e8f0)',
@@ -126,7 +126,7 @@ export default function TryItLive({ activeLang }: { activeLang: HeroLangCode }) 
         <button
           onClick={() => score(text)}
           disabled={loading || listening || !text.trim()}
-          className="shrink-0 px-4 py-2 rounded-lg text-sm font-semibold text-white disabled:opacity-40 transition-all active:scale-[0.97]"
+          className="shrink-0 px-4 py-2 min-h-[44px] rounded-lg text-sm font-semibold text-white disabled:opacity-40 transition-all active:scale-[0.97]"
           style={{ background: 'var(--accent,#0e9aa7)' }}
         >
           {loading ? 'Scoring…' : 'Score me'}
